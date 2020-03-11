@@ -1,10 +1,9 @@
 const express = require('express');
 const app = express();
-const mysql = require('mysql2');
+const mysql = require('mysql');
 const session = require('express-session');
-const mysqlSession = require('express-mysql-session')(session);
+const mysqlStore = require('express-mysql-session')(session);
 
-// const connection = mysql.createConnection({
 const options = {
   host: 'localhost',
   port: 3306,
@@ -12,10 +11,9 @@ const options = {
   password: 'W1tchhunt3r$',
   database: 'witchhunter'
 }
-// ----------------
-const pool = mysql.createPool(options);
 
-let sessionStore = new mysqlSession(options);
+const pool = mysql.createPool(options);
+const sessionStore = new mysqlStore(options, pool);
 
 app.use(
   session({
@@ -24,14 +22,18 @@ app.use(
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60000 },
+    expiration: 60000,
   })
 )
-//USE LOCALS!
 
 pool.getConnection((err) => {
   if (err) throw err;
   console.log('Connected to DB...');
 })
 
-module.exports = pool;
+module.exports = {
+  connections : (app) => {
+    app.locals.pool = pool,
+    app.locals.sessionStore = sessionStore
+  }
+}

@@ -2,7 +2,7 @@ const connection = require('../util/database');
 const bcrypt = require('bcrypt');
 
 exports.createUser = (req, res, next) => {
-    const saltRounds = 10;
+    const saltRounds = 12;
 
     bcrypt.genSalt(saltRounds, (err, salt) => {
 

@@ -1,22 +1,26 @@
-const connection = require('../util/database');
+const express = require('express');
+const db = require('../util/database');
 const bcrypt = require('bcrypt');
 
-exports.loginAuth = (req, res, next) => {
-    let sql = `SELECT password FROM users WHERE username = '${req.body.username}';`;
+const app = express();
 
-    connection.query(sql, (err, res) => {
+exports.loginAuth = (req, res) => {
+    let sqlCheckPassword = `SELECT password FROM users WHERE username = '${req.body.username}';`;
+    db.connections(app);
+
+    app.locals.pool.query(sqlCheckPassword, (err, qryRes) => {
         if (err) throw err;
 
-        bcrypt.compare(req.body.password, res[0].password, (err, res) => {
+        bcrypt.compare(req.body.password, qryRes[0].password, (err, response) => {
             if (err) throw err;
-            // console.log('response: ' + res)
-            if(res) {
+            if (response) {
                 console.log('Passwords match');
-                console.log(req.session);
+                res.sendStatus(200);
             } else {
                 console.log('Passwords dont match');
+                res.sendStatus(401);
             } 
         })
     })
-    res.sendStatus(200);
+    
 }
