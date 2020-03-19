@@ -1,29 +1,24 @@
 import React, { useState } from 'react';
 
 export default function NewUser() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const [state, setState] = useState({
+    username: '',
+    email: '',
+    password: ''
+  })
 
-  const handleUserChange = (event) => {
-    setUsername(event.target.value);
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.value
+    })
   }
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  }
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  }
-
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-
+  const handleFormSubmit = () => {
     let userData = {
-      username: username,
-      password: password,
-      email: email
+      username: state.username,
+      password: state.password,
+      email: state.email
     };
 
     fetch('http://localhost:3000/createuser', {
@@ -41,7 +36,7 @@ export default function NewUser() {
   }
 
   return (
-    <form onSubmit={handleFormSubmit} method="post">
+    <form onSubmit={handleFormSubmit}>
 
       <div>
         <label htmlFor="username"><b>Username</b></label>
@@ -49,8 +44,8 @@ export default function NewUser() {
           type="text" 
           placeholder="Enter Username" 
           name="username" 
-          value={username} 
-          onChange={handleUserChange}
+          value={state.username} 
+          onChange={(event) => handleChange(event)}
           required />
 
         <label htmlFor="password"><b>Password</b></label>
@@ -58,8 +53,8 @@ export default function NewUser() {
           type="password" 
           placeholder="Enter Password" 
           name="password" 
-          value={password} 
-          onChange={handlePasswordChange}
+          value={state.password} 
+          onChange={(event) => handleChange(event)}
           required />
 
         <label htmlFor="email"><b>Email</b></label>
@@ -67,8 +62,8 @@ export default function NewUser() {
           type="email" 
           placeholder="Enter Email" 
           name="email" 
-          value={email} 
-          onChange={handleEmailChange}
+          value={state.email} 
+          onChange={(event) => handleChange(event)}
           required />
 
         <button type="submit">Create Account</button>

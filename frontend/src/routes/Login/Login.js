@@ -2,25 +2,26 @@ import React, { useState } from 'react';
 import Cookies from 'universal-cookie';
 
 export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [state, setState] = useState({
+    username: '',
+    password: ''
+  });
 
   const cookies = new Cookies();
 
-  const handleUserChange = (event) => {
-    setUsername(event.target.value);
-  }
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.value
+    })
   }
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
     let userData = {
-      username: username,
-      password: password,
+      username: state.username,
+      password: state.password
     };
 
     fetch('http://localhost:3000/checkcredentials', {
@@ -32,14 +33,18 @@ export default function Login() {
       body: JSON.stringify(userData),
     }).then(res => {
       res.text().then(data => {
-        console.log('Login Attempt Status: ' + data);
-        cookies.set('username', userData.username, { path: '/' });
+        if (data === 'OK') {
+          cookies.set('loggedIn', true, { path: '/', maxAge: 3600 });
+          console.log('Login successful!')
+        } else {
+          console.log('Login denied!')
+        }
       })
     })
   }
 
   return (
-    <form onSubmit={handleFormSubmit} method="post">
+    <form onSubmit={handleFormSubmit}>
 
       <div>
         <label htmlFor="username"><b>Username</b></label>
@@ -47,8 +52,8 @@ export default function Login() {
           type="text" 
           placeholder="Enter Username" 
           name="username" 
-          value={username} 
-          onChange={handleUserChange}
+          value={state.username} 
+          onChange={handleChange}
           required />
 
         <label htmlFor="password"><b>Password</b></label>
@@ -56,8 +61,8 @@ export default function Login() {
           type="password" 
           placeholder="Enter Password" 
           name="password" 
-          value={password} 
-          onChange={handlePasswordChange}
+          value={state.password} 
+          onChange={handleChange}
           required />
 
         <button type="submit">Login</button>
