@@ -4,7 +4,8 @@ import Cookies from 'universal-cookie';
 export default function Login() {
   const [state, setState] = useState({
     username: '',
-    password: ''
+    password: '',
+    success: ''
   });
 
   const cookies = new Cookies();
@@ -18,7 +19,7 @@ export default function Login() {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-
+    console.log('hu')
     let userData = {
       username: state.username,
       password: state.password
@@ -45,7 +46,7 @@ export default function Login() {
 
   return (
     <form onSubmit={handleFormSubmit}>
-
+      {/* {state.success === 1 ? <h1>success</h1> : null} */}
       <div>
         <label htmlFor="username"><b>Username</b></label>
         <input 

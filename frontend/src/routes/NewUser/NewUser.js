@@ -4,7 +4,9 @@ export default function NewUser() {
   const [state, setState] = useState({
     username: '',
     email: '',
-    password: ''
+    password: '',
+    success: '',
+    message: ''
   })
 
   const handleChange = (event) => {
@@ -14,7 +16,9 @@ export default function NewUser() {
     })
   }
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+
     let userData = {
       username: state.username,
       password: state.password,
@@ -29,15 +33,28 @@ export default function NewUser() {
       },
       body: JSON.stringify(userData),
     }).then(res => {
-      res.text().then(data => {
-        console.log('User Creation Attempt Status: ' + data);
-      })
-    })
+      res.json().then(data => {
+        console.log(data);
+        setState({
+          ...state,
+          success: data.success,
+          message: data.message
+        })
+      }).then(
+        setState({
+          ...state,
+          success: 'fail',
+          message: 'chicken'
+        })
+      )
+    }).then(() => {
+      console.log('User Creation Attempt Status: ' + state.message, state.success);}
+    )
   }
 
   return (
     <form onSubmit={handleFormSubmit}>
-
+      {state.success === 1 ? <h1>success</h1> : null}
       <div>
         <label htmlFor="username"><b>Username</b></label>
         <input 

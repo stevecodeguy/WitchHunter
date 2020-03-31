@@ -5,8 +5,15 @@ const app = express();
 
 const sanitize = require('../util/sanitize');
 
-exports.createUser = (req, res, next) => {
+exports.createUser = (req, res) => {
     const saltRounds = 12;
+    let success = 0;
+    let setSuccess = new Promise((resolve, reject) => {
+        if (resolve){
+            success = 1;
+        }
+    });
+
 
     bcrypt.genSalt(saltRounds, (err, salt) => {
 
@@ -29,10 +36,19 @@ exports.createUser = (req, res, next) => {
                         throw err
                     }
                 } else {
-                    console.log('User Created: ', username);
+                    setSuccess.then(
+                        console.log('User Created: ', username, success)
+                    );
                 }
             })
         })
     })
-    res.sendStatus(200);
+
+    if (success){
+        console.log('success: ', success);
+        res.status(200).json({message: 'User created', success});
+    } else {
+        console.log('success: ', success);
+        res.status(200).json({message: 'Account creation failure - Please try again', success});
+    }
 }
