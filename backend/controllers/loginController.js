@@ -21,7 +21,7 @@ exports.loginAuth = (req, res) => {
 
         if (qryRes.length === 0) {
             console.log('Login failed. User not found. Username: ', username);
-            res.status(200).json({message: 'Login : ', success: 0});
+            res.status(401).json({message: 'Login : ', success: 0});
         } else {
             bcrypt.compare(sanitize(req.body.password), qryRes[0].password, (err, response) => {
                 if (err) throw err;
@@ -34,11 +34,11 @@ exports.loginAuth = (req, res) => {
                         })
                         .catch(() => {
                             console.log('Login failed. User not found. Username: ', username);
-                            res.status(200).json({message: 'Login : ', success: 0});
+                            res.status(401).json({message: 'Login : ', success: 0});
                         })
                 } else {
                     console.log('Login failed. Passwords dont match. Username: ', username);
-                    res.status(200).json({message: 'Login : ', success: 0});
+                    res.status(401).json({message: 'Login : ', success: 0});
                 } 
             })
         }
