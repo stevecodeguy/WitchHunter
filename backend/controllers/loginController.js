@@ -9,12 +9,9 @@ const app = express();
 exports.loginAuth = (req, res) => {
     let username = sanitize(req.body.username);
     let sqlCheckPassword = `SELECT password FROM users WHERE username = '${username}';`;
-    let success = 0;
 
     let setSuccess = new Promise((resolve, reject) => {
-        if (resolve){
-            success = 1;
-        }
+        resolve();
     });
 
     db.connections(app);
@@ -23,28 +20,27 @@ exports.loginAuth = (req, res) => {
         if (err) throw err;
 
         if (qryRes.length === 0) {
-            console.log('User not found');
+            console.log('Login failed. User not found. Username: ', username);
+            res.status(200).json({message: 'Login : ', success: 0});
         } else {
             bcrypt.compare(sanitize(req.body.password), qryRes[0].password, (err, response) => {
                 if (err) throw err;
+
                 if (response) {
-                    setSuccess.then(
-                        console.log('Passwords match')
-                    );
+                    setSuccess
+                        .then(() => {
+                            console.log('Login successful. Username: ', username);
+                            res.status(200).json({message: 'Login : ', success: 1});
+                        })
+                        .catch(() => {
+                            console.log('Login failed. User not found. Username: ', username);
+                            res.status(200).json({message: 'Login : ', success: 0});
+                        })
                 } else {
-                    setSuccess.then(
-                        console.log('Passwords dont match')
-                    );
+                    console.log('Login failed. Passwords dont match. Username: ', username);
+                    res.status(200).json({message: 'Login : ', success: 0});
                 } 
             })
         }
     })
-    
-    if (success){
-        console.log('success: ', success);
-        res.status(200).json({message: 'Login : ', success});
-    } else {
-        console.log('success: ', success);
-        res.status(200).json({message: 'Login : ', success});
-    }
 }

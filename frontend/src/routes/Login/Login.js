@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
 export default function Login() {
   const [state, setState] = useState({
     username: '',
     password: '',
-    success: ''
+    success: null
   });
 
+  let history = useHistory();
   const cookies = new Cookies();
 
   const handleChange = (event) => {
@@ -19,7 +21,7 @@ export default function Login() {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    console.log('hu')
+
     let userData = {
       username: state.username,
       password: state.password
@@ -33,20 +35,23 @@ export default function Login() {
       },
       body: JSON.stringify(userData),
     }).then(res => {
-      res.text().then(data => {
-        if (data === 'OK') {
-          cookies.set('loggedIn', true, { path: '/', maxAge: 3600 });
-          console.log('Login successful!')
-        } else {
-          console.log('Login denied!')
-        }
+      res.json().then(data => {
+        cookies.set('loggedIn', true, { path: '/', maxAge: 3600 });
+        setState({
+          ...state,
+          success: data.success
+        });
+        if (data.success) history.push('/character');
+      })
+      .catch(() => {
+        console.log('Login failed!');
       })
     })
   }
 
   return (
     <form onSubmit={handleFormSubmit}>
-      {/* {state.success === 1 ? <h1>success</h1> : null} */}
+      
       <div>
         <label htmlFor="username"><b>Username</b></label>
         <input 
@@ -68,6 +73,7 @@ export default function Login() {
 
         <button type="submit">Login</button>
       </div>
+      {state.success === 0 ? <h1>Username or Password incorrect</h1> : null}
     </form>
   );
 }
