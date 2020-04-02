@@ -32,7 +32,8 @@ export default function NewUser() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(userData),
-    }).then(res => {
+    })
+    .then(res => {
       res.json()
         .then(data => {
           setState({
@@ -44,8 +45,9 @@ export default function NewUser() {
         .catch(
           console.log('User creation failed!')
         )
-    }).then(() => {
-      console.log('User Creation Attempt Status: ' + state.message, state.success);}
+    })
+    .catch(() => {
+      console.log('Fetch Error!');}
     )
   }
 

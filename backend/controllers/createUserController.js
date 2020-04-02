@@ -12,7 +12,6 @@ exports.createUser = (req, res) => {
         resolve();
     });
 
-
     bcrypt.genSalt(saltRounds, (err, salt) => {
 
         db.connections(app);
