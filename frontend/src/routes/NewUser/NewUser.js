@@ -5,7 +5,7 @@ export default function NewUser() {
     username: '',
     email: '',
     password: '',
-    success: '',
+    success: null,
     message: ''
   })
 
@@ -33,20 +33,17 @@ export default function NewUser() {
       },
       body: JSON.stringify(userData),
     }).then(res => {
-      res.json().then(data => {
-        console.log(data);
-        setState({
-          ...state,
-          success: data.success,
-          message: data.message
+      res.json()
+        .then(data => {
+          setState({
+            ...state,
+            success: data.success,
+            message: data.message
+          })
         })
-      }).then(
-        setState({
-          ...state,
-          success: 'fail',
-          message: 'chicken'
-        })
-      )
+        .catch(
+          console.log('User creation failed!')
+        )
     }).then(() => {
       console.log('User Creation Attempt Status: ' + state.message, state.success);}
     )

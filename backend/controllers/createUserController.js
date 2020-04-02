@@ -7,11 +7,9 @@ const sanitize = require('../util/sanitize');
 
 exports.createUser = (req, res) => {
     const saltRounds = 12;
-    let success = 0;
+    
     let setSuccess = new Promise((resolve, reject) => {
-        if (resolve){
-            success = 1;
-        }
+        resolve();
     });
 
 
@@ -33,22 +31,15 @@ exports.createUser = (req, res) => {
                     if (err.errno === 1062) {
                         console.log('Duplicate user entry: ', username);
                     } else {
-                        throw err
+                        res.status(500).json({message: 'Account creation failure.', success: 0});
                     }
                 } else {
-                    setSuccess.then(
-                        console.log('User Created: ', username, success)
-                    );
+                    setSuccess.then(() => {
+                        console.log('User Created: ', username);
+                        res.status(200).json({message: 'User created.', success: 1});
+                    });
                 }
             })
         })
     })
-
-    if (success){
-        console.log('success: ', success);
-        res.status(200).json({message: 'User created', success});
-    } else {
-        console.log('success: ', success);
-        res.status(200).json({message: 'Account creation failure - Please try again', success});
-    }
 }
