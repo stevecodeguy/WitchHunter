@@ -23,6 +23,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     expiration: 60000,
+    // secure: true   -Turn on when ready for HTTPS
   })
 )
 
@@ -34,6 +35,7 @@ pool.getConnection((err) => {
 module.exports = {
   connections : (app) => {
     app.locals.pool = pool,
-    app.locals.sessionStore = sessionStore
+    app.locals.sessionStore = sessionStore,
+    app.locals.options = options
   }
 }

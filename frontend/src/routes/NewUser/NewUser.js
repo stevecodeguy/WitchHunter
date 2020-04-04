@@ -53,7 +53,6 @@ export default function NewUser() {
 
   return (
     <form onSubmit={handleFormSubmit}>
-      {state.success === 1 ? <h1>success</h1> : null}
       <div>
         <label htmlFor="username"><b>Username</b></label>
         <input 
@@ -84,6 +83,7 @@ export default function NewUser() {
 
         <button type="submit">Create Account</button>
       </div>
+      {state.success === 1 ? <p>Account creation successful.</p> : null}
     </form>
   );
 }

@@ -73,7 +73,7 @@ export default function Login() {
 
         <button type="submit">Login</button>
       </div>
-      {state.success === 0 ? <h1>Username or Password incorrect</h1> : null}
+      {state.success === 1 ? null : <p>Username or Password incorrect</p>}
     </form>
   );
 }
