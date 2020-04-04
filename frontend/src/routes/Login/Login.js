@@ -27,26 +27,6 @@ export default function Login() {
       password: state.password
     };
 
-    // fetch('http://localhost:3000/checkcredentials', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(userData),
-    // }).then(res => {
-    //   res.json().then(data => {
-    //     cookies.set('loggedIn', true, { path: '/', maxAge: 3600 });
-    //     setState({
-    //       ...state,
-    //       success: data.success
-    //     });
-    //     if (data.success) history.push('/character');
-    //   })
-    //   .catch(() => {
-    //     console.log('Login failed!');
-    //   })
-    // })
     async function getUser(){
       try {
         const result = await fetch('http://localhost:3000/checkcredentials', {
