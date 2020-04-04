@@ -27,26 +27,48 @@ export default function Login() {
       password: state.password
     };
 
-    fetch('http://localhost:3000/checkcredentials', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userData),
-    }).then(res => {
-      res.json().then(data => {
+    // fetch('http://localhost:3000/checkcredentials', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(userData),
+    // }).then(res => {
+    //   res.json().then(data => {
+    //     cookies.set('loggedIn', true, { path: '/', maxAge: 3600 });
+    //     setState({
+    //       ...state,
+    //       success: data.success
+    //     });
+    //     if (data.success) history.push('/character');
+    //   })
+    //   .catch(() => {
+    //     console.log('Login failed!');
+    //   })
+    // })
+    async function getUser(){
+      try {
+        const result = await fetch('http://localhost:3000/checkcredentials', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData),
+          });
+        const data = await result.json();
         cookies.set('loggedIn', true, { path: '/', maxAge: 3600 });
-        setState({
-          ...state,
-          success: data.success
-        });
-        if (data.success) history.push('/character');
-      })
-      .catch(() => {
-        console.log('Login failed!');
-      })
-    })
+          setState({
+            ...state,
+            success: data.success
+          });
+          if (data.success) history.push('/character');
+      } catch(error) {
+        console.log(error);
+      }
+    }
+    getUser();
   }
 
   return (
@@ -73,7 +95,7 @@ export default function Login() {
 
         <button type="submit">Login</button>
       </div>
-      {state.success === 1 ? null : <p>Username or Password incorrect</p>}
+      {state.success === 1 || state.success === null ? null : <p>Username or Password incorrect</p>}
     </form>
   );
 }
