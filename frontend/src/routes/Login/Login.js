@@ -39,11 +39,11 @@ export default function Login() {
           });
         const data = await result.json();
         cookies.set('loggedIn', true, { path: '/', maxAge: 3600 });
-          setState({
-            ...state,
-            success: data.success
-          });
-          if (data.success) history.push('/character');
+        setState({
+          ...state,
+          success: data.success
+        });
+        if (data.success) history.push('/character');
       } catch(error) {
         console.log(error);
       }

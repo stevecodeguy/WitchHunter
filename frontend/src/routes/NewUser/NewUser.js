@@ -25,30 +25,27 @@ export default function NewUser() {
       email: state.email
     };
 
-    fetch('http://localhost:3000/createuser', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userData),
-    })
-    .then(res => {
-      res.json()
-        .then(data => {
-          setState({
-            ...state,
-            success: data.success,
-            message: data.message
-          })
+    async function createNewUser(){
+      try {
+        const result = await fetch('http://localhost:3000/createuser', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userData),
+        });
+        const data = await result.json();
+        setState({
+          ...state,
+          success: data.success,
+          message: data.message
         })
-        .catch(
-          console.log('User creation failed!')
-        )
-    })
-    .catch(() => {
-      console.log('Fetch Error!');}
-    )
+      } catch(error) {
+        console.log(error);
+      }
+    }
+    createNewUser();
   }
 
   return (
