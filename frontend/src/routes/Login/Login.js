@@ -43,7 +43,7 @@ export default function Login() {
           ...state,
           success: data.success
         });
-        if (data.success) history.push('/character');
+        // if (data.success) history.push('/character_list');
       } catch(error) {
         console.log(error);
       }

@@ -1,12 +1,6 @@
-const express = require('express');
-const db = require('../util/database');
 const bcrypt = require('bcrypt');
-const session = require('express-session');
-const mysqlStore = require('express-mysql-session')(session);
-
+const db = require('../util/database');
 const sanitize = require('../util/sanitize');
-
-const app = express();
 
 async function setSuccess(response, username) {
     try {
@@ -35,9 +29,7 @@ exports.loginAuth = (req, res) => {
     let username = sanitize(req.body.username);
     let sqlCheckPassword = `SELECT password FROM users WHERE username = '${username}';`;
 
-    db.connections(app);
-
-    app.locals.pool.query(sqlCheckPassword, (err, qryRes) => {
+    db.pool.query(sqlCheckPassword, (err, qryRes) => {
         if (err) throw err;
 
         if (qryRes.length === 0) {
@@ -48,6 +40,12 @@ exports.loginAuth = (req, res) => {
                 if (err) throw err;
                 setSuccess(response, username).then(loginResponse => {
                     console.log('Success!', loginResponse.message, loginResponse.success);
+
+                    // app.post('/', (req, res, next) => {
+                    //     console.log('here')
+                    //     console.log(app.locals.session)
+                    // });
+
                     res.status(200).json({message: loginResponse.message, success: loginResponse.success});
                 })
                 .catch(loginResponse => {
