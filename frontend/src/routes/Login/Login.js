@@ -41,9 +41,10 @@ export default function Login() {
         cookies.set('loggedIn', true, { path: '/', maxAge: 3600 });
         setState({
           ...state,
+          username: data.user,
           success: data.success
         });
-        // if (data.success) history.push('/character_list');
+        if (data.success) history.push(`/character_list/${data.user}`);
       } catch(error) {
         console.log(error);
       }

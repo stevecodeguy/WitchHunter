@@ -39,14 +39,17 @@ exports.loginAuth = (req, res) => {
             bcrypt.compare(sanitize(req.body.password), qryRes[0].password, (err, response) => {
                 if (err) throw err;
                 setSuccess(response, username).then(loginResponse => {
-                    console.log('Success!', loginResponse.message, loginResponse.success);
+                    if (loginResponse.success){
+                        console.log('Success!', loginResponse.message, loginResponse.success);
 
-                    // app.post('/', (req, res, next) => {
-                    //     console.log('here')
-                    //     console.log(app.locals.session)
-                    // });
+                        // req.session.cookie.user = username;
+                        // console.log(req.session.cookie)
 
-                    res.status(200).json({message: loginResponse.message, success: loginResponse.success});
+                    } else {
+                        console.log('Denied!', loginResponse.message, loginResponse.success);
+                    }
+                    res.status(200).json({message: loginResponse.message, success: loginResponse.success, user: username});
+
                 })
                 .catch(loginResponse => {
                     console.log('Error!', loginResponse.message, loginResponse.success);
