@@ -24,10 +24,12 @@ export default function Login() {
 
     let userData = {
       username: state.username,
-      password: state.password
+      password: state.password,
+      success: null
     };
 
     async function getUser(){
+      console.log('getting users')
       try {
         const result = await fetch('http://localhost:3000/checkcredentials', {
             method: 'POST',
@@ -38,13 +40,14 @@ export default function Login() {
             body: JSON.stringify(userData),
           });
         const data = await result.json();
-        cookies.set('loggedIn', true, { path: '/', maxAge: 3600 });
+        cookies.set('WHUserJWT', data.token, { path: '/', maxAge: 60 * 60 * 60 });
         setState({
           ...state,
           username: data.user,
           success: data.success
         });
         if (data.success) history.push(`/character_list/${data.user}`);
+
       } catch(error) {
         console.log(error);
       }

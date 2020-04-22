@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Cookies from 'universal-cookie';
 
 export default function NewUser() {
   const [state, setState] = useState({
@@ -25,6 +26,8 @@ export default function NewUser() {
       email: state.email
     };
 
+    const cookies = new Cookies();
+
     async function createNewUser(){
       try {
         const result = await fetch('http://localhost:3000/createuser', {
@@ -36,6 +39,7 @@ export default function NewUser() {
           body: JSON.stringify(userData),
         });
         const data = await result.json();
+        cookies.set('WHUserJWT', data.token, { path: '/', maxAge: 60 * 60 * 60 });
         setState({
           ...state,
           success: data.success,
