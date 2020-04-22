@@ -4,8 +4,6 @@ const jwt = require('jsonwebtoken');
 const db = require('./database');
 const sanitize = require('./sanitize');
 
-const JWT_SECRET = 'This is the JWT S3cr3t!';
-
 function checkToken(token) {
   return new Promise ((resolve, reject) => {
     let sql = `SELECT token FROM tokens WHERE token = '${token}';`;
@@ -31,7 +29,7 @@ async function saveToken(id, username) {
   try {
     let token = jwt.sign(
       {username}, 
-      JWT_SECRET, 
+      process.env.JWT_ACCESS_SECRET, 
       {expiresIn: '1h'}
     );
 
@@ -126,7 +124,7 @@ const verifyAuth = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     console.log('token ', token)
     if (token){
-      jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, decoded) => {
         if (err){
           return res.json({
             success: false,
