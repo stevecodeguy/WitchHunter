@@ -41,24 +41,6 @@ app.use((req, res, next) => {
 });
 
 //Routes
-// app.get('/', (req, res) => {
-//   req.session.user = 'rickie';
-//   req.session.cookie.expires = false;
-//   req.session.cookie.maxAge = 20 * 60 * 1000;
-//   res.send('session found ' + req.session.cookie.expires)
-//   res.end('welcome to the session demo. refresh!')
-// });
-
-
-app.get("/asset", (req, res) => {
-  console.log('there');
-  res.status(200).send("Everybody can see this");
-});
-
-app.get("/asset/secret", users.verifyAuth, (req, res) => {
-  res.status(200).send("Only logged in people can see me");
-});
-
 app.use('/createuser', routeCreateUser);
 app.use('/checkcredentials', routeLogin);
 

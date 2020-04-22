@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const db = require('./database');
 const sanitize = require('./sanitize');
 
-function checkToken(token) {
+function getDBToken(token) {
   return new Promise ((resolve, reject) => {
     let sql = `SELECT token FROM tokens WHERE token = '${token}';`;
     db.pool.query(sql, (err, qryRes) => {
@@ -14,7 +14,7 @@ function checkToken(token) {
   })
 }
 
-function getUserID(username) {
+function getDBUserID(username) {
   return new Promise ((resolve, reject) => {
     let sql = `SELECT id FROM users WHERE username = '${username}';`;
     db.pool.query(sql, async (err, qryUserId) => {
@@ -24,7 +24,7 @@ function getUserID(username) {
   })
 }
 
-async function saveToken(id, username) {
+async function setDBToken(id, username) {
   let dbToken;
   try {
     let token = jwt.sign(
@@ -33,16 +33,18 @@ async function saveToken(id, username) {
       {expiresIn: '1h'}
     );
 
-    dbToken = await checkToken(token);
+    dbToken = await getDBToken(token);
     try {
-
       if (dbToken.length === 0){
         let sqlAddToken = `INSERT INTO tokens (fk_user, token) VALUES ('${id}', '${token}');`; 
         db.pool.query(sqlAddToken, (err) => {
           if (err) console.log(err);
-          console.log('Added token to DB ', token);
+          console.log('Added token to DB');
         });
       }
+      return new Promise((resolve, reject) => {
+        resolve(token);
+      })
     } catch (err) {
       console.log(err);
     }
@@ -62,11 +64,12 @@ const login = (req, res) => {
       console.log('Login failed. User not found. Username: ', username);
       res.status(401).json({message: 'Login : ', success: 0});
     } else {
-      bcrypt.compare(sanitize(req.body.password), qryRes[0].password, (err, response) => {
+      bcrypt.compare(sanitize(req.body.password), qryRes[0].password, async (err) => {
         if (err) console.log(err);
         let id = qryRes[0].id;
         try {
-          saveToken(id, username);
+          let token = await setDBToken(id, username);
+          res.json({ token });
         } catch (err) {
           console.log(err);
         }
@@ -102,10 +105,10 @@ const createUser = (req, res) => {
         } 
 
         try {
-          let id = await getUserID(username);
-          saveToken(id, username);
+          let id = await getDBUserID(username);
+          setDBToken(id, username);
         } catch (err) {
-          console.log('sdsfsfsf', err);
+          console.log(err);
         }
 
         res.status(200).json({
@@ -118,7 +121,7 @@ const createUser = (req, res) => {
   });
 }
 
-const verifyAuth = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   console.log(req.headers);
   try {
     const token = req.headers.authorization.split(' ')[1];
@@ -148,4 +151,4 @@ const verifyAuth = (req, res, next) => {
 
 exports.createUser = createUser;
 exports.login = login;
-exports.verifyAuth = verifyAuth;
+exports.verifyToken = verifyToken;
