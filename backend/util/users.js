@@ -4,11 +4,13 @@ const jwt = require('jsonwebtoken');
 const db = require('./database');
 const sanitize = require('./sanitize');
 
-function getDBToken(token) {
+function getDBToken(id) {
   return new Promise ((resolve, reject) => {
-    let sql = `SELECT token FROM tokens WHERE token = '${token}';`;
+    let sql = `SELECT token FROM tokens WHERE fk_user = '${id}';`;
+    console.log(sql)
     db.pool.query(sql, (err, qryRes) => {
       if (err) reject('No token found.');
+      console.log('THIS IS THE QUERY RES ', qryRes)
       resolve(qryRes);
     });
   })
@@ -26,28 +28,31 @@ function getDBUserID(username) {
 
 async function setDBToken(id, username) {
   let dbToken;
+  let token = jwt.sign(
+    {username}, 
+    process.env.JWT_ACCESS_SECRET, 
+    {expiresIn: '1h'}
+  );
   try {
-    let token = jwt.sign(
-      {username}, 
-      process.env.JWT_ACCESS_SECRET, 
-      {expiresIn: '1h'}
-    );
-
-    dbToken = await getDBToken(token);
-    try {
-      if (dbToken.length === 0){
-        let sqlAddToken = `INSERT INTO tokens (fk_user, token) VALUES ('${id}', '${token}');`; 
-        db.pool.query(sqlAddToken, (err) => {
-          if (err) console.log(err);
-          console.log('Added token to DB');
-        });
+    dbToken = await getDBToken(id);
+    if (dbToken.length > 0){
+      token = dbToken[0].token;
+    } else {
+      try {
+        if (dbToken.length === 0){
+          let sqlAddToken = `INSERT INTO tokens (fk_user, token) VALUES ('${id}', '${token}');`; 
+          db.pool.query(sqlAddToken, (err) => {
+            if (err) console.log(err);
+            console.log('Added token to DB');
+          });
+        }
+      } catch (err) {
+        console.log(err);
       }
-      return new Promise((resolve, reject) => {
-        resolve(token);
-      })
-    } catch (err) {
-      console.log(err);
     }
+    return new Promise((resolve, reject) => {
+      resolve(token);
+    })
   } catch (err) {
     console.log(err);
   }
@@ -67,9 +72,10 @@ const login = (req, res) => {
       bcrypt.compare(sanitize(req.body.password), qryRes[0].password, async (err) => {
         if (err) console.log(err);
         let id = qryRes[0].id;
+        console.log(id)
         try {
-          let token = await setDBToken(id, username);
-          res.json({ token });
+          let accessToken = await setDBToken(id, username);
+          res.json({ accessToken });
         } catch (err) {
           console.log(err);
         }
@@ -122,31 +128,36 @@ const createUser = (req, res) => {
 }
 
 const verifyToken = (req, res, next) => {
-  console.log(req.headers);
-  try {
-    const token = req.headers.authorization.split(' ')[1];
-    console.log('token ', token)
-    if (token){
-      jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, decoded) => {
-        if (err){
-          return res.json({
-            success: false,
-            message: 'Token invalid.'
-          });
-        } else {
-          req.decoded = decoded;
-          next();
-        }
-      });
-    } else {
-      return res.json({
-        success: false,
-        message: 'Token not provided.'
-      });
-    }
-  } catch(err) {
-    throw err;
-  }
+  // res.set('Authorization', 'bugger')
+  console.log('headers:::::: ', req.headers);
+  console.log('headers:::::: ', req.headers['Authorization']);
+  console.log('GETheaders:::::: ', req.get('Authorization'));
+
+  // try {
+  //   const token = req.headers.authorization.split(' ')[1];
+  //   console.log('token ', token)
+  //   if (token){
+  //     jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, decoded) => {
+  //       if (err){
+  //         return res.json({
+  //           success: false,
+  //           message: 'Token invalid.'
+  //         });
+  //       } else {
+  //         req.decoded = decoded;
+  //         next();
+  //       }
+  //     });
+  //   } else {
+  //     return res.json({
+  //       success: false,
+  //       message: 'Token not provided.'
+  //     });
+  //   }
+  // } catch(err) {
+  //   throw err;
+  // }
+  next();
 }
 
 exports.createUser = createUser;

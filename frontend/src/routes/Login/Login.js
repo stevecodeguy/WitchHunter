@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import Cookies from 'universal-cookie';
+// import { useHistory } from 'react-router-dom';
 
 export default function Login() {
   const [state, setState] = useState({
@@ -9,8 +8,7 @@ export default function Login() {
     success: null
   });
 
-  let history = useHistory();
-  const cookies = new Cookies();
+  // let history = useHistory();
 
   const handleChange = (event) => {
     setState({
@@ -22,14 +20,7 @@ export default function Login() {
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
-    let userData = {
-      username: state.username,
-      password: state.password,
-      success: null
-    };
-
     async function getUser(){
-      console.log('getting users')
       try {
         const result = await fetch('http://localhost:3000/checkcredentials', {
             method: 'POST',
@@ -37,17 +28,14 @@ export default function Login() {
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(userData),
+            body: JSON.stringify(state)
           });
-        const data = await result.json();
-        cookies.set('WHUserJWT', data.token, { path: '/', maxAge: 60 * 60 * 60 });
-        setState({
-          ...state,
-          username: data.user,
-          success: data.success
-        });
-        if (data.success) history.push(`/character_list/${data.user}`);
+        const token = await result.json();
 
+        let setHeaders = new Headers();
+        setHeaders.append('Authorization', `Bearer ${token.accessToken}`);
+
+        // if (data.success) history.push(`/character_list/${data.user}`);
       } catch(error) {
         console.log(error);
       }
