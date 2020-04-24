@@ -30,26 +30,19 @@ const sessionOptions = {
 }
 
 //Middleware
-// let corsOptions = {
-//   credentials: true,
-//   allowedHeaders: ['Content-Type', 'Authorization']
-// }
-// }
 app.use(cors());
-// app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(session(sessionOptions));
 app.use((req, res, next) => {
   res.append('Access-Control-Allow-Origins', '*');
   res.append('Access-Control-Allow-Headers', 'Authorization, Origin, X-Requested-With, Content-Type, Accept');
-  res.append('Access-Control-Allow-Methods', 'GET, PUT, POST, PATCH, DELETE');
+  res.append('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
   next();
 });
 
 //Routes
 app.use('/createuser', routeCreateUser);
 app.use('/checkcredentials', users.verifyToken, routeLogin);
-// app.use('/checkcredentials', routeLogin);
 
 app.get('*', (req, res) => {
   res.sendStatus(404);
