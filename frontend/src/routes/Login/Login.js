@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 export default function Login() {
   const [state, setState] = useState({
@@ -8,7 +8,7 @@ export default function Login() {
     success: null
   });
 
-  // let history = useHistory();
+  let history = useHistory();
 
   const handleChange = (event) => {
     setState({
@@ -22,20 +22,28 @@ export default function Login() {
 
     async function getUser(){
       try {
-        const result = await fetch('http://localhost:3000/checkcredentials', {
+        let headers = new Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
+
+        const result = await fetch('http://localhost:3000/user/login', {
             method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
+            headers: headers,
             body: JSON.stringify(state)
           });
-        const token = await result.json();
-
-        let setHeaders = new Headers();
-        setHeaders.append('Authorization', `Bearer ${token.accessToken}`);
-
-        // if (data.success) history.push(`/character_list/${data.user}`);
+        const data = await result.json();
+        if (data.accessToken) {
+          headers.append('Authorization', `Bearer ${data.accessToken}`);
+          history.push({
+            pathname: `${data.username}/character_list/`,
+            customData: 'blah'
+          });
+        } else {
+          setState({
+            ...state,
+            success: false
+          })
+        }
       } catch(error) {
         console.log(error);
       }
@@ -67,7 +75,7 @@ export default function Login() {
 
         <button type="submit">Login</button>
       </div>
-      {state.success === 1 || state.success === null ? null : <p>Username or Password incorrect</p>}
+      {state.success || state.success === null ? null : <p>Username or Password incorrect</p>}
     </form>
   );
 }

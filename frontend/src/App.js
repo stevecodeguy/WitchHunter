@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { 
+  BrowserRouter as Router, 
+  Switch, 
+  Route, 
+  // useParams 
+} from 'react-router-dom';
 
 import CharacterList from './routes/CharacterList/CharacterList';
 import NewUser from './routes/NewUser/NewUser';
@@ -11,6 +16,7 @@ import Character2 from './components/characterSections/CharacterAbilityScores';
 import Character3 from './components/characterSections/CharacterSkills';
 
 function App() {
+  // let { username } = useParams();
   return (
     <Router>
       <Switch>
@@ -20,7 +26,7 @@ function App() {
         <Route path='/login'>
           <Login />
         </Route>
-        <Route path='/character_list'>
+        <Route path='/:username/character_list'>
           <CharacterList />
         </Route>
         <Route path='/character'>

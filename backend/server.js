@@ -1,19 +1,20 @@
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
-
+const https = require('https');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
+
+//Utilities
 const db = require('./util/database');
-const users = require('./util/users');
 const PORT = 3000;
 
 //Routes
-const routeLogin = require('./routes/loginRoute');
-const routeCreateUser = require('./routes/createUserRoute');
+const routeUser = require('./routes/user');
+const routeGetCharacters = require('./routes/getCharacters');
 
 //Database Session
 const mySQLStore = require('express-mysql-session')(session);
@@ -26,7 +27,7 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: false,
   expiration: 60000,
-  // secure: true   -Turn on when ready for HTTPS
+  secure: true  
 }
 
 //Middleware
@@ -41,15 +42,19 @@ app.use((req, res, next) => {
 });
 
 //Routes
-app.use('/createuser', routeCreateUser);
-app.use('/checkcredentials', users.verifyToken, routeLogin);
+app.use(routeUser);
+// app.post('/user/login', user);
+// app.use('/createuser', routeCreateUser);
+// app.use('/checkcredentials', routeLogin);
+app.use('/:userId/characters', routeGetCharacters);
+
 
 app.get('*', (req, res) => {
-  res.sendStatus(404);
+  res.status(404).send();
 });
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
-})
+}); 
 
 module.exports = app;
