@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-const users = require('../util/users');
 const db = require('../util/database');
 
 async function getCharacterList(userId){

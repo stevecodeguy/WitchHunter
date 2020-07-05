@@ -41,6 +41,30 @@ router.post('/user/login', async (req, res) => {
   });
 });
 
+// Route - Logout user
+router.post('/user/logout', auth.checkAuth, (req, res) => {
+  try {
+    db.pool.query(query.sqlDeleteToken(req.tokenId), (err, result) => {
+      if (err) throw err;
+    });
+    res.send();
+  } catch(err) {
+    res.status(500).send();
+  }
+});
+
+// Route - Logout all user connections
+router.post('/user/logoutAll', auth.checkAuth, (req, res) => {
+  try {
+    db.pool.query(query.sqlDeleteAllTokens(req.userId), (err, result) => {
+      if (err) throw err;
+    });
+    res.send();
+  } catch(err) {
+    res.status(500).send();
+  }
+});
+
 // Route - Create new user
 router.post('/user/new', async (req, res) => {
   const username = sanitize(req.body.username);

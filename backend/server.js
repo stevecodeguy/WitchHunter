@@ -43,9 +43,6 @@ app.use((req, res, next) => {
 
 //Routes
 app.use(routeUser);
-// app.post('/user/login', user);
-// app.use('/createuser', routeCreateUser);
-// app.use('/checkcredentials', routeLogin);
 app.use('/:userId/characters', routeGetCharacters);
 
 
