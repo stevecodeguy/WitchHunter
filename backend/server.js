@@ -14,6 +14,7 @@ const PORT = 3000;
 
 //Routes
 const routeUser = require('./routes/user');
+const routeCharacters = require('./routes/characters');
 const routeGetCharacters = require('./routes/getCharacters');
 
 //Database Session
@@ -43,6 +44,7 @@ app.use((req, res, next) => {
 
 //Routes
 app.use(routeUser);
+app.use(routeCharacters);
 app.use('/:userId/characters', routeGetCharacters);
 
 
