@@ -15,7 +15,6 @@ const PORT = 3000;
 //Routes
 const routeUser = require('./routes/user');
 const routeCharacters = require('./routes/characters');
-const routeGetCharacters = require('./routes/getCharacters');
 
 //Database Session
 const mySQLStore = require('express-mysql-session')(session);
@@ -45,8 +44,6 @@ app.use((req, res, next) => {
 //Routes
 app.use(routeUser);
 app.use(routeCharacters);
-app.use('/:userId/characters', routeGetCharacters);
-
 
 app.get('*', (req, res) => {
   res.status(404).send();
