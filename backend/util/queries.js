@@ -27,6 +27,10 @@ exports.sqlSetToken = sqlSetToken;
 
 // Character queries
 
+const sqlGetCharacterInfo = (userId, id) => `SELECT * FROM character_info WHERE fk_user = ${userId} AND id = ${id}`;
+
 const sqlListCharacters = (userId) => `SELECT id, name, description FROM character_info WHERE fk_user = ${userId}`;
 
+
+exports.sqlGetCharacterInfo = sqlGetCharacterInfo;
 exports.sqlListCharacters = sqlListCharacters;

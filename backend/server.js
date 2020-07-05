@@ -5,7 +5,6 @@ const https = require('https');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const cors = require('cors');
 
 //Utilities
@@ -16,24 +15,9 @@ const PORT = 3000;
 const routeUser = require('./routes/user');
 const routeCharacters = require('./routes/characters');
 
-//Database Session
-const mySQLStore = require('express-mysql-session')(session);
-const sessionStore = new mySQLStore(db.options, db.pool);
-
-const sessionOptions = {
-  key: 'userkey',
-  secret: 'Suff3r n0t the w!tch $hall l!ve',
-  store: sessionStore,
-  resave: false,
-  saveUninitialized: false,
-  expiration: 60000,
-  secure: true  
-}
-
 //Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(session(sessionOptions));
 app.use((req, res, next) => {
   res.append('Access-Control-Allow-Origins', '*');
   res.append('Access-Control-Allow-Headers', 'Authorization, Origin, X-Requested-With, Content-Type, Accept');
