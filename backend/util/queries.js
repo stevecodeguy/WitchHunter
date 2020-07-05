@@ -24,3 +24,9 @@ exports.sqlDeleteTokenById = sqlDeleteTokenById;
 exports.sqlDeleteTokenByToken = sqlDeleteTokenByToken;
 exports.sqlGetToken = sqlGetToken;
 exports.sqlSetToken = sqlSetToken;
+
+// Character queries
+
+const sqlListCharacters = (userId) => `SELECT id, name, description FROM character_info WHERE fk_user = ${userId}`;
+
+exports.sqlListCharacters = sqlListCharacters;
