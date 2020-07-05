@@ -12,26 +12,31 @@ const db = require('../util/database');
 const sanitize = require('../util/sanitize');
 const query = require('../util/queries');
 
+router.post('/user/test', auth.checkAuth, (req, res) => {
+  const id = req.userId;
+  const token = req.token;
+  res.status(200).send({ id, token });
+});
 
 // Route - User login
 router.post('/user/login', async (req, res) => {
   const username = sanitize(req.body.username);
 
-  db.pool.query(query.sqlCheckPassword(username), async (error, result) => {
-    if (error) {
-      throw new Error('DB Connection Error');
-    }
+  db.pool.query(query.sqlCheckPassword(username), async (err, result) => {
+    if (err) throw err;
 
     if (result.length === 0) {
-      return res.status(401).json({ success: false });
+      return res.status(401).send({ success: false });
     }
-
+    
     const matchedPassword = await bcrypt.compare(sanitize(req.body.password), result[0].password);
-
+  
     if (!matchedPassword) {
-      throw new Error('Login failed');
+      return res.status(401).send('Login failed');
     }
-    // res.send(result[0])
+
+    const token = await auth.setAuthToken(result[0].id);
+    res.send({ id: result[0].id, username: result[0].username, token });
     return result[0];
   });
 });
@@ -42,23 +47,24 @@ router.post('/user/new', async (req, res) => {
   const email = sanitize(req.body.email);
 
   try {
-    bcrypt.genSalt(12, (error, salt) => {
-      if (error) throw error;
-      bcrypt.hash(sanitize(req.body.password), salt, (error, hash) => {
-        if (error) throw error;
+    bcrypt.genSalt(12, (err, salt) => {
+      if (err) throw err;
+      bcrypt.hash(sanitize(req.body.password), salt, (err, hash) => {
+        if (err) throw err;
 
-        db.pool.query(query.sqlCreateUser(username, hash, email), async (error, createResult) => {
+        db.pool.query(query.sqlCreateUser(username, hash, email), async (err, createResult) => {
 
-          if (error) { 
-            if (error.errno === 1062) {
-              return console.log('Duplicate user entry: ', username);
+          if (err) { 
+            if (err.errno === 1062) {
+              return res.status(400).send('Duplicate user entry: ' + username);
             } else {
               return res.status(500).json({message: 'Account creation failure.', success: false});
             }
           } 
 
-          const token = await auth.createToken(createResult.insertId);
-          res.status(200).json({
+          const token = await auth.setAuthToken(createResult.insertId);
+
+          res.status(200).send({
             message: 'User created', 
             success: true,
             token
@@ -66,7 +72,7 @@ router.post('/user/new', async (req, res) => {
         });
       });
     });
-  } catch(error) {
+  } catch(err) {
     res.status(500).send();
   }
 });
