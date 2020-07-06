@@ -29,11 +29,93 @@ router.get('/characters/info/:characterId', auth.checkAuth, (req, res) => {
     if (result.length > 0) {
       res.send(result[0]);
     } else {
-      res.send('Character not found');
+      res.status(404).send('Character not found');
     }
   });
 });
 
+router.get('/characters/abilities/:characterId', auth.checkAuth, (req, res) => {
+  db.pool.query(query.sqlGetCharacterAbilities(req.params.characterId), (err, result) => {
+    if (err) throw err;
 
+    if (result.length > 0) {
+      res.send(result[0]);
+    } else {
+      res.status(404).send('Character not found')
+    }
+  });
+});
+
+router.get('/characters/armor/:characterId', auth.checkAuth, (req, res) => {
+  db.pool.query(query.sqlGetCharacterArmor(req.params.characterId), (err, result) => {
+    if (err) throw err;
+
+    if (result.length > 0) {
+      res.send(result[0]);
+    } else {
+      res.status(404).send('Character not found')
+    }
+  });
+});
+
+router.get('/characters/gear/:characterId', auth.checkAuth, (req, res) => {
+  db.pool.query(query.sqlGetCharacterGear(req.params.characterId), (err, result) => {
+    if (err) throw err;
+
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.status(404).send('Character not found')
+    }
+  });
+});
+
+router.get('/characters/rites/:characterId', auth.checkAuth, (req, res) => {
+  db.pool.query(query.sqlGetCharacterRites(req.params.characterId), (err, result) => {
+    if (err) throw err;
+
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.status(404).send('Character not found')
+    }
+  });
+});
+
+router.get('/characters/skills/:characterId', auth.checkAuth, (req, res) => {
+  db.pool.query(query.sqlGetCharacterSkills(req.params.characterId), (err, result) => {
+    if (err) throw err;
+
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.status(404).send('Character not found')
+    }
+  });
+});
+
+router.get('/characters/talents/:characterId', auth.checkAuth, (req, res) => {
+  db.pool.query(query.sqlGetCharacterTalents(req.params.characterId), (err, result) => {
+    if (err) throw err;
+
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.status(404).send('Character not found')
+    }
+  });
+});
+
+router.get('/characters/weapons/:characterId', auth.checkAuth, (req, res) => {
+  db.pool.query(query.sqlGetCharacterWeapons(req.params.characterId), (err, result) => {
+    if (err) throw err;
+
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.status(404).send('Character not found')
+    }
+  });
+});
 
 module.exports = router;

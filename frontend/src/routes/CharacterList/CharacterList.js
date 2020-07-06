@@ -1,33 +1,34 @@
-import React from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Redirect } from 'react-router-dom';
+
+import { AuthContext } from '../../components/context/AuthContext';
 
 import './CharacterList.css';
 
-
-export default function(props){
-  const location = useLocation();
-  let data = {};
-  console.log(props)
-  console.log(location)
-  console.log(props.location)
+export default function(){
+  const auth = useContext(AuthContext);
 
   async function getCharacters(){
     try {
-      let headers = new Headers();
-          headers.append('Accept', 'application/json');
-          headers.append('Content-Type', 'application/json');
-
       const result = await fetch('http://localhost:3000/characters', {
-        method: 'POST',
-        headers: headers
-      });
-      data = await result;
-      console.log(data)
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + auth.jwt,
+            'Content-Type': 'application/json'
+          }
+        });
+      const data = await result.json();
+      console.log('data', data);
     } catch(err){
       console.log(err);
     }
   }
-  getCharacters();
+
+  if (!!auth.jwt) {
+    getCharacters();
+  } else {
+    return <Redirect to="/" />
+  }
 
   return(
     <>

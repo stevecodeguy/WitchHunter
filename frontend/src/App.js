@@ -1,11 +1,21 @@
-import React from 'react';
+import 
+  React, 
+  { 
+    useState, 
+    useCallback, 
+    useEffect 
+  } from 'react';
 import { 
   BrowserRouter as Router, 
   Switch, 
   Route, 
-  // useParams 
+  Redirect
 } from 'react-router-dom';
 
+// Auth Context
+import { AuthContext } from './components/context/AuthContext';
+
+// Routes
 import CharacterList from './routes/CharacterList/CharacterList';
 import NewUser from './routes/NewUser/NewUser';
 import Login from './routes/Login/Login';
@@ -16,29 +26,75 @@ import Character2 from './components/characterSections/CharacterAbilityScores';
 import Character3 from './components/characterSections/CharacterSkills';
 
 function App() {
-  // let { username } = useParams();
+  const [jwt, setJwt] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const login = useCallback(jwt => {
+    setJwt(jwt);
+    localStorage.setItem('userData', JSON.stringify({ jwt }));
+    setIsLoggedIn(true);
+  }, []);
+  
+  const logout = useCallback(() => {
+    setJwt(null);
+    localStorage.removeItem('userData');
+    setIsLoggedIn(false);
+  }, []);
+  
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem('userData'));
+    if (storedData && storedData.jwt ) {
+      console.log('wtotw')
+      login(storedData.jwt);
+    }
+  }, [login]);
+
+  let routes;
+
+  if (isLoggedIn) {
+    routes = (
+      <Router>
+        <Switch>
+          <Route path='/characters'>
+            <CharacterList />
+          </Route>
+          <Route path='/character'>
+            <Character />
+            <Character2 />
+            <Character3 />
+          </Route>
+          <Route path='/' exact>
+            <Redirect to="/characters" />
+          </Route>
+        </Switch>
+      </Router>
+    );
+  } else {
+    routes = (
+      <Router>
+        <Switch>
+          <Route path='/newuser'>
+            <NewUser />
+          </Route>
+          <Route path='/login'>
+            <Login />
+          </Route>
+          <Route path='/' exact>
+            <SignUpSignIn />
+          </Route>
+        </Switch>
+      </Router>
+    );
+  }
+
   return (
-    <Router>
-      <Switch>
-        <Route path='/newuser'>
-          <NewUser />
-        </Route>
-        <Route path='/login'>
-          <Login />
-        </Route>
-        <Route path='/:username/character_list'>
-          <CharacterList />
-        </Route>
-        <Route path='/character'>
-          <Character />
-          <Character2 />
-          <Character3 />
-        </Route>
-        <Route path='/' exact>
-          <SignUpSignIn />
-        </Route>
-      </Switch>
-    </Router>
+    <AuthContext.Provider value={{
+      jwt: jwt,
+      login: login,
+      logout: logout
+    }}>
+      {routes}
+    </AuthContext.Provider>
   );
 }
 

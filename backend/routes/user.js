@@ -20,25 +20,29 @@ router.post('/user/test', auth.checkAuth, (req, res) => {
 
 // Route - User login
 router.post('/user/login', async (req, res) => {
-  const username = sanitize(req.body.username);
+  try {
+    const username = sanitize(req.body.username);
 
-  db.pool.query(query.sqlCheckPassword(username), async (err, result) => {
-    if (err) throw err;
+    db.pool.query(query.sqlCheckPassword(username), async (err, result) => {
+      if (err) throw err;
 
-    if (result.length === 0) {
-      return res.status(401).send({ success: false });
-    }
+      if (result.length === 0) {
+        return res.status(401).send({ login: false });
+      }
+      
+      const matchedPassword = await bcrypt.compare(sanitize(req.body.password), result[0].password);
     
-    const matchedPassword = await bcrypt.compare(sanitize(req.body.password), result[0].password);
-  
-    if (!matchedPassword) {
-      return res.status(401).send('Login failed');
-    }
+      if (!matchedPassword) {
+        return res.status(401).send('Login failed');
+      }
 
-    const token = await auth.setAuthToken(result[0].id);
-    res.send({ id: result[0].id, username: result[0].username, token });
-    return result[0];
-  });
+      const token = await auth.setAuthToken(result[0].id);
+      res.send({ id: result[0].id, username: result[0].username, token });
+      return result[0];
+    });
+  } catch(err) {
+    res.send(err);ss
+  }
 });
 
 // Route - Logout user

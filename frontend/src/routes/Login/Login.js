@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
-export default function Login() {
+import { AuthContext } from '../../components/context/AuthContext';
+
+export default function Login(props) {
+  const auth = useContext(AuthContext);
   const [state, setState] = useState({
     username: '',
-    password: '',
-    success: null
+    password: ''
   });
 
   let history = useHistory();
@@ -22,32 +24,26 @@ export default function Login() {
 
     async function getUser(){
       try {
-        let headers = new Headers();
-        headers.append('Accept', 'application/json');
-        headers.append('Content-Type', 'application/json');
-
         const result = await fetch('http://localhost:3000/user/login', {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify(state)
-          });
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(state)
+        });
+
         const data = await result.json();
-        if (data.accessToken) {
-          headers.append('Authorization', `Bearer ${data.accessToken}`);
+        if (data.token) {
+          await auth.login(data.token);
           history.push({
-            pathname: `${data.username}/character_list/`,
-            customData: 'blah'
+            pathname: `characters/`
           });
-        } else {
-          setState({
-            ...state,
-            success: false
-          })
-        }
+        } 
       } catch(error) {
         console.log(error);
       }
     }
+
     getUser();
   }
 
@@ -75,7 +71,7 @@ export default function Login() {
 
         <button type="submit">Login</button>
       </div>
-      {state.success || state.success === null ? null : <p>Username or Password incorrect</p>}
+      {/* {state.success || state.success === null ? null : <p>Username or Password incorrect</p>} */}
     </form>
   );
 }

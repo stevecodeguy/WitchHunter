@@ -4,7 +4,6 @@ if (process.env.NODE_ENV !== 'production') {
 const https = require('https');
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
 const cors = require('cors');
 
 //Utilities
@@ -17,7 +16,7 @@ const routeCharacters = require('./routes/characters');
 
 //Middleware
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 app.use((req, res, next) => {
   res.append('Access-Control-Allow-Origins', '*');
   res.append('Access-Control-Allow-Headers', 'Authorization, Origin, X-Requested-With, Content-Type, Accept');
