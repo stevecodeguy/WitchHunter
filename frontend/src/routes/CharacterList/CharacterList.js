@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { AuthContext } from '../../components/context/AuthContext';
+import { AuthContext } from '../../utils/context/AuthContext';
 
 import './CharacterList.css';
 

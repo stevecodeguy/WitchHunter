@@ -1,10 +1,4 @@
-import 
-  React, 
-  { 
-    useState, 
-    useCallback, 
-    useEffect 
-  } from 'react';
+import React from 'react';
 import { 
   BrowserRouter as Router, 
   Switch, 
@@ -12,8 +6,9 @@ import {
   Redirect
 } from 'react-router-dom';
 
-// Auth Context
-import { AuthContext } from './components/context/AuthContext';
+// Auth
+import { AuthContext } from './utils/context/AuthContext';
+import { Auth } from './utils/auth/Auth';
 
 // Routes
 import CharacterList from './routes/CharacterList/CharacterList';
@@ -26,28 +21,7 @@ import Character2 from './components/characterSections/CharacterAbilityScores';
 import Character3 from './components/characterSections/CharacterSkills';
 
 function App() {
-  const [jwt, setJwt] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const login = useCallback(jwt => {
-    setJwt(jwt);
-    localStorage.setItem('userData', JSON.stringify({ jwt }));
-    setIsLoggedIn(true);
-  }, []);
-  
-  const logout = useCallback(() => {
-    setJwt(null);
-    localStorage.removeItem('userData');
-    setIsLoggedIn(false);
-  }, []);
-  
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem('userData'));
-    if (storedData && storedData.jwt ) {
-      console.log('wtotw')
-      login(storedData.jwt);
-    }
-  }, [login]);
+  const { jwt, login, logout, isLoggedIn } = Auth();
 
   let routes;
 
@@ -72,6 +46,7 @@ function App() {
   } else {
     routes = (
       <Router>
+      <Redirect to="/" />
         <Switch>
           <Route path='/newuser'>
             <NewUser />

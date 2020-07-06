@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { AuthContext } from '../../components/context/AuthContext';
+import { AuthContext } from '../../utils/context/AuthContext';
 
 export default function Login(props) {
   const auth = useContext(AuthContext);
