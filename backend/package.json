@@ -16,7 +16,7 @@
     "mysql": "^2.18.1",
     "node": "^13.8.0",
     "nodemailer": "^6.4.5",
-    "npm": "^6.14.4",
+    "npm": "^6.14.6",
     "universal-cookie": "^4.0.3"
   },
   "devDependencies": {
