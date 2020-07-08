@@ -1,34 +1,58 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import { AuthContext } from '../../utils/context/AuthContext';
 
 import './CharacterList.css';
 
-export default function(){
+export default function CharacterList() {
+  const [characters, setCharacters] = useState([]);
   const auth = useContext(AuthContext);
 
-  async function getCharacters(){
-    try {
-      const result = await fetch('http://localhost:3000/characters', {
+  const getCharacters = useCallback( async () => {  
+    if (!!auth.jwt) {
+      await fetch('http://localhost:3000/characters', {
           method: 'GET',
           headers: {
             'Authorization': 'Bearer ' + auth.jwt,
             'Content-Type': 'application/json'
           }
-        });
-      const data = await result.json();
-      console.log('data', data);
-    } catch(err){
-      console.log(err);
+        })
+        .then(response => response.json())
+        .then(data => {
+          setCharacters(data);
+        })
+        .catch(error => {console.log(error)});
+    } else {
+      return <Redirect to="/" />
     }
+  }, [auth.jwt]);
+
+  
+
+  const renderCharacters = () => {
+    // let content = [];
+    // for (let idx in characters) {
+    //   console.log(idx)
+    //   const item = characters[idx];
+    //   content.push(<td key={item.name}>{item.name}</td>);
+    // }
+    // console.log('sgkhfsgdkaf', content)
+    // return content;
+
+    return (
+        characters.map(item => (
+          <tr key={item.id}>
+            <td>{item.name}</td>
+            <td>{item.description}</td>
+          </tr>
+      )
+    ))
   }
 
-  if (!!auth.jwt) {
+  useEffect(() => {
     getCharacters();
-  } else {
-    return <Redirect to="/" />
-  }
+  }, [ getCharacters]);
 
   return(
     <>
@@ -37,9 +61,27 @@ export default function(){
       <div>
         <h3>Available Characters</h3>
       </div>
-      <ul>
-        {/* {data ? data : null} */}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            renderCharacters()
+
+            // characters.entries(character).map((character, index) => {
+              // <tr key={index}>
+              //   <td>{character.name}</td>
+              //   <td>{character.description}</td>
+              // </tr>
+              // <h1>test</h1>
+            // })
+          }
+        </tbody>
+      </table>
     </>
   );
 }

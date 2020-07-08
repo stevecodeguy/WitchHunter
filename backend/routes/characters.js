@@ -14,7 +14,7 @@ router.get('/characters', auth.checkAuth, (req, res) => {
     if (err) throw err;
     
     if (result.length > 0) {
-      res.send(result[0]);
+      res.send(result);
     } else {
       res.send('No charcters found');
     }
@@ -107,7 +107,7 @@ router.get('/characters/talents/:characterId', auth.checkAuth, (req, res) => {
 });
 
 router.get('/characters/weapons/:characterId', auth.checkAuth, (req, res) => {
-  db.pool.query(query.sqlGetCharacterWeapons(req.params.characterId), (err, result) => {
+  db.pool.query(query.sqlGetCharacterSkills(req.params.characterId), (err, result) => {
     if (err) throw err;
 
     if (result.length > 0) {
