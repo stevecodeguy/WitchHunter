@@ -37,7 +37,6 @@ export const Auth = () => {
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
     if (storedData && storedData.jwt && new Date(storedData.expires) > new Date()) {
-      console.log('wtotw')
       login(storedData.jwt, new Date(storedData.expires));
     }
   }, [login]);
