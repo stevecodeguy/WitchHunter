@@ -1,0 +1,8 @@
+.selected {
+  background-color: rgb(209, 136, 20);
+  color: white;
+}
+
+table {
+  border-spacing: 0;
+}

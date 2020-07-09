@@ -8,8 +8,7 @@ import './CharacterList.css';
 export default function CharacterList() {
   const [characters, setCharacters] = useState([]);
   const auth = useContext(AuthContext);
-
-  const getCharacters = useCallback( async () => {  
+  const getCharacters = useCallback( async () => {
     if (!!auth.jwt) {
       await fetch('http://localhost:3000/characters', {
           method: 'GET',
@@ -28,26 +27,26 @@ export default function CharacterList() {
     }
   }, [auth.jwt]);
 
-  
-
   const renderCharacters = () => {
-    // let content = [];
-    // for (let idx in characters) {
-    //   console.log(idx)
-    //   const item = characters[idx];
-    //   content.push(<td key={item.name}>{item.name}</td>);
-    // }
-    // console.log('sgkhfsgdkaf', content)
-    // return content;
-
     return (
         characters.map(item => (
-          <tr key={item.id}>
+          <tr 
+            key={item.id}
+            onClick={select}
+          >
             <td>{item.name}</td>
             <td>{item.description}</td>
           </tr>
       )
     ))
+  }
+
+  const select = (event) => {
+    const tbody = event.target.parentNode.parentNode;
+    for (let i = 0; i < tbody.children.length; i++){
+      tbody.children[i].classList.remove('selected')
+    }
+    event.target.parentNode.classList.add('selected');
   }
 
   useEffect(() => {
@@ -69,17 +68,7 @@ export default function CharacterList() {
           </tr>
         </thead>
         <tbody>
-          {
-            renderCharacters()
-
-            // characters.entries(character).map((character, index) => {
-              // <tr key={index}>
-              //   <td>{character.name}</td>
-              //   <td>{character.description}</td>
-              // </tr>
-              // <h1>test</h1>
-            // })
-          }
+          { renderCharacters() }
         </tbody>
       </table>
     </>
