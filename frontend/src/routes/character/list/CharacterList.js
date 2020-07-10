@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 import { AuthContext } from '../../../utils/context/AuthContext';
 
@@ -8,6 +8,9 @@ import './CharacterList.css';
 export default function CharacterList() {
   const [characters, setCharacters] = useState([]);
   const auth = useContext(AuthContext);
+
+  let history = useHistory();
+
   const getCharacters = useCallback( async () => {
     if (!!auth.jwt) {
       await fetch('http://localhost:3000/characters', {
@@ -51,8 +54,10 @@ export default function CharacterList() {
 
   const createButton = (event) =>  {
     event.preventDefault();
-    
-    return <Redirect to='/characters/new' />
+
+      history.push({
+        pathname: `character/new`
+      });
   };
 
   useEffect(() => {

@@ -12,11 +12,7 @@ import { Auth } from './utils/auth/Auth';
 
 // Character Routes
 import CharacterList from './routes/character/list/CharacterList';
-// import CharacterNew from './components/character/characterSections/CharacterInfo';
-
-import Character from './components/character/characterSections/CharacterInfo';
-import Character2 from './components/character/characterSections/CharacterAbilityScores';
-import Character3 from './components/character/characterSections/CharacterSkills';
+import CharacterNew from './routes/character/new/CharacterNew';
 
 // User Routes
 import NewUser from './routes/user/newUser/NewUser';
@@ -33,13 +29,11 @@ function App() {
     routes = (
       <Router>
         <Switch>
+          <Route path='/character/new'>
+            <CharacterNew />
+          </Route>
           <Route path='/characters'>
             <CharacterList />
-          </Route>
-          <Route path='/character'>
-            <Character />
-            <Character2 />
-            <Character3 />
           </Route>
           <Route path='/' exact>
             <Redirect to="/characters" />
@@ -50,7 +44,6 @@ function App() {
   } else {
     routes = (
       <Router>
-      <Redirect to="/" />
         <Switch>
           <Route path='/newuser'>
             <NewUser />
