@@ -54,3 +54,15 @@ exports.sqlGetCharacterSkills = sqlGetCharacterSkills;
 exports.sqlGetCharacterTalents = sqlGetCharacterTalents;
 exports.sqlGetCharacterWeapons = sqlGetCharacterWeapons;
 exports.sqlListCharacters = sqlListCharacters;
+
+// Control queries
+
+const sqlGetInfoReligions = () => 'SELECT * FROM religions;';
+const sqlGetInfoOrders = () => 'SELECT * FROM orders;';
+const sqlGetInfoSinsVices = () => 'SELECT * FROM sins_vices;';
+const sqlGetInfoVirtues = () => 'SELECT * FROM virtues;';
+
+exports.sqlGetInfoReligions = sqlGetInfoReligions;
+exports.sqlGetInfoOrders = sqlGetInfoOrders;
+exports.sqlGetInfoSinsVices = sqlGetInfoSinsVices;
+exports.sqlGetInfoVirtues = sqlGetInfoVirtues;

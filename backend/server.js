@@ -13,6 +13,7 @@ const PORT = 3000;
 //Routes
 const routeUser = require('./routes/user');
 const routeCharacters = require('./routes/characters');
+const routeInfo = require('./routes/info');
 
 //Middleware
 app.use(cors());
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
 //Routes
 app.use(routeUser);
 app.use(routeCharacters);
+app.use(routeInfo);
 
 app.get('*', (req, res) => {
   res.status(404).send();
