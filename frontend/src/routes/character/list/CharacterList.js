@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { AuthContext } from '../../utils/context/AuthContext';
+import { AuthContext } from '../../../utils/context/AuthContext';
 
 import './CharacterList.css';
 
@@ -39,7 +39,7 @@ export default function CharacterList() {
           </tr>
       )
     ))
-  }
+  };
 
   const select = (event) => {
     const tbody = event.target.parentNode.parentNode;
@@ -47,7 +47,13 @@ export default function CharacterList() {
       tbody.children[i].classList.remove('selected')
     }
     event.target.parentNode.classList.add('selected');
-  }
+  };
+
+  const createButton = (event) =>  {
+    event.preventDefault();
+    
+    return <Redirect to='/characters/new' />
+  };
 
   useEffect(() => {
     getCharacters();
@@ -56,15 +62,15 @@ export default function CharacterList() {
   return(
     <>
       <h1>Characters</h1>
-      <button>Create New Character</button>
+      <button onClick={createButton}>Create New Character</button>
       <div>
         <h3>Available Characters</h3>
       </div>
       <table>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Description</th>
+            <th id='tableName'>Name</th>
+            <th id='tableDescription'>Description</th>
           </tr>
         </thead>
         <tbody>

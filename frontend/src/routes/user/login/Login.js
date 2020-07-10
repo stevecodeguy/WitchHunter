@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { AuthContext } from '../../utils/context/AuthContext';
+import { AuthContext } from '../../../utils/context/AuthContext';
 
 export default function Login(props) {
   const auth = useContext(AuthContext);
@@ -71,7 +71,6 @@ export default function Login(props) {
 
         <button type="submit">Login</button>
       </div>
-      {/* {state.success || state.success === null ? null : <p>Username or Password incorrect</p>} */}
     </form>
   );
 }

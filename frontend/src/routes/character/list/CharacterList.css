@@ -1,0 +1,18 @@
+.selected {
+  background-color: rgb(209, 136, 20);
+  color: white;
+}
+
+table {
+  border-spacing: 0;
+}
+
+#tableName {
+  width: 150px;
+  text-align: left;
+}
+
+#tableDescription {
+  width: 300px;
+  text-align: left;
+}

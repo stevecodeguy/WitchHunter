@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 export default function CharacterInfo() {
   const [characterInfo, setCharacterInfo] = useState({
     name: '',
+    culture: '',
+    ethnicity: '',
     religion: '',
     nationality: '',
     description: '',
