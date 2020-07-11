@@ -32,19 +32,22 @@ export default function CharacterInfo() {
   )}
 
   const handleCharacterInfoHeroPointsPlusMinus = (modifier) => { 
-    if (modifier === -1 && characterInfo.heroPoints <= 0)return setCharacterInfo(characterInfo => ({
+    if (modifier === -1 && characterInfo.heroPoints <= 0)return;
+    setCharacterInfo(characterInfo => ({
       ...characterInfo, heroPoints: characterInfo.heroPoints + modifier
     })
   )}
 
   const handleCharacterInfoTrueFaithPlusMinus = (modifier) => { 
-    if (modifier === -1 && characterInfo.trueFaith <= 0) return setCharacterInfo(characterInfo => ({
+    if (modifier === -1 && characterInfo.trueFaith <= 0) return;
+    setCharacterInfo(characterInfo => ({
       ...characterInfo, trueFaith: characterInfo.trueFaith + modifier
     })
   )}
 
   const handleCharacterInfoDamnationPlusMinus = (modifier) => { 
-    if (modifier === -1 && characterInfo.damnation <= 0) return setCharacterInfo(characterInfo => ({
+    if (modifier === -1 && characterInfo.damnation <= 0) return;
+    setCharacterInfo(characterInfo => ({
       ...characterInfo, damnation: characterInfo.damnation + modifier
     })
   )}
@@ -262,7 +265,7 @@ export default function CharacterInfo() {
             <input 
               type="number" 
               name="damnation" 
-              value={characterInfo.damnation} 
+              value={characterInfo.damnation}
               onChange={handleCharacterInfoChange}
               required />
             <button 

@@ -10,7 +10,7 @@ export default function Skill(props) {
   }
 
   const handleCharacterSkillRankPlusMinus = (modifier) => { 
-    if (modifier === -1 && skillRank <= 0) return  
+    if (modifier === -1 && skillRank <= 0) return;  
     setSkillRank(skillRank + modifier);
   }
 

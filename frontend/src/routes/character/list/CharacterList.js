@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect, useHistory, Switch } from 'react-router-dom';
 
 import { AuthContext } from '../../../utils/context/AuthContext';
 
@@ -55,9 +55,7 @@ export default function CharacterList() {
   const createButton = (event) =>  {
     event.preventDefault();
 
-      history.push({
-        pathname: `character/new`
-      });
+    history.push('/character/new');
   };
 
   useEffect(() => {
