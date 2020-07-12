@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useCallback, useEffect } from 'react';
+
+import { AuthContext } from '../../../utils/context/AuthContext';
 
 import './characterInfo.css';
+import { Redirect } from 'react-router-dom';
 
 export default function CharacterInfo() {
   const [characterInfo, setCharacterInfo] = useState({
@@ -17,19 +20,81 @@ export default function CharacterInfo() {
     catalyst: '',
     order: '',
     background: '',
-    sinVice: '',
+    sinVice: {
+      sin_vice: '',
+      benefit: ''
+    },
     virtue: '',
     heroPoints: 0,
     trueFaith: 0,
     damnation: 0
   });
+  const [religion, setReligion] = useState([]);
+  const [order, setOrder] = useState([]);
+  const [sinVice, setSinVice] = useState([]);
+  const [virtue, setVirtue] = useState([]);
+  const auth = useContext(AuthContext);
+
+  const fetchData = useCallback((type) => {
+    fetch(`http://localhost:3000/info/${type}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + auth.jwt,
+        'Content-type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(async (data) => {
+      switch(type){
+        case 'religion':
+          setReligion(data);
+          break;
+        case 'order':
+          setOrder(data);
+          break;
+        case 'sinVice':
+          setSinVice(data);
+          break;
+        case 'virtue':
+          setVirtue(data);
+          break;
+        default:
+          console.log('Incorrect dropdown request');
+      }
+    })
+    .catch(error => console.log(error));
+  }, [auth.jwt]);
+
+  const getControlsData = useCallback( async (type) => {
+    if (!!auth.jwt) {
+      await fetchData('religion');
+      await fetchData('order');
+      await fetchData('sinVice');
+      await fetchData('virtue');
+    } else {
+      return <Redirect to="/" />
+    }
+  }, [auth.jwt, fetchData]);
+
+  // const updateDescription = useCallback(() => {
+  //   console.log('test')
+  // });
 
   const handleCharacterInfoChange = (event) => { 
     event.persist();
-    setCharacterInfo(characterInfo => ({
-      ...characterInfo, [event.target.name]: event.target.value
-    })
-  )}
+    if (event.target.name === 'sinVice'){
+      setCharacterInfo(characterInfo => ({
+        ...characterInfo, sinVice: {
+          sin_vice: event.target.value,
+          benefit: sinVice[event.target.selectedIndex -1].benefit
+        }
+      }))
+    } else {
+      setCharacterInfo(characterInfo => ({
+        ...characterInfo, [event.target.name]: event.target.value
+      }))
+    }
+  }
 
   const handleCharacterInfoHeroPointsPlusMinus = (modifier) => { 
     if (modifier === -1 && characterInfo.heroPoints <= 0)return;
@@ -51,6 +116,18 @@ export default function CharacterInfo() {
       ...characterInfo, damnation: characterInfo.damnation + modifier
     })
   )}
+
+  useEffect(() => {
+    getControlsData();
+  }, [getControlsData]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  // useEffect(() => {
+  //   updateDescription();
+  // }, [updateDescription]);
 
   return (
     <form method="post">
@@ -92,13 +169,23 @@ export default function CharacterInfo() {
 
           <li>
             <label htmlFor="religion"><b>Religion</b></label>
-            <input 
+            <select 
               type="text" 
-              placeholder="Religion" 
               name="religion" 
               value={characterInfo.religion} 
               onChange={handleCharacterInfoChange}
-              required />
+              required
+            >
+                <option value="" disabled selected>Choose Religion</option>
+                {
+                  religion.map(item => (
+                    <option 
+                      key={item.id} 
+                      value={item.religion}
+                  >{item.religion}</option>
+                  ))
+                }
+            </select>
           </li>
 
           <li>
@@ -114,10 +201,11 @@ export default function CharacterInfo() {
 
           <li>
             <label htmlFor="description"><b>Description</b></label>
-            <input 
-              type="text" 
+            <textarea 
               placeholder="Description" 
               name="description" 
+              rows="6"
+              cols="100"
               value={characterInfo.description} 
               onChange={handleCharacterInfoChange}
               required />
@@ -191,24 +279,38 @@ export default function CharacterInfo() {
 
           <li>
             <label htmlFor="background"><b>Background</b></label>
-            <input 
+            <select 
               type="text" 
               placeholder="Background" 
               name="background" 
               value={characterInfo.background} 
               onChange={handleCharacterInfoChange}
-              required />
+              required>
+              <option value="none" selected disabled>Choose background</option>
+              {
+                console.log('To do backgrounds...')
+              }
+            </select>
           </li>
 
           <li>
             <label htmlFor="sinVice"><b>Sin(Vice)</b></label>
-            <input 
-              type="text" 
-              placeholder="Sin(Vice)" 
+            <select 
               name="sinVice" 
-              value={characterInfo.sinVice} 
+              value={characterInfo.sinVice.sin_vise} 
               onChange={handleCharacterInfoChange}
-              required />
+              required >
+                <option value="" selected disabled>Choose Sin / Vice</option>
+                {
+                  sinVice.map(item => (
+                    <option 
+                      key={item.id} 
+                      value={item.sin_vice}
+                  >{item.sin_vice}</option>
+                  ))
+                }
+            </select>
+            <p>{characterInfo.sinVice.benefit}</p>
           </li>
 
           <li>
@@ -278,6 +380,9 @@ export default function CharacterInfo() {
             >-</button>
           </li>
         </ul>
+        <button
+          onClick={console.log('Temp - next screen')}
+        >Next</button>
       </div>
     </form>
   );

@@ -1,33 +1,36 @@
 const express = require('express');
 const router = express.Router();
 
+// Middleware
+const auth = require('../middleware/auth');
+
 // Utilities
 const db = require('../util/database');
 const query = require('../util/queries');
 
 // Route Info Controls
-router.get('/info/religion', (req, res) => {
+router.get('/info/religion', auth.checkAuth, (req, res) => {
   db.pool.query(query.sqlGetInfoReligions(), (err, result) => {
     if (err) throw err;
     res.send(result);
   });
 });
 
-router.get('/info/order', (req, res) => {
+router.get('/info/order', auth.checkAuth, (req, res) => {
   db.pool.query(query.sqlGetInfoOrders(), (err, result) => {
     if (err) throw err;
     res.send(result);
   });
 });
 
-router.get('/info/sinsvices', (req, res) => {
+router.get('/info/sinVice', auth.checkAuth, (req, res) => {
   db.pool.query(query.sqlGetInfoSinsVices(), (err, result) => {
     if (err) throw err;
     res.send(result);
   });
 });
 
-router.get('/info/virtues', (req, res) => {
+router.get('/info/virtue', auth.checkAuth, (req, res) => {
   db.pool.query(query.sqlGetInfoVirtues(), (err, result) => {
     if (err) throw err;
     res.send(result);

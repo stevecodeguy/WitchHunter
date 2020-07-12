@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { Redirect, useHistory, Switch } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 import { AuthContext } from '../../../utils/context/AuthContext';
 
