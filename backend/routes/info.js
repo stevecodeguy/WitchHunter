@@ -37,4 +37,11 @@ router.get('/info/virtue', auth.checkAuth, (req, res) => {
   });
 });
 
+router.get('/info/background', auth.checkAuth, (req, res) => {
+  db.pool.query(query.sqlGetInfoBackgrounds(), (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
 module.exports = router;

@@ -18,13 +18,24 @@ export default function CharacterInfo() {
     eyes: '',
     hair: '',
     catalyst: '',
-    order: '',
-    background: '',
+    order: {
+      order: '',
+      description: ''
+    },
+    background: {
+      background: '',
+      socialStanding: '',
+      ability: '',
+      abilityDescription: ''
+    },
     sinVice: {
       sin_vice: '',
       benefit: ''
     },
-    virtue: '',
+    virtue: {
+      virtue: '',
+      description: ''
+    },
     heroPoints: 0,
     trueFaith: 0,
     damnation: 0
@@ -33,6 +44,7 @@ export default function CharacterInfo() {
   const [order, setOrder] = useState([]);
   const [sinVice, setSinVice] = useState([]);
   const [virtue, setVirtue] = useState([]);
+  const [background, setBackground] = useState([]);
   const auth = useContext(AuthContext);
 
   const fetchData = useCallback((type) => {
@@ -58,6 +70,9 @@ export default function CharacterInfo() {
         case 'virtue':
           setVirtue(data);
           break;
+        case 'background':
+          setBackground(data);
+          break;
         default:
           console.log('Incorrect dropdown request');
       }
@@ -71,14 +86,11 @@ export default function CharacterInfo() {
       await fetchData('order');
       await fetchData('sinVice');
       await fetchData('virtue');
+      await fetchData('background');
     } else {
       return <Redirect to="/" />
     }
   }, [auth.jwt, fetchData]);
-
-  // const updateDescription = useCallback(() => {
-  //   console.log('test')
-  // });
 
   const handleCharacterInfoChange = (event) => { 
     event.persist();
@@ -87,6 +99,29 @@ export default function CharacterInfo() {
         ...characterInfo, sinVice: {
           sin_vice: event.target.value,
           benefit: sinVice[event.target.selectedIndex -1].benefit
+        }
+      }))
+    } else if (event.target.name === 'order'){
+      setCharacterInfo(characterInfo => ({
+        ...characterInfo, order: {
+          order: event.target.value,
+          description: order[event.target.selectedIndex -1].description
+        }
+      }))
+    } else if (event.target.name === 'virtue'){
+      setCharacterInfo(characterInfo => ({
+        ...characterInfo, virtue: {
+          virtue: event.target.value,
+          description: virtue[event.target.selectedIndex -1].description
+        }
+      }))
+    } else if (event.target.name === 'background'){
+      setCharacterInfo(characterInfo => ({
+        ...characterInfo, background: {
+          background: event.target.value,
+          socialStanding: background[event.target.selectedIndex -1].social_standing,
+          ability: background[event.target.selectedIndex -1].ability,
+          abilityDescription: background[event.target.selectedIndex -1].ability_description
         }
       }))
     } else {
@@ -124,10 +159,6 @@ export default function CharacterInfo() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  // useEffect(() => {
-  //   updateDescription();
-  // }, [updateDescription]);
 
   return (
     <form method="post">
@@ -268,29 +299,49 @@ export default function CharacterInfo() {
 
           <li>
             <label htmlFor="order"><b>Order</b></label>
-            <input 
+            <select 
               type="text" 
-              placeholder="Order" 
               name="order" 
-              value={characterInfo.order} 
+              value={characterInfo.order.order} 
               onChange={handleCharacterInfoChange}
-              required />
+              required
+            >
+                <option value="" disabled selected>Choose Order</option>
+                {
+                  order.map(item => (
+                    <option 
+                      key={item.id} 
+                      value={item.order}
+                  >{item.order}</option>
+                  ))
+                }
+            </select>
+            <p>{characterInfo.order.description}</p>
           </li>
 
           <li>
             <label htmlFor="background"><b>Background</b></label>
             <select 
-              type="text" 
-              placeholder="Background" 
               name="background" 
-              value={characterInfo.background} 
+              value={characterInfo.background.background} 
               onChange={handleCharacterInfoChange}
-              required>
-              <option value="none" selected disabled>Choose background</option>
-              {
-                console.log('To do backgrounds...')
-              }
+              required >
+                <option value="" selected disabled>Choose Background</option>
+                {
+                  background.map(item => (
+                    <option 
+                      key={item.id} 
+                      value={item.background}
+                  >{item.background}</option>
+                  ))
+                }
             </select>
+            <h5>Social Standing: </h5>
+            <p>{characterInfo.background.socialStanding}</p>
+            <h5>Ability: </h5>
+            <p>{characterInfo.background.ability}</p>
+            <h5>Ability Description: </h5>
+            <p>{characterInfo.background.abilityDescription}</p>
           </li>
 
           <li>
@@ -315,13 +366,22 @@ export default function CharacterInfo() {
 
           <li>
             <label htmlFor="virtue"><b>Virtue</b></label>
-            <input 
-              type="text" 
-              placeholder="Virtue" 
+            <select 
               name="virtue" 
-              value={characterInfo.virtue} 
+              value={characterInfo.virtue.virtue} 
               onChange={handleCharacterInfoChange}
-              required />
+              required >
+                <option value="" selected disabled>Choose Virtue</option>
+                {
+                  virtue.map(item => (
+                    <option 
+                      key={item.id} 
+                      value={item.virtue}
+                  >{item.virtue}</option>
+                  ))
+                }
+            </select>
+            <p>{characterInfo.virtue.description}</p>
           </li>
 
           <li>
