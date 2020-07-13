@@ -1,22 +1,15 @@
 import React, { useState, useContext, useCallback, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import { AuthContext } from '../../../utils/context/AuthContext';
+import TextEntry from '../characterElements/TextEntry';
 
 import './characterInfo.css';
-import { Redirect } from 'react-router-dom';
 
 export default function CharacterInfo() {
   const [characterInfo, setCharacterInfo] = useState({
-    name: '',
-    culture: '',
-    ethnicity: '',
     religion: '',
-    nationality: '',
     description: '',
-    height: '',
-    weight: '',
-    eyes: '',
-    hair: '',
     catalyst: '',
     order: {
       order: '',
@@ -165,38 +158,9 @@ export default function CharacterInfo() {
 
       <div>
         <ul>
-          <li>
-            <label htmlFor="name"><b>Name</b></label>
-            <input 
-              type="text" 
-              placeholder="Character Name" 
-              name="name" 
-              value={characterInfo.name} 
-              onChange={handleCharacterInfoChange}
-              required />
-          </li>
-
-          <li>
-            <label htmlFor="culture"><b>Culture</b></label>
-            <input 
-              type="text" 
-              placeholder="Culture" 
-              name="culture" 
-              value={characterInfo.culture} 
-              onChange={handleCharacterInfoChange}
-              required />
-          </li>
-
-          <li>
-            <label htmlFor="ethnicity"><b>Ethnicity</b></label>
-            <input 
-              type="text" 
-              placeholder="Ethnicity" 
-              name="ethnicity" 
-              value={characterInfo.ethnicity} 
-              onChange={handleCharacterInfoChange}
-              required />
-          </li>
+          <TextEntry name="name" labelName="Character Name" />
+          <TextEntry name="culture" />
+          <TextEntry name="ethnicity" />
 
           <li>
             <label htmlFor="religion"><b>Religion</b></label>
@@ -218,18 +182,7 @@ export default function CharacterInfo() {
                 }
             </select>
           </li>
-
-          <li>
-            <label htmlFor="nationality"><b>Nationality</b></label>
-            <input 
-              type="text" 
-              placeholder="Nationality" 
-              name="nationality" 
-              value={characterInfo.nationality} 
-              onChange={handleCharacterInfoChange}
-              required />
-          </li>
-
+          <TextEntry name="nationality" />
           <li>
             <label htmlFor="description"><b>Description</b></label>
             <textarea 
@@ -241,50 +194,10 @@ export default function CharacterInfo() {
               onChange={handleCharacterInfoChange}
               required />
           </li>
-
-          <li>
-            <label htmlFor="height"><b>Height</b></label>
-            <input 
-              type="text" 
-              placeholder="Height" 
-              name="height" 
-              value={characterInfo.height} 
-              onChange={handleCharacterInfoChange}
-              required />
-          </li>
-
-          <li>
-            <label htmlFor="weight"><b>Weight</b></label>
-            <input 
-              type="text" 
-              placeholder="Weight" 
-              name="weight" 
-              value={characterInfo.weight} 
-              onChange={handleCharacterInfoChange}
-              required />
-          </li>
-
-          <li>
-            <label htmlFor="eyes"><b>Eyes</b></label>
-            <input 
-              type="text" 
-              placeholder="Eyes" 
-              name="eyes" 
-              value={characterInfo.eyes} 
-              onChange={handleCharacterInfoChange}
-              required />
-          </li>
-
-          <li>
-            <label htmlFor="hair"><b>Hair</b></label>
-            <input 
-              type="text" 
-              placeholder="Hair" 
-              name="hair" 
-              value={characterInfo.hair} 
-              onChange={handleCharacterInfoChange}
-              required />
-          </li>
+          <TextEntry name="height" />
+          <TextEntry name="weight" />
+          <TextEntry name="eyes" />
+          <TextEntry name="hair" />
 
           <li>
             <label htmlFor="catalyst"><b>Catalyst</b></label>
