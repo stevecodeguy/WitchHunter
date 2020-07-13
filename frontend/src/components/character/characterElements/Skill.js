@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import LabelName from '../../../utils/LabelName';
+
 import './characterElements.css';
 
 export default function Skill(props) {
@@ -15,10 +17,8 @@ export default function Skill(props) {
   }
 
   return (
-    <>
-      <label htmlFor={props.name}>
-        <b>{props.name.split(' ').map((str) => str.charAt(0).toUpperCase() + str.substr(1)).join(' ') + ' (' + props.ability.substr(0, 3).toUpperCase() + ') '}</b>
-      </label>
+    <li>
+      <label htmlFor={props.name}><b>{LabelName(props)}</b></label>
       <input 
         type="number" 
         name={props.name}
@@ -33,6 +33,6 @@ export default function Skill(props) {
         onClick={() => handleCharacterSkillRankPlusMinus(-1)}
         type='button'
       >-</button>
-    </>
+    </li>
   );
 }

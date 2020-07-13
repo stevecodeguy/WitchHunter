@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import LabelName from '../../../utils/LabelName';
+
 export default function TextEntry(props) {
   const [entry, setEntry] = useState('');
 
@@ -7,20 +9,9 @@ export default function TextEntry(props) {
     setEntry(event.target.value);
   }
 
-  const label = (input) => {
-    let labelName = input;
-    if (labelName === undefined) {
-      labelName = props.name;
-    } else {
-      labelName = props.labelName;
-    }
-    let firstLetter = labelName[0] || labelName.charAt(0);
-    return firstLetter ? firstLetter.toUpperCase() + labelName.slice(1) : '';
- }
-
   return (
     <li>
-      <label htmlFor={props.name}><b>{label(props.labelName)}</b></label>
+      <label htmlFor={props.name}><b>{LabelName(props)}</b></label>
       <input 
         type="text" 
         name={props.name} 
