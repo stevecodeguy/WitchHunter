@@ -3,13 +3,13 @@ import { Redirect } from 'react-router-dom';
 
 import { AuthContext } from '../../../utils/context/AuthContext';
 import TextEntry from '../characterElements/TextEntry';
+import TextAreaEntry from '../characterElements/TextAreaEntry';
 
 import './characterInfo.css';
 
 export default function CharacterInfo() {
   const [characterInfo, setCharacterInfo] = useState({
     religion: '',
-    description: '',
     catalyst: '',
     order: {
       order: '',
@@ -183,17 +183,7 @@ export default function CharacterInfo() {
             </select>
           </li>
           <TextEntry name="nationality" />
-          <li>
-            <label htmlFor="description"><b>Description</b></label>
-            <textarea 
-              placeholder="Description" 
-              name="description" 
-              rows="6"
-              cols="100"
-              value={characterInfo.description} 
-              onChange={handleCharacterInfoChange}
-              required />
-          </li>
+          <TextAreaEntry name="description" />
           <TextEntry name="height" />
           <TextEntry name="weight" />
           <TextEntry name="eyes" />
