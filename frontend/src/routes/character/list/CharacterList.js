@@ -55,7 +55,7 @@ export default function CharacterList() {
   const createButton = (event) =>  {
     event.preventDefault();
 
-    history.push('/character/new');
+    history.push('/character/new/info');
   };
 
   useEffect(() => {

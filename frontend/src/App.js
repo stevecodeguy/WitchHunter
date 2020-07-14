@@ -12,7 +12,10 @@ import { Auth } from './utils/auth/Auth';
 
 // Character Routes
 import CharacterList from './routes/character/list/CharacterList';
-import CharacterNew from './routes/character/new/CharacterNew';
+// import CharacterNew from './routes/character/new/CharacterNew';
+import CharacterInfo from './components/character/characterSections/CharacterInfo';
+import CharacterAbilityScores from './components/character/characterSections/CharacterAbilityScores';
+import CharacterSkills from './components/character/characterSections/CharacterSkills';
 
 // User Routes
 import NewUser from './routes/user/newUser/NewUser';
@@ -29,8 +32,15 @@ function App() {
     routes = (
       <Router>
         <Switch>
-          <Route path='/character/new'>
-            <CharacterNew />
+          <Route path='/character/new/info'>
+            {/* <CharacterNew /> */}
+            <CharacterInfo />
+          </Route>
+          <Route path='/character/new/abilities'>
+            <CharacterAbilityScores />
+          </Route>
+          <Route path='/character/new/skills'>
+            <CharacterSkills />
           </Route>
           <Route path='/characters'>
             <CharacterList />

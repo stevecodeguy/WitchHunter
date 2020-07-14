@@ -1,5 +1,5 @@
 import React, { useState, useContext, useCallback, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 import { AuthContext } from '../../../utils/context/AuthContext';
 import TextEntry from '../characterElements/TextEntry';
@@ -15,7 +15,9 @@ export default function CharacterInfo() {
   const [sinVice, setSinVice] = useState([]);
   const [virtue, setVirtue] = useState([]);
   const [background, setBackground] = useState([]);
+
   const auth = useContext(AuthContext);
+  let history = useHistory();
 
   const fetchData = useCallback((type) => {
     fetch(`http://localhost:3000/info/${type}`, {
@@ -76,18 +78,19 @@ export default function CharacterInfo() {
       <div>
         <ul>
           <TextEntry name="name" labelName="Character Name" />
-          <TextEntry name="culture" />
-          <TextEntry name="ethnicity" />
-          <Dropdown name="religion" data={religion}/>
-          <TextEntry name="nationality" />
           <TextAreaEntry name="description" />
           <TextEntry name="height" />
           <TextEntry name="weight" />
           <TextEntry name="eyes" />
           <TextEntry name="hair" />
-          <TextEntry name="catalyst" />
-          <Dropdown name="order" data={order} />
+          <TextEntry name="culture" />
+          <TextEntry name="ethnicity" />
+          <TextEntry name="nationality" />
+          <Dropdown name="religion" data={religion}/>
           <Dropdown name="background" data={background} />
+          <TextEntry name="catalyst" />
+          
+          <Dropdown name="order" data={order} />
           <Dropdown name="sin_vice" data={sinVice} />
           <Dropdown name="virtue" data={virtue} /> 
           <Skill name="heroPoints" labelName="Hero Points" /> 
@@ -95,7 +98,9 @@ export default function CharacterInfo() {
           <Skill name="damnation" /> 
         </ul>
         <button
-          onClick={1}
+          onClick={() => {
+            history.push('/character/new/abilities');
+          }}
         >Next</button> 
       </div>
     </form>
