@@ -20,36 +20,38 @@ export default function CharacterInfo() {
   let history = useHistory();
 
   const fetchData = useCallback((type) => {
-    fetch(`http://localhost:3000/info/${type}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + auth.jwt,
-        'Content-type': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then(async (data) => {
-      switch(type){
-        case 'religion':
-          setReligion(data);
-          break;
-        case 'order':
-          setOrder(data);
-          break;
-        case 'sinVice':
-          setSinVice(data);
-          break;
-        case 'virtue':
-          setVirtue(data);
-          break;
-        case 'background':
-          setBackground(data);
-          break;
-        default:
-          console.log('Incorrect dropdown request');
-      }
-    })
-    .catch(error => console.log(error));
+    if (!!type) {
+      fetch(`http://localhost:3000/info/${type}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + auth.jwt,
+          'Content-type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        switch(type){
+          case 'religion':
+            setReligion(data);
+            break;
+          case 'order':
+            setOrder(data);
+            break;
+          case 'sinVice':
+            setSinVice(data);
+            break;
+          case 'virtue':
+            setVirtue(data);
+            break;
+          case 'background':
+            setBackground(data);
+            break;
+          default:
+            console.log('Incorrect dropdown request');
+        }
+      })
+      .catch(error => console.log(error));
+    }
   }, [auth.jwt]);
 
   const getControlsData = useCallback( async (type) => {

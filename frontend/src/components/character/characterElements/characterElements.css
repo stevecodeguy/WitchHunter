@@ -23,3 +23,10 @@ button {
   font-weight: bold;
   font-family: monospace;
 }
+
+#points {
+  width: 180px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}

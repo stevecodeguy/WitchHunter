@@ -19,16 +19,16 @@ export default function Dropdown(props) {
         defaultValue=""
         onChange={(event) => handleCharacterDropdownChange(event)}
         required
-      >
+        >
           <option value="" disabled>{`Choose ${LabelName(props)}`}</option>
           {
             props.data.map(item => (
               <option 
                 key={item.id} 
                 value={item[props.name]}
-            >{item[props.name]}</option>
-            ))
-          }
+              >{item[props.name]}</option>
+              ))
+            }
       </select>
       {!!selected.description ? <p>{selected.description}</p> : null}
       {!!selected.benefit ? <p>{selected.benefit}</p> : null}

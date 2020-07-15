@@ -46,6 +46,18 @@ router.get('/characters/abilities/:characterId', auth.checkAuth, (req, res) => {
   });
 });
 
+router.get('/characters/ability/costs', auth.checkAuth, (req, res) => {
+  db.pool.query(query.sqlGetInfoAbilityCosts(), (err, result) => {
+    if (err) throw err;
+
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.status(404).send('Table not found')
+    }
+  });
+});
+
 router.get('/characters/armor/:characterId', auth.checkAuth, (req, res) => {
   db.pool.query(query.sqlGetCharacterArmor(req.params.characterId), (err, result) => {
     if (err) throw err;
