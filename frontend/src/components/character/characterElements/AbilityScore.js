@@ -3,18 +3,19 @@ import React, { useState } from 'react';
 import './characterElements.css';
 
 export default function AbilityScore(props) {
-  const [abilityScore, setAbilityScore] = useState(2);
+  const [abilityScore, setAbilityScore] = useState(props.abilityScore);
 
   const handleCharacterAbilityScoresChange = (event) => { 
     setAbilityScore(event.target.value);
   }
 
   const handleCharacterAbilityScoresPlusMinus = async (modifier) => { 
-    if (modifier === -1 && abilityScore <= 1) return;
-    if (modifier === 1 && abilityScore >= 5) return;
-     const newScore = await abilityScore + modifier;
-    setAbilityScore(newScore);
-    return props.adjustSpentPoints(newScore, modifier); // Returns the amount of points spent to buy
+    if (modifier === -1 && props.abilityScore <= 1) return;
+    if (modifier === 1 && props.abilityScore >= 5) return;
+    if (await props.adjustSpentPoints(props.ability, props.abilityScore + modifier, modifier)) {
+      // If Spent Points would not go below zero, increase Ability Score
+      await setAbilityScore(props.abilityScore + modifier);
+    };
   }
 
   return (
