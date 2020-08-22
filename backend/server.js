@@ -6,29 +6,41 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-//Utilities
-const db = require('./util/database');
-const PORT = 3000;
-
 //Routes
 const routeUser = require('./routes/user');
 const routeCharacters = require('./routes/characters');
 const routeInfo = require('./routes/info');
 
+//Utilities
+const db = require('./util/database');
+const PORT = 3000;
+
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+
+const sessionStore = new MySQLStore(db.options);
+
 //Middleware
-app.use(cors());
+app.use(cors({
+  credentials:true,
+  origin:'http://localhost:6060'
+}));
 app.use(express.json());
-app.use((req, res, next) => {
-  res.append('Access-Control-Allow-Origins', '*');
-  res.append('Access-Control-Allow-Headers', 'Authorization, Origin, X-Requested-With, Content-Type, Accept');
-  res.append('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
-  next();
-});
+app.use(session({
+  store: sessionStore,
+  secret: 'session_cookie_secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60
+  }
+}));
 
 //Routes
-app.use(routeUser);
-app.use(routeCharacters);
-app.use(routeInfo);
+app.use('/user', routeUser);
+app.use('/characters', routeCharacters);
+app.use('/info', routeInfo);
+
 
 app.get('*', (req, res) => {
   res.status(404).send();
@@ -36,6 +48,6 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
-}); 
+});
 
 module.exports = app;

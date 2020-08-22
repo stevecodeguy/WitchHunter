@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import LabelName from '../../../utils/LabelName';
 
-import './characterElements.css';
+import '../../css/characterElements.css';
 
 export default function Skill(props) {
   const [skillRank, setSkillRank] = useState(0);

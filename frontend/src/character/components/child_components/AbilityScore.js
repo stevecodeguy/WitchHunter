@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import './characterElements.css';
+import '../../css/characterElements.css';
 
 export default function AbilityScore(props) {
   const [abilityScore, setAbilityScore] = useState(props.abilityScore);

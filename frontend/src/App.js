@@ -1,83 +1,83 @@
-import React from 'react';
-import { 
-  BrowserRouter as Router, 
-  Switch, 
-  Route, 
+import React, { useContext } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
   Redirect
 } from 'react-router-dom';
 
 // Auth
 import { AuthContext } from './utils/context/AuthContext';
-import { Auth } from './utils/auth/Auth';
+// import { Auth } from './utils/auth/Auth';
 
-// Character Routes
-import CharacterList from './routes/character/list/CharacterList';
+// Character Pages
+import CharacterList from './character/pages/CharacterList';
 // import CharacterNew from './routes/character/new/CharacterNew';
-import CharacterInfo from './components/character/characterSections/CharacterInfo';
-import CharacterAbilityScores from './components/character/characterSections/CharacterAbilityScores';
-import CharacterSkills from './components/character/characterSections/CharacterSkills';
+import CharacterInfo from './character/components/CharacterInfo';
+import CharacterAbilityScores from './character/components/CharacterAbilityScores';
+import CharacterSkills from './character/components/CharacterSkills';
 
 // User Routes
-import NewUser from './routes/user/newUser/NewUser';
-import Login from './routes/user/login/Login';
-import SignUpSignIn from './routes/user/signUpSignIn/SignUpSignIn';
+import NewUser from './user/pages/NewUser';
+import Login from './user/pages/Login';
+import SignUpSignIn from './user/pages/SignUpSignIn';
 
 
 function App() {
-  const { jwt, login, logout, isLoggedIn } = Auth();
+  const auth = useContext(AuthContext);
 
-  let routes;
+  const protectedRoutes =
+    (<Router>
+      <Switch>
+        <Route path='/character/new/info'>
+          <CharacterInfo />
+        </Route>
+        <Route path='/character/new/abilities'>
+          <CharacterAbilityScores />
+        </Route>
+        <Route path='/character/new/skills'>
+          <CharacterSkills />
+        </Route>
+        <Route path='/characters' exact>
+          <CharacterList />
+        </Route>
+        <Route path='/newuser'>
+          <NewUser />
+        </Route>
+        <Route path='/login'>
+          <Redirect to="/characters" />
+        </Route>
+        <Route path='/' exact>
+          <Redirect to="/characters" />
+        </Route>
+      </Switch>
+    </Router>);
 
-  if (isLoggedIn) {
-    routes = (
-      <Router>
-        <Switch>
-          <Route path='/character/new/info'>
-            {/* <CharacterNew /> */}
-            <CharacterInfo />
-          </Route>
-          <Route path='/character/new/abilities'>
-            <CharacterAbilityScores />
-          </Route>
-          <Route path='/character/new/skills'>
-            <CharacterSkills />
-          </Route>
-          <Route path='/characters'>
-            <CharacterList />
-          </Route>
-          <Route path='/' exact>
-            <Redirect to="/characters" />
-          </Route>
-        </Switch>
-      </Router>
-    );
-  } else {
-    routes = (
-      <Router>
-        <Switch>
-          <Route path='/newuser'>
-            <NewUser />
-          </Route>
-          <Route path='/login'>
-            <Login />
-          </Route>
-          <Route path='/' exact>
-            <SignUpSignIn />
-          </Route>
-        </Switch>
-      </Router>
-    );
+  const openRoutes =
+    (<Router>
+      <Switch>
+        <Route path='/newuser'>
+          <NewUser />
+        </Route>
+        <Route path='/login'>
+          <Login />
+        </Route>
+        <Route path='/' exact>
+          <SignUpSignIn />
+        </Route>
+        <Route path='*'>
+          <Redirect to="/login" />
+        </Route>
+      </Switch>
+    </Router>);
+
+  if (!auth.state.userId) {
+    if (!!localStorage.getItem('token') && !!JSON.parse(localStorage.getItem('token')).id) {
+      auth.setUserId(JSON.parse(localStorage.getItem('token')).id);
+    }
   }
 
-  return (
-    <AuthContext.Provider value={{
-      jwt: jwt,
-      login: login,
-      logout: logout
-    }}>
-      {routes}
-    </AuthContext.Provider>
-  );
+  return auth.state.userId > 0 ? protectedRoutes : openRoutes;
 }
 
 export default App;

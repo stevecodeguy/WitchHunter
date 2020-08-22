@@ -1,45 +1,24 @@
 const jwt = require('jsonwebtoken');
-const query = require('../util/queries');
-const db = require('../util/database');
+const app = require('../server');
 
-const checkAuth = (req, res, next) => {
-  const token = req.header('Authorization').replace('Bearer ', '');
-  const decoded = jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      db.pool.query(query.sqlDeleteTokenByToken(token), (err, result) => {
-        if (err) throw err;
-      });
-      res.redirect('/');
-    }
-    return decoded;
-  });
-
-  try {
-    db.pool.query(query.sqlGetToken(decoded.id, token), (err, result) => {
-      if (err) throw err;
-      if (result.length > 0) {
-        req.userId = decoded.id;
-        req.token = token;
-        req.tokenId = result[0].id;
-        next();
-      } else {
-        return res.status(404).send('Token not found');
-      }
-    });
-  } catch(err) {
-    res.status(500).send();
-  }
-}
-
-const setAuthToken = async (id) => {
+const createJwt = async (id) => {
   const token = await jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-  db.pool.query(query.sqlSetToken(id, token), (err, result) => {
-    if (err) throw err;
-  });
-
   return token;
 }
 
+const checkAuth = (req, res, next) => {
+  // if(!!req.session.authToken || req.header('Authorization').substring(7)) {
+    console.log('SESSION REQUEST', req.session)
+    if(req.session.userId && !!req.session.userName){
+      // console.log('SESSION', req.session)
+      // return res.send(req.session)
+      // res.header('Cookie', req.session)
+      // return res.cookie('connect.sid', req.session)
+      // return next();
+      return next();
+    }
+  res.redirect('/login');
+}
+
+exports.createJwt = createJwt;
 exports.checkAuth = checkAuth;
-exports.setAuthToken = setAuthToken;

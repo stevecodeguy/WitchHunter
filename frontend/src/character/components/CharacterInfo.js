@@ -1,13 +1,13 @@
 import React, { useState, useContext, useCallback, useEffect } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 
-import { AuthContext } from '../../../utils/context/AuthContext';
-import TextEntry from '../characterElements/TextEntry';
-import TextAreaEntry from '../characterElements/TextAreaEntry';
-import Dropdown from '../characterElements/Dropdown';
-import Skill from '../characterElements/Skill';
+import { AuthContext } from '../../utils/context/AuthContext';
+import TextEntry from '../components/child_components/TextEntry';
+import TextAreaEntry from '../components/child_components/TextAreaEntry';
+import Dropdown from '../components/child_components/Dropdown';
+import Skill from '../components/child_components/Skill';
 
-import './characterInfo.css';
+import '../css/characterInfo.css';
 
 export default function CharacterInfo() {
   const [religion, setReligion] = useState([]);

@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useContext, useState } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 
-import { AuthContext } from '../../../utils/context/AuthContext';
-import Points from '../characterElements/Points';
+import { AuthContext } from '../../utils/context/AuthContext';
+import Points from '../components/child_components/Points';
 
-import AbilityScores from '../characterElements/AbilityScore';
+import AbilityScores from '../components/child_components/AbilityScore';
 
 export default function CharacterAbilityScores() {
   const [generatingAbilities, setGeneratingAbilities] = useState(null);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Skill from '../characterElements/Skill';
+import Skill from '../components/child_components/Skill';
 
 export default function CharacterAbilityScores() {
   return (
