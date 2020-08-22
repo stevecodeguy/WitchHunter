@@ -10,8 +10,8 @@ const query = require('../util/queries');
 
 // Route List Characters
 router.get('', auth.checkAuth, (req, res) => {
+// router.get('', (req, res) => {
   const id = req.session.userId;
-  console.log('ID', id)
   db.pool.query(query.sqlListCharacters(id), (err, result) => {
     if (err) throw err;
     if (result.length > 0) {

@@ -27,7 +27,7 @@ export default function NewUser() {
 
     async function createNewUser(){
       try {
-        const result = await fetch('http://localhost:3000/createuser', {
+        const result = await fetch('http://localhost:3000/user/new', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

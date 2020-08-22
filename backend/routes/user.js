@@ -36,11 +36,11 @@ router.post('/login', (req, res) => {
       } else {
         authToken = await auth.createJwt(result[0].id);
       }
-
       req.session.userId = result[0].id;
+      req.session.uuid = result[0].uuid;
       req.session.userName = result[0].username;
       req.session.authToken = authToken;
-      res.send({ id: result[0].id, username: result[0].username, authToken });
+      res.send({ uuid: result[0].uuid, username: result[0].username, authToken });
     });
   } catch (err) {
     res.send(err);
@@ -98,7 +98,7 @@ router.post('/new', async (req, res) => {
           res.status(200).send({
             message: 'User created',
             success: true,
-            token
+            // token
           });
         });
       });
