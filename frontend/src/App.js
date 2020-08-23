@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,7 +8,6 @@ import {
 
 // Auth
 import { AuthContext } from './utils/context/AuthContext';
-// import { Auth } from './utils/auth/Auth';
 
 // Character Pages
 import CharacterList from './character/pages/CharacterList';
@@ -24,7 +23,7 @@ import SignUpSignIn from './user/pages/SignUpSignIn';
 
 
 function App() {
-  const auth = useContext(AuthContext);
+  const { state, setUuid } = useContext(AuthContext);
 
   const protectedRoutes =
     (<Router>
@@ -71,13 +70,21 @@ function App() {
       </Switch>
     </Router>);
 
-  if (!auth.state.userId) {
-    if (!!localStorage.getItem('token') && !!JSON.parse(localStorage.getItem('token')).id) {
-      auth.setUserId(JSON.parse(localStorage.getItem('token')).id);
+  useEffect(() => {
+    if (!state.uuid) {
+      const token = localStorage.getItem('token');
+      if (!!token && !!JSON.parse(token).uuid) {
+        const timestamp = JSON.parse(token).timestamp;
+        if (!!timestamp && new Date().getTime() - timestamp > 1000 * 10) {
+          return localStorage.clear();
+        }
+        setUuid(JSON.parse(token).uuid);
+        localStorage.setItem('token', JSON.stringify({...JSON.parse(token), timestamp: new Date().getTime() }));
+      }
     }
-  }
+  }, [state.uuid, setUuid]);
 
-  return auth.state.userId > 0 ? protectedRoutes : openRoutes;
+  return !!state.uuid ? protectedRoutes : openRoutes;
 }
 
 export default App;

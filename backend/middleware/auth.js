@@ -7,17 +7,13 @@ const createJwt = async (id) => {
 }
 
 const checkAuth = (req, res, next) => {
-  // if(!!req.session.authToken || req.header('Authorization').substring(7)) {
-    console.log('SESSION REQUEST', req.session)
-    if(req.session.userId && !!req.session.userName){
-      // console.log('SESSION', req.session)
-      // return res.send(req.session)
-      // res.header('Cookie', req.session)
-      // return res.cookie('connect.sid', req.session)
-      // return next();
-      return next();
-    }
-  res.redirect('/login');
+  console.log('SESSION REQUEST', req.session)
+  if(!!req.session.uuid){
+    return next();
+  }
+  req.session.destroy();
+  // res.redirect('/login');
+  res.send({uuid: null})
 }
 
 exports.createJwt = createJwt;

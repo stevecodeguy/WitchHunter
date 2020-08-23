@@ -16,18 +16,24 @@ instance.interceptors.request.use(
     }
     return config;
   },
-  (err) => {
-    return Promise.reject(err);
+  (error) => {
+    return Promise.reject(error);
   }
 );
 
-// Update / Set Token
-export const updateToken = (userData) => {
-  const storedToken = localStorage.getItem('token');
-  if (userData && !storedToken) {
-    // If not not set, create token.
-    localStorage.setItem('token', JSON.stringify(userData));
+instance.interceptors.response.use(
+  async (response) => {
+    console.log('axios res', response);
+    const storedToken = localStorage.getItem('token');
+    if (response.data.uuid && !storedToken) {
+      // If not not set, create token.
+      const data = { uuid: response.data.uuid, timestamp: new Date().getTime() }
+      localStorage.setItem('token', JSON.stringify(data));
+    }
+    return response;
+  }, (error) => {
+    return Promise.reject(error);
   }
-}
+);
 
 export default instance;

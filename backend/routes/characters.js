@@ -15,7 +15,7 @@ router.get('', auth.checkAuth, (req, res) => {
   db.pool.query(query.sqlListCharacters(id), (err, result) => {
     if (err) throw err;
     if (result.length > 0) {
-      return res.send({id, result});
+      return res.send({id, uuid: req.session.uuid, result});
     }
     res.send('No charcters found');
   });

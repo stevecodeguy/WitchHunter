@@ -1,29 +1,25 @@
 import React, {
   useReducer,
   useEffect,
-  useMemo
+  useMemo,
+  useCallback
 } from 'react';
-import AuthAPI, { updateToken } from './AuthApi';
+import AuthAPI from './AuthApi';
 
 // Create Context
 export const AuthContext = React.createContext();
 
 const initalState = {
   authToken: null,
-  userId: null
+  uuid: null
 };
 
 const stateReducer = (state, action) => {
   switch (action.type) {
     case 'login':
-      updateToken(action.payload.data);
-      setTimeout(() => {
-        localStorage.removeItem('token');
-        alert('token removed')
-      }, 1000 * 60);
-      return { ...state, authToken: action.payload.data.authToken };
-    case 'setUserId':
-      return { ...state, userId: action.payload };
+      return { ...state, uuid: action.payload.data.uuid, authToken: action.payload.data.authToken };
+    case 'setUuid':
+      return { ...state, uuid: action.payload };
     case 'reset':
       return initalState;
     default:
@@ -53,17 +49,6 @@ export const AuthProvider = (props) => {
     }
   };
 
-  const setUserId = (id) => {
-    try {
-      dispatch({
-        type: 'setUserId',
-        payload: id
-      })
-    } catch(error) {
-      console.error(`Error setting user ID: ${error}`);
-    }
-  };
-
   // Logout
   const logout = () => {
     dispatch({
@@ -71,15 +56,27 @@ export const AuthProvider = (props) => {
     });
   };
 
+  // Set user UUID
+  const setUuid = useCallback((uuid) => {
+    try {
+      dispatch({
+        type: 'setUuid',
+        payload: uuid
+      })
+    } catch(error) {
+      console.error(`Error setting UUID: ${error}`);
+    }
+  }, []);
+
   // Memoized State
   const value = useMemo(() => {
     return {
       state,
       login,
       logout,
-      setUserId
+      setUuid,
     }
-  }, [state]);
+  }, [state, setUuid]);
 
   return (
     <AuthContext.Provider value={value}>
