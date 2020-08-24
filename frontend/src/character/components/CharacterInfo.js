@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { AuthContext } from '../../utils/context/AuthContext';
@@ -7,15 +7,16 @@ import AuthAPI from '../../utils/context/AuthApi';
 import TextEntry from '../components/child_components/TextEntry';
 import TextAreaEntry from '../components/child_components/TextAreaEntry';
 import Dropdown from '../components/child_components/Dropdown';
-import Skill from '../components/child_components/Skill';
+import Counter from './child_components/Counter';
 
 import '../css/characterInfo.css';
 
 export default function CharacterInfo() {
   const [characterName, setCharacterName] = useState('');
   const [description, setDescription] = useState('');
-  const [height, setHeight] = useState('');
-  const [weight, setWeight] = useState('');
+  const [sex, setSex] = useState('');
+  const [height, setHeight] = useState(0);
+  const [weight, setWeight] = useState(0);
   const [eyes, setEyes] = useState('');
   const [hair, setHair] = useState('');
   const [culture, setCulture] = useState('');
@@ -35,16 +36,26 @@ export default function CharacterInfo() {
   let history = useHistory();
 
   const saveCharacterInfo = async () => {
-    if(!!auth.state.uuid){
+    if (!!auth.state.uuid) {
       try {
         await AuthAPI.post(`http://localhost:3000/characters/save_info`, {
-          characterName, description, height, weight, eyes, hair, culture, ethnicity, nationality, religion, background, catalyst, order, sinVice, virtue, heroPoints, trueFaith, damnation
+          characterName, description, sex, height, weight, eyes, hair, culture, ethnicity, nationality, religion, background, catalyst, order, sinVice, virtue, heroPoints, trueFaith, damnation
         });
       } catch (error) {
         console.log(`Error saving: ${error}`);
       }
     }
   };
+
+  useEffect(() => {
+    if (sex.sex === 'Male') {
+      setHeight(65);
+      setWeight(150);
+    } else if (sex.sex === 'Female') {
+      setHeight(61);
+      setWeight(125);
+    }
+  }, [sex]);
 
   return (
     <form method="post">
@@ -53,8 +64,9 @@ export default function CharacterInfo() {
         <ul>
           <TextEntry name="name" labelName="Character Name" set={setCharacterName} value={characterName} />
           <TextAreaEntry name="description" set={setDescription} value={description} />
-          <TextEntry name="height" set={setHeight} value={height} />
-          <TextEntry name="weight" set={setWeight} value={weight} />
+          <Dropdown name="sex" set={setSex} value={sex} />
+          <Counter name="height" set={setHeight} value={height} />
+          <Counter name="weight" set={setWeight} value={weight} />
           <TextEntry name="eyes" set={setEyes} value={eyes} />
           <TextEntry name="hair" set={setHair} value={hair} />
           <TextEntry name="culture" set={setCulture} value={culture} />
@@ -66,9 +78,9 @@ export default function CharacterInfo() {
           <Dropdown name="order" set={setOrder} value={order} />
           <Dropdown name="sin_vice" labelName="Sin / Vice" set={setSinVice} value={sinVice} />
           <Dropdown name="virtue" set={setVirtue} value={virtue} />
-          <Skill name="heroPoints" labelName="Hero Points" set={setHeroPoints} value={heroPoints} />
-          <Skill name="trueFaith" labelName="True Faith" set={setTrueFaith} value={trueFaith} />
-          <Skill name="damnation" set={setDamnation} value={damnation} />
+          <Counter name="heroPoints" labelName="Hero Points" set={setHeroPoints} value={heroPoints} />
+          <Counter name="trueFaith" labelName="True Faith" set={setTrueFaith} value={trueFaith} />
+          <Counter name="damnation" set={setDamnation} value={damnation} />
         </ul>
         <button
           onClick={() => {

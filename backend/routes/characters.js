@@ -7,6 +7,7 @@ const auth = require('../middleware/auth');
 // Utilities
 const db = require('../util/database');
 const query = require('../util/queries/getCharacterQueries');
+const saveQuery = require('../util/queries/postCharacterQueries');
 
 // Route List Characters
 router.get('', auth.checkAuth, (req, res) => {
@@ -22,8 +23,13 @@ router.get('', auth.checkAuth, (req, res) => {
 
 router.post('/save_info', auth.checkAuth, (req, res) => {
   const id = req.session.userId;
-  console.log('Save body : ', req.body);
-  // db.pool.query(query.)
+  db.pool.query(saveQuery.sqlSaveCharacterInfo(id, req.body), (err, result) => {
+    if (err) throw err;
+    if (result.length > 0) {
+      return res.send({ id, uuid: req.session.uuid, result });
+    }
+    res.send('Character not saved');
+  });
 });
 
 // Route Character Info

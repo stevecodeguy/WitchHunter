@@ -44,4 +44,11 @@ router.get('/background', (req, res) => {
   });
 });
 
+router.get('/sex', (req, res) => {
+  db.pool.query(query.sqlGetSex(), (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
 module.exports = router;

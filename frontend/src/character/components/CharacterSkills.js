@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Skill from '../components/child_components/Skill';
+import Counter from '../components/child_components/Counter';
 
 export default function CharacterAbilityScores() {
   return (
@@ -8,45 +8,45 @@ export default function CharacterAbilityScores() {
 
       <div>
         <div>
-          <h5>Fighting Skills</h5>
-          <Skill name='archery' ability='agility'/>
-          <Skill name='firearms' ability='agility'/>
-          <Skill name='grapple' ability='strength'/>
-          <Skill name='hand to hand' ability='strength'/>
-          <Skill name='throw' ability='strength'/>
+          <h5>Fighting Counters</h5>
+          <Counter name='archery' ability='agility'/>
+          <Counter name='firearms' ability='agility'/>
+          <Counter name='grapple' ability='strength'/>
+          <Counter name='hand to hand' ability='strength'/>
+          <Counter name='throw' ability='strength'/>
         </div>
         <div>
-          <h5>Interaction Skills</h5>
-          <Skill name='charm' ability='personality'/>
-          <Skill name='command' ability='courage'/>
-          <Skill name='deceive' ability='personality'/>
-          <Skill name='empathy' ability='intuition'/>
-          <Skill name='intimidate' ability='personality'/>
-          <Skill name='pantomime' ability='personality'/>
+          <h5>Interaction Counters</h5>
+          <Counter name='charm' ability='personality'/>
+          <Counter name='command' ability='courage'/>
+          <Counter name='deceive' ability='personality'/>
+          <Counter name='empathy' ability='intuition'/>
+          <Counter name='intimidate' ability='personality'/>
+          <Counter name='pantomime' ability='personality'/>
         </div>
         <div>
-          <h5>Movement Skills</h5>
-          <Skill name='acrobatics' ability='agility'/>
-          <Skill name='climb' ability='strength'/>
-          <Skill name='contortionist' ability='agility'/>
-          <Skill name='drive' ability='agility'/>
-          <Skill name='jump' ability='strength'/>
-          <Skill name='ride' ability='agility'/>
-          <Skill name='row' ability='strength'/>
-          <Skill name='stealth' ability='agility'/>
-          <Skill name='swim' ability='strength'/>
+          <h5>Movement Counters</h5>
+          <Counter name='acrobatics' ability='agility'/>
+          <Counter name='climb' ability='strength'/>
+          <Counter name='contortionist' ability='agility'/>
+          <Counter name='drive' ability='agility'/>
+          <Counter name='jump' ability='strength'/>
+          <Counter name='ride' ability='agility'/>
+          <Counter name='row' ability='strength'/>
+          <Counter name='stealth' ability='agility'/>
+          <Counter name='swim' ability='strength'/>
         </div>
         <div>
-          <h5>Reaction Skills</h5>
-          <Skill name='balance' ability='agility'/>
-          <Skill name='concentrate' ability='strength'/>
-          <Skill name='contortionist' ability='agility'/>
-          <Skill name='drive' ability='agility'/>
-          <Skill name='jump' ability='strength'/>
-          <Skill name='ride' ability='agility'/>
-          <Skill name='row' ability='strength'/>
-          <Skill name='stealth' ability='agility'/>
-          <Skill name='swim' ability='strength'/>
+          <h5>Reaction Counters</h5>
+          <Counter name='balance' ability='agility'/>
+          <Counter name='concentrate' ability='strength'/>
+          <Counter name='contortionist' ability='agility'/>
+          <Counter name='drive' ability='agility'/>
+          <Counter name='jump' ability='strength'/>
+          <Counter name='ride' ability='agility'/>
+          <Counter name='row' ability='strength'/>
+          <Counter name='stealth' ability='agility'/>
+          <Counter name='swim' ability='strength'/>
         </div>
 
       </div>
