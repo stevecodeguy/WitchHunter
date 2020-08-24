@@ -75,11 +75,11 @@ function App() {
       const token = localStorage.getItem('token');
       if (!!token && !!JSON.parse(token).uuid) {
         const timestamp = JSON.parse(token).timestamp;
-        if (!!timestamp && new Date().getTime() - timestamp > 1000 * 10) {
+        if (!!timestamp && new Date().getTime() - timestamp > 1000 * 60 * 60) {
           return localStorage.clear();
         }
         setUuid(JSON.parse(token).uuid);
-        localStorage.setItem('token', JSON.stringify({...JSON.parse(token), timestamp: new Date().getTime() }));
+        localStorage.setItem('token', JSON.stringify({ ...JSON.parse(token), timestamp: new Date().getTime() }));
       }
     }
   }, [state.uuid, setUuid]);

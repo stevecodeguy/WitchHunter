@@ -23,7 +23,6 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   async (response) => {
-    console.log('axios res', response);
     const storedToken = localStorage.getItem('token');
     if (response.data.uuid && !storedToken) {
       // If not not set, create token.

@@ -30,9 +30,10 @@ app.use(session({
   store: sessionStore,
   secret: 'session_cookie_secret',
   resave: false,
+  rolling: true,
   saveUninitialized: false,
   cookie: {
-    maxAge: 1000 * 10
+    maxAge: 1000 * 60 * 60
   }
 }));
 

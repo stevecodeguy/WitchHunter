@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const app = require('../server');
+const { env } = require('process');
 
 const createJwt = async (id) => {
   const token = await jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -7,13 +8,11 @@ const createJwt = async (id) => {
 }
 
 const checkAuth = (req, res, next) => {
-  console.log('SESSION REQUEST', req.session)
   if(!!req.session.uuid){
+    req.session.expires = req.session.expires + 1000 * 60 * 60;
     return next();
   }
   req.session.destroy();
-  // res.redirect('/login');
-  res.send({uuid: null})
 }
 
 exports.createJwt = createJwt;

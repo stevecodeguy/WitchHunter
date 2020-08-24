@@ -6,19 +6,24 @@ const auth = require('../middleware/auth');
 
 // Utilities
 const db = require('../util/database');
-const query = require('../util/queries');
+const query = require('../util/queries/getCharacterQueries');
 
 // Route List Characters
 router.get('', auth.checkAuth, (req, res) => {
-// router.get('', (req, res) => {
   const id = req.session.userId;
   db.pool.query(query.sqlListCharacters(id), (err, result) => {
     if (err) throw err;
     if (result.length > 0) {
-      return res.send({id, uuid: req.session.uuid, result});
+      return res.send({ id, uuid: req.session.uuid, result });
     }
     res.send('No charcters found');
   });
+});
+
+router.post('/saveInfo', auth.checkAuth, (req, res) => {
+  const id = req.session.userId;
+  console.log('Save body : ', req.body);
+  // db.pool.query(query.)
 });
 
 // Route Character Info
@@ -77,7 +82,7 @@ router.get('/rites/:characterId', (req, res) => {
     if (err) throw err;
     if (result.length > 0) {
       return res.send(result);
-    } 
+    }
     res.status(404).send('Character not found');
   });
 });
@@ -87,7 +92,7 @@ router.get('/skills/:characterId', (req, res) => {
     if (err) throw err;
     if (result.length > 0) {
       return res.send(result);
-    } 
+    }
     res.status(404).send('Character not found');
   });
 });

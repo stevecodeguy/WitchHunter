@@ -13,7 +13,6 @@ export default function CharacterList() {
     const getCharacters = async () => {
       try {
         const results = await AuthAPI.get('/characters');
-        // delete token call here if result is uuid null
         setCharacters(results.data.result);
       } catch (error) {
         console.log('Error getting characters:', error);

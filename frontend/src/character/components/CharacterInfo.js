@@ -1,7 +1,8 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { AuthContext } from '../../utils/context/AuthContext';
+
 import TextEntry from '../components/child_components/TextEntry';
 import TextAreaEntry from '../components/child_components/TextAreaEntry';
 import Dropdown from '../components/child_components/Dropdown';
@@ -10,100 +11,57 @@ import Skill from '../components/child_components/Skill';
 import '../css/characterInfo.css';
 
 export default function CharacterInfo() {
-  const [religion, setReligion] = useState([]);
-  const [order, setOrder] = useState([]);
-  const [sinVice, setSinVice] = useState([]);
-  const [virtue, setVirtue] = useState([]);
-  const [background, setBackground] = useState([]);
+  const [characterName, setCharacterName] = useState('');
+  const [description, setDescription] = useState('');
+  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState('');
+  const [eyes, setEyes] = useState('');
+  const [hair, setHair] = useState('');
+  const [culture, setCulture] = useState('');
+  const [ethnicity, setEthnicity] = useState('');
+  const [nationality, setNationality] = useState('');
+  const [religion, setReligion] = useState('');
+  const [background, setBackground] = useState('');
+  const [catalyst, setCatalyst] = useState('');
+  const [order, setOrder] = useState('');
+  const [sinVice, setSinVice] = useState('');
+  const [virtue, setVirtue] = useState('');
+  const [heroPoints, setHeroPoints] = useState(0);
+  const [trueFaith, setTrueFaith] = useState(0);
+  const [damnation, setDamnation] = useState(0);
 
   const auth = useContext(AuthContext);
   let history = useHistory();
-
-  const fetchData = useCallback((type) => {
-    if (!!type) {
-      fetch(`http://localhost:3000/info/${type}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer ' + auth.jwt,
-          'Content-type': 'application/json'
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        switch(type){
-          case 'religion':
-            setReligion(data);
-            break;
-          case 'order':
-            setOrder(data);
-            break;
-          case 'sinVice':
-            setSinVice(data);
-            break;
-          case 'virtue':
-            setVirtue(data);
-            break;
-          case 'background':
-            setBackground(data);
-            break;
-          default:
-            console.log('Incorrect dropdown request');
-        }
-      })
-      .catch(error => console.log(error));
-    }
-  }, [auth.jwt]);
-
-  const getControlsData = useCallback( async (type) => {
-    if (!!auth.jwt) {
-      await fetchData('religion');
-      await fetchData('order');
-      await fetchData('sinVice');
-      await fetchData('virtue');
-      await fetchData('background');
-    } else {
-      return <Redirect to="/" />
-    }
-  }, [auth.jwt, fetchData]);
-
-  useEffect(() => {
-    getControlsData();
-  }, [getControlsData]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
 
   return (
     <form method="post">
 
       <div>
         <ul>
-          <TextEntry name="name" labelName="Character Name" />
-          <TextAreaEntry name="description" />
-          <TextEntry name="height" />
-          <TextEntry name="weight" />
-          <TextEntry name="eyes" />
-          <TextEntry name="hair" />
-          <TextEntry name="culture" />
-          <TextEntry name="ethnicity" />
-          <TextEntry name="nationality" />
-          <Dropdown name="religion" data={religion}/>
-          <Dropdown name="background" data={background} />
-          <TextEntry name="catalyst" />
-          
-          <Dropdown name="order" data={order} />
-          <Dropdown name="sin_vice" data={sinVice} />
-          <Dropdown name="virtue" data={virtue} /> 
-          <Skill name="heroPoints" labelName="Hero Points" /> 
-          <Skill name="trueFaith" labelName="True Faith" /> 
-          <Skill name="damnation" /> 
+          <TextEntry name="name" labelName="Character Name" set={setCharacterName} value={characterName} />
+          <TextAreaEntry name="description" set={setDescription} value={description} />
+          <TextEntry name="height" set={setHeight} value={height} />
+          <TextEntry name="weight" set={setWeight} value={weight} />
+          <TextEntry name="eyes" set={setEyes} value={eyes} />
+          <TextEntry name="hair" set={setHair} value={hair} />
+          <TextEntry name="culture" set={setCulture} value={culture} />
+          <TextEntry name="ethnicity" set={setEthnicity} value={ethnicity} />
+          <TextEntry name="nationality" set={setNationality} value={nationality} />
+          <Dropdown name="religion" set={setReligion} value={religion} />
+          <Dropdown name="background" set={setBackground} value={background} />
+          <TextEntry name="catalyst" set={setCatalyst} value={catalyst} />
+          <Dropdown name="order" set={setOrder} value={order} />
+          <Dropdown name="sin_vice" labelName="Sin / Vice" set={setSinVice} value={sinVice} />
+          <Dropdown name="virtue" set={setVirtue} value={virtue} />
+          <Skill name="heroPoints" labelName="Hero Points" set={setHeroPoints} value={heroPoints} />
+          <Skill name="trueFaith" labelName="True Faith" set={setTrueFaith} value={trueFaith} />
+          <Skill name="damnation" set={setDamnation} value={damnation}/>
         </ul>
         <button
           onClick={() => {
             history.push('/character/new/abilities');
           }}
-        >Next</button> 
+        >Next</button>
       </div>
     </form>
   );

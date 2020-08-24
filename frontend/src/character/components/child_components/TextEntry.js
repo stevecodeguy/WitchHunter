@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import LabelName from '../../../utils/LabelName';
 
 export default function TextEntry(props) {
-  const [entry, setEntry] = useState('');
-
   const handleCharacterTextChange = (event) => {
-    setEntry(event.target.value);
+    props.set(event.target.value);
   }
 
   return (
@@ -15,7 +13,7 @@ export default function TextEntry(props) {
       <input 
         type="text" 
         name={props.name} 
-        value={entry} 
+        value={props.value}
         onChange={handleCharacterTextChange}
         required />
     </li>

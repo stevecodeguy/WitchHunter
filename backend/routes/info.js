@@ -6,7 +6,7 @@ const auth = require('../middleware/auth');
 
 // Utilities
 const db = require('../util/database');
-const query = require('../util/queries');
+const query = require('../util/queries/controlQueries');
 
 // Route Info Controls
 router.get('/religion', (req, res) => {
@@ -23,7 +23,7 @@ router.get('/order', (req, res) => {
   });
 });
 
-router.get('/sinVice', (req, res) => {
+router.get('/sin_vice', (req, res) => {
   db.pool.query(query.sqlGetInfoSinsVices(), (err, result) => {
     if (err) throw err;
     res.send(result);

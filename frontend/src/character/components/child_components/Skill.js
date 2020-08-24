@@ -5,15 +5,13 @@ import LabelName from '../../../utils/LabelName';
 import '../../css/characterElements.css';
 
 export default function Skill(props) {
-  const [skillRank, setSkillRank] = useState(0);
-
   const handleCharacterSkillRankChange = (event) => { 
-    setSkillRank(parseInt(event.target.value));
+    props.set(parseInt(event.target.value));
   }
 
   const handleCharacterSkillRankPlusMinus = (modifier) => { 
-    if (modifier === -1 && skillRank <= 0) return;  
-    setSkillRank(skillRank + modifier);
+    if (modifier === -1 && props.value <= 0) return;  
+    props.set(parseInt(props.value + modifier));
   }
 
   return (
@@ -22,7 +20,7 @@ export default function Skill(props) {
       <input 
         type="number" 
         name={props.name}
-        value={skillRank} 
+        value={props.value} 
         onChange={handleCharacterSkillRankChange}
         required />
       <button 

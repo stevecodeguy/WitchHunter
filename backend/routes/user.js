@@ -10,7 +10,7 @@ const auth = require('../middleware/auth');
 // Utilities
 const db = require('../util/database');
 const sanitize = require('../util/sanitize');
-const query = require('../util/queries');
+const query = require('../util/queries/userQueries');
 
 // Route - User login
 router.post('/login', (req, res) => {
