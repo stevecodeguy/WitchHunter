@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { AuthContext } from '../../utils/context/AuthContext';
+import AuthAPI from '../../utils/context/AuthApi';
 
 import TextEntry from '../components/child_components/TextEntry';
 import TextAreaEntry from '../components/child_components/TextAreaEntry';
@@ -33,6 +34,18 @@ export default function CharacterInfo() {
   const auth = useContext(AuthContext);
   let history = useHistory();
 
+  const saveCharacterInfo = async () => {
+    if(!!auth.state.uuid){
+      try {
+        await AuthAPI.post(`http://localhost:3000/characters/save_info`, {
+          characterName, description, height, weight, eyes, hair, culture, ethnicity, nationality, religion, background, catalyst, order, sinVice, virtue, heroPoints, trueFaith, damnation
+        });
+      } catch (error) {
+        console.log(`Error saving: ${error}`);
+      }
+    }
+  };
+
   return (
     <form method="post">
 
@@ -55,10 +68,11 @@ export default function CharacterInfo() {
           <Dropdown name="virtue" set={setVirtue} value={virtue} />
           <Skill name="heroPoints" labelName="Hero Points" set={setHeroPoints} value={heroPoints} />
           <Skill name="trueFaith" labelName="True Faith" set={setTrueFaith} value={trueFaith} />
-          <Skill name="damnation" set={setDamnation} value={damnation}/>
+          <Skill name="damnation" set={setDamnation} value={damnation} />
         </ul>
         <button
           onClick={() => {
+            saveCharacterInfo();
             history.push('/character/new/abilities');
           }}
         >Next</button>

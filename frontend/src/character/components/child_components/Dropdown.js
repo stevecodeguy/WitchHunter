@@ -5,13 +5,11 @@ import { AuthContext } from '../../../utils/context/AuthContext';
 import AuthAPI from '../../../utils/context/AuthApi';
 
 export default function Dropdown(props) {
-  const [selected, setSelected] = useState({});
   const [dropdown, setDropdown] = useState([]);
   const auth = useContext(AuthContext);
 
   const handleCharacterDropdownChange = (event) => {
     const item = event.target.selectedIndex - 1;
-    setSelected(dropdown[item]);
     props.set(dropdown[item]);
   };
 
@@ -21,7 +19,7 @@ export default function Dropdown(props) {
         const results = await AuthAPI.get(`http://localhost:3000/info/${props.name}`);
         setDropdown(results.data);
       } catch (error) {
-        console.log(`Error retrieving ${props.name}: ${error}`)
+        console.log(`Error retrieving ${props.name}: ${error}`);
       }
     }
   }, [props.name, auth.state.uuid,]);

@@ -20,7 +20,7 @@ router.get('', auth.checkAuth, (req, res) => {
   });
 });
 
-router.post('/saveInfo', auth.checkAuth, (req, res) => {
+router.post('/save_info', auth.checkAuth, (req, res) => {
   const id = req.session.userId;
   console.log('Save body : ', req.body);
   // db.pool.query(query.)
