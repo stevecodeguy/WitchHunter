@@ -55,7 +55,7 @@ export default function CharacterInfo() {
       order === '' ||
       sinVice === '' ||
       virtue === ''
-    ){
+    ) {
       return false;
     }
     return true;
@@ -66,9 +66,9 @@ export default function CharacterInfo() {
       try {
         if (checkForm()) {
           const height = (heightFeet * 12) + heightInches;
-          await AuthAPI.post(`http://localhost:3000/characters/save_info`, {
+          await AuthAPI.post(`/characters/save_info`, {
             characterName, description, sex, height, weight, eyes, hair, culture, ethnicity, nationality, religion, background, catalyst, order, sinVice, virtue, heroPoints, trueFaith, damnation
-          })
+          });
         };
       } catch (error) {
         console.log(`Error saving: ${error}`);
@@ -95,7 +95,12 @@ export default function CharacterInfo() {
           <TextEntry name="name" labelName="Character Name" set={setCharacterName} value={characterName} />
           <TextAreaEntry name="description" set={setDescription} value={description} />
           <Dropdown name="sex" set={setSex} value={sex} />
-          <Height name="height" setFt={setHeightFeet} valueFt={heightFeet} setIn={setHeightInches} valueIn={heightInches} />
+          <Height
+            name="height"
+            setFt={setHeightFeet}
+            valueFt={heightFeet}
+            setIn={setHeightInches}
+            valueIn={heightInches} />
           <Counter name="weight" set={setWeight} value={weight} />
           <TextEntry name="eyes" set={setEyes} value={eyes} />
           <TextEntry name="hair" set={setHair} value={hair} />
@@ -114,12 +119,18 @@ export default function CharacterInfo() {
         </ul>
         <button
           onClick={() => {
-            if (checkForm()){
+            if (checkForm()) {
               saveCharacterInfo();
               history.push('/character/new/abilities');
             }
           }}
         >Next</button>
+        <button
+          onClick={() => {
+              history.push('/character/new/abilities');
+          }}
+        >Ignore</button> 
+        {/* TEMP BUTTON 'IGNORE'. Remove later */}
       </div>
     </form>
   );

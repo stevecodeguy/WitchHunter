@@ -25,10 +25,25 @@ router.post('/save_info', auth.checkAuth, (req, res) => {
   const id = req.session.userId;
   db.pool.query(saveQuery.sqlSaveCharacterInfo(id, req.body), (err, result) => {
     if (err) throw err;
-    if (result.length > 0) {
+    if (result.insertId > 0) {
+      req.session.characterId = result.insertId;
       return res.send({ id, uuid: req.session.uuid, result });
     }
     res.send('Character not saved');
+  });
+});
+
+router.post('/save_abilities', auth.checkAuth, (req, res) => {
+  const id = req.session.characterId;
+  db.pool.query(saveQuery.sqlSaveCharacterAbilities(id, req.body), (err, result) => {
+    if (err) {
+      console.log('Error' + err);
+      return res.send('Error Saving: ' + err);
+    }
+    if (result.insertId > 0) {
+      return res.send({ id, uuid: req.session.uuid, result });
+    }
+    res.send('Character Abilities not saved');
   });
 });
 

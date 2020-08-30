@@ -3,12 +3,14 @@ import React from 'react';
 import Counter from '../components/child_components/Counter';
 
 export default function CharacterAbilityScores() {
+  const [skill, setSkill] = useState({});
+
   return (
     <form method="post">
 
       <div>
         <div>
-          <h5>Fighting Counters</h5>
+          <h5>Fighting Skills</h5>
           <Counter name='archery' ability='agility'/>
           <Counter name='firearms' ability='agility'/>
           <Counter name='grapple' ability='strength'/>
@@ -16,7 +18,7 @@ export default function CharacterAbilityScores() {
           <Counter name='throw' ability='strength'/>
         </div>
         <div>
-          <h5>Interaction Counters</h5>
+          <h5>Interaction Skills</h5>
           <Counter name='charm' ability='personality'/>
           <Counter name='command' ability='courage'/>
           <Counter name='deceive' ability='personality'/>
@@ -25,7 +27,7 @@ export default function CharacterAbilityScores() {
           <Counter name='pantomime' ability='personality'/>
         </div>
         <div>
-          <h5>Movement Counters</h5>
+          <h5>Movement Skills</h5>
           <Counter name='acrobatics' ability='agility'/>
           <Counter name='climb' ability='strength'/>
           <Counter name='contortionist' ability='agility'/>
@@ -37,7 +39,7 @@ export default function CharacterAbilityScores() {
           <Counter name='swim' ability='strength'/>
         </div>
         <div>
-          <h5>Reaction Counters</h5>
+          <h5>Reaction Skills</h5>
           <Counter name='balance' ability='agility'/>
           <Counter name='concentrate' ability='strength'/>
           <Counter name='contortionist' ability='agility'/>
