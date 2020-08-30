@@ -6,6 +6,7 @@ export default function AbilityScore(props) {
   const [abilityScore, setAbilityScore] = useState(props.abilityScore);
 
   const handleCharacterAbilityScoresChange = (event) => { 
+    event.preventDefault();
     setAbilityScore(event.target.value);
   }
 

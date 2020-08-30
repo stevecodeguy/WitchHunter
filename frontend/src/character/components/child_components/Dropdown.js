@@ -9,6 +9,7 @@ export default function Dropdown(props) {
   const auth = useContext(AuthContext);
 
   const handleCharacterDropdownChange = (event) => {
+    event.preventDefault();
     const item = event.target.selectedIndex - 1;
     props.set(dropdown[item]);
   };

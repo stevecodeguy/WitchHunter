@@ -5,26 +5,21 @@ import LabelName from '../../../utils/LabelName';
 import '../../css/characterElements.css';
 
 export default function Counter(props) {
+  const formatter = (
+    props.name === 'weight' ? `${props.value} lbs` : `${props.value}`
+  );
 
   const handleCharacterSkillRankChange = (event) => {
+    event.preventDefault();
     props.set(parseInt(event.target.value));
   }
 
-
   const handleCharacterSkillRankPlusMinus = (modifier) => {
-    if (modifier === -1 && props.value <= 0) return;
+    if ((modifier === -1 || modifier === -5) && ((props.value + modifier) <= 0)) return;
     props.set(parseInt(props.value + modifier));
   }
 
-  const formatter = (
-    props.name === 'weight' ?
-      `${props.value} lbs` :
-      props.name === 'height' ?
-        `${Math.trunc(props.value / 12)}'${props.value % 12}\u0022` :
-        props.value
-  );
-
-  const type = props.name === 'height' || props.name === 'weight' ? "text" : "number";
+  const type = props.name === 'weight' ? "text" : "number";
 
   return (
     <li>
@@ -33,7 +28,7 @@ export default function Counter(props) {
         type={type}
         name={props.name}
         value={formatter}
-        onChange={handleCharacterSkillRankChange}
+        onChange={(event) => handleCharacterSkillRankChange(event)}
         required />
       <button
         onClick={() => handleCharacterSkillRankPlusMinus(1)}
@@ -43,6 +38,18 @@ export default function Counter(props) {
         onClick={() => handleCharacterSkillRankPlusMinus(-1)}
         type='button'
       >-</button>
+      {props.name === 'weight' ?
+        <>
+          <button
+            onClick={() => handleCharacterSkillRankPlusMinus(5)}
+            type='button'
+          >+5</button>
+          <button
+            onClick={() => handleCharacterSkillRankPlusMinus(-5)}
+            type='button'
+          >-5</button>
+        </>
+        : null}
     </li>
   );
 }

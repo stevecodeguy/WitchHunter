@@ -4,6 +4,7 @@ import LabelName from '../../../utils/LabelName';
 
 export default function TextEntry(props) {
   const handleCharacterTextChange = (event) => {
+    event.preventDefault();
     props.set(event.target.value);
   }
 

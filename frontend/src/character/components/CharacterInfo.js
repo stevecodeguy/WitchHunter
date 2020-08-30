@@ -8,6 +8,7 @@ import TextEntry from '../components/child_components/TextEntry';
 import TextAreaEntry from '../components/child_components/TextAreaEntry';
 import Dropdown from '../components/child_components/Dropdown';
 import Counter from './child_components/Counter';
+import Height from './child_components/Height';
 
 import '../css/characterInfo.css';
 
@@ -15,8 +16,9 @@ export default function CharacterInfo() {
   const [characterName, setCharacterName] = useState('');
   const [description, setDescription] = useState('');
   const [sex, setSex] = useState('');
-  const [height, setHeight] = useState(0);
-  const [weight, setWeight] = useState(0);
+  const [heightFeet, setHeightFeet] = useState('');
+  const [heightInches, setHeightInches] = useState('');
+  const [weight, setWeight] = useState('');
   const [eyes, setEyes] = useState('');
   const [hair, setHair] = useState('');
   const [culture, setCulture] = useState('');
@@ -35,12 +37,39 @@ export default function CharacterInfo() {
   const auth = useContext(AuthContext);
   let history = useHistory();
 
+  const checkForm = () => {
+    if (
+      characterName === '' ||
+      sex === '' ||
+      heightFeet === '' ||
+      heightInches === '' ||
+      weight === '' ||
+      eyes === '' ||
+      hair === '' ||
+      culture === '' ||
+      ethnicity === '' ||
+      nationality === '' ||
+      religion === '' ||
+      background === '' ||
+      catalyst === '' ||
+      order === '' ||
+      sinVice === '' ||
+      virtue === ''
+    ){
+      return false;
+    }
+    return true;
+  }
+
   const saveCharacterInfo = async () => {
     if (!!auth.state.uuid) {
       try {
-        await AuthAPI.post(`http://localhost:3000/characters/save_info`, {
-          characterName, description, sex, height, weight, eyes, hair, culture, ethnicity, nationality, religion, background, catalyst, order, sinVice, virtue, heroPoints, trueFaith, damnation
-        });
+        if (checkForm()) {
+          const height = (heightFeet * 12) + heightInches;
+          await AuthAPI.post(`http://localhost:3000/characters/save_info`, {
+            characterName, description, sex, height, weight, eyes, hair, culture, ethnicity, nationality, religion, background, catalyst, order, sinVice, virtue, heroPoints, trueFaith, damnation
+          })
+        };
       } catch (error) {
         console.log(`Error saving: ${error}`);
       }
@@ -49,23 +78,24 @@ export default function CharacterInfo() {
 
   useEffect(() => {
     if (sex.sex === 'Male') {
-      setHeight(65);
+      setHeightFeet(5);
+      setHeightInches(5);
       setWeight(150);
     } else if (sex.sex === 'Female') {
-      setHeight(61);
+      setHeightFeet(5);
+      setHeightInches(1);
       setWeight(125);
     }
   }, [sex]);
 
   return (
     <form method="post">
-
       <div>
         <ul>
           <TextEntry name="name" labelName="Character Name" set={setCharacterName} value={characterName} />
           <TextAreaEntry name="description" set={setDescription} value={description} />
           <Dropdown name="sex" set={setSex} value={sex} />
-          <Counter name="height" set={setHeight} value={height} />
+          <Height name="height" setFt={setHeightFeet} valueFt={heightFeet} setIn={setHeightInches} valueIn={heightInches} />
           <Counter name="weight" set={setWeight} value={weight} />
           <TextEntry name="eyes" set={setEyes} value={eyes} />
           <TextEntry name="hair" set={setHair} value={hair} />
@@ -84,8 +114,10 @@ export default function CharacterInfo() {
         </ul>
         <button
           onClick={() => {
-            saveCharacterInfo();
-            history.push('/character/new/abilities');
+            if (checkForm()){
+              saveCharacterInfo();
+              history.push('/character/new/abilities');
+            }
           }}
         >Next</button>
       </div>

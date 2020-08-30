@@ -22,7 +22,7 @@ export default function TextEntry(props) {
         cols="100"
         value={props.value}
         onChange={handleCharacterTextAreaChange}
-        required />
+      />
     </li>
   );
 }
