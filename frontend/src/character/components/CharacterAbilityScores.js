@@ -24,7 +24,6 @@ export default function CharacterAbilityScores() {
     personality: 2
   });
   const INITIAL_POINTS = 100;
-  let counter = 0;
 
   const auth = useContext(AuthContext);
   let history = useHistory();
