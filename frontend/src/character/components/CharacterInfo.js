@@ -76,6 +76,54 @@ export default function CharacterInfo() {
     }
   };
 
+  //TEMP CODE
+  const setFakeCharacter = () => {
+    setCharacterName('Testy');
+    setDescription('Test from Front End');
+    setSex({
+      id: 1, 
+      sex: "Male"
+    });
+    setHeightFeet('6');
+    setHeightInches('6');
+    setWeight('210');
+    setEyes('Blue');
+    setHair('Black');
+    setCulture('French');
+    setEthnicity('English');
+    setNationality('Spanish');
+    setReligion({
+      id: 1, 
+      religion: "Catholic"
+    });
+    setBackground({
+      id: 1, 
+      background: "Adventurer", 
+      social_standing: "Commoner",
+      ability: "Dumb Luck",
+      ability_description: "Once per scene re-roll one action roll. You must take the second result"
+    });
+    setCatalyst('Stubbed Toe');
+    setOrder({
+      id: 1,
+      order: "Apostles of the New Dawn",
+      description: "Wherever expeditions travel, whenever new lands are discovered, the Apostles of the New Dawn are there. They are always on the edge of the known frontier, seeking out new places, new cultures, and of course facing new dangers. The Apostles face the evils of new lands so that those who follow them will not have to."
+    });
+    setSinVice({
+      id: 1,
+      sin_vice: "Bloodthirsty",
+      benefit: "Physical attacks that deal damage add bonus dice equal to your Personality to the roll for damage successes"
+    });
+    setVirtue({
+      id: 1,
+      virtue: "Chaste",
+      description: "You hold your virtue sacred and do not give in to the pleasures of the flesh."
+    });
+    setHeroPoints(6);
+    setTrueFaith(5);
+    setDamnation(4);
+  }
+
   useEffect(() => {
     if (sex.sex === 'Male') {
       setHeightFeet(5);
@@ -130,7 +178,12 @@ export default function CharacterInfo() {
               history.push('/character/new/abilities');
           }}
         >Ignore</button> 
-        {/* TEMP BUTTON 'IGNORE'. Remove later */}
+        <button
+          onClick={() => {
+            setFakeCharacter();
+          }}
+        >Fill</button> 
+        {/* TEMP BUTTON 'IGNORE' and 'FILL'. Remove later */}
       </div>
     </form>
   );

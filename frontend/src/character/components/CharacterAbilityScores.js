@@ -28,6 +28,22 @@ export default function CharacterAbilityScores() {
   const auth = useContext(AuthContext);
   let history = useHistory();
 
+  const setFakeAbilities = (event) => {
+    event.preventDefault();
+    setAbilityScore({
+      strength: 5,
+      agility: 2,
+      toughness: 2,
+      education: 4,
+      reason: 2,
+      will: 2,
+      courage: 3,
+      intuition: 2,
+      personality: 2
+    });
+    setSpentPoints(100);
+  }
+
   const adjustSpentPoints = async (ability, newScore, modifier) => {
     let points;
     if (modifier === 1) {
@@ -58,7 +74,6 @@ export default function CharacterAbilityScores() {
     if (!!auth.state.uuid) {
       try {
         if (checkSpentPoints()) {
-          console.log(abilityScore)
           await AuthAPI.post(`/characters/save_abilities`, abilityScore);
         }
       } catch (error) {
@@ -174,7 +189,12 @@ export default function CharacterAbilityScores() {
               history.push('/character/new/skills');
             }}
           >Ignore</button>
-          {/* TEMP BUTTON 'IGNORE'. Remove later */}
+          <button
+            onClick={(event) => {
+              setFakeAbilities(event);
+            }}
+          >Fill</button>
+          {/* TEMP BUTTON 'IGNORE' and 'FILL'. Remove later */}
         </div>
       </form>
     </>
