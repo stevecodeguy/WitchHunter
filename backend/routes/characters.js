@@ -61,8 +61,20 @@ router.get('/skills', (req, res) => {
   });
 });
 
+//INITIAL SKILLS - TODO, NOTHING DONE HERE YET
+router.get('/initial_skills', (req, res) => {
+  db.pool.query(query.sqlGetInitialSkills(req.session.backgroundId), (err, result) => {
+    if (err) throw err;
+    if (result.length > 0) {
+      return res.send({ result });
+    }
+    res.send('Unable to get initial skills');
+  });
+});
+
 router.post('/save_info', auth.checkAuth, (req, res) => {
   const id = req.session.userId;
+  req.session.backgroundId = req.body.background.id;
   db.pool.query(saveQuery.sqlSaveCharacterInfo(id, req.body), (err, result) => {
     if (err) throw err;
     if (result.insertId > 0) {

@@ -26,6 +26,8 @@ const sqlGetSkillsCategory = () => `SELECT DISTINCT category FROM skills;`;
 
 const sqlGetSkills = () => `SELECT id, category, skill, ability FROM skills;`;
 
+const sqlGetInitialSkills = (backgroundId) => `SELECT id, skill, score, sub_skill, \`option\` FROM background_skills WHERE fk_background_id = ${backgroundId};`;
+
 exports.sqlGetCharacterAbilities = sqlGetCharacterAbilities;
 exports.sqlGetCharacterArmor = sqlGetCharacterArmor;
 exports.sqlGetCharacterGear = sqlGetCharacterGear;
@@ -40,3 +42,4 @@ exports.sqlGetAbilities = sqlGetAbilities;
 exports.sqlGetAbilitiesCategory = sqlGetAbilitiesCategory;
 exports.sqlGetSkillsCategory = sqlGetSkillsCategory;
 exports.sqlGetSkills = sqlGetSkills;
+exports.sqlGetInitialSkills = sqlGetInitialSkills;
