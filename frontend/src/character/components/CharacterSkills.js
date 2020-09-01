@@ -4,8 +4,9 @@ import Counter from '../components/child_components/Counter';
 
 import AuthAPI from '../../utils/context/AuthApi';
 
-export default function CharacterAbilityScores() {
+export default function CharacterSkills() {
   const [skills, setSkills] = useState(null);
+  const [skillScores, setSkillScores] = useState(null);
   const [skillCategories, setSkillCategories] = useState(null);
 
   useEffect(() => {
@@ -33,17 +34,7 @@ export default function CharacterAbilityScores() {
     const getInitialSkills = async () => {
       try {
         const results = await AuthAPI.get(`/characters/initial_skills`);
-        for (const result in results.data){
-          console.log(result);
-          // setSkills({
-          //   ...skills, 
-          //   [results.data.result.id]: results.data.result.id,
-          //   [results.data.result.skill]: results.data.result.skill,
-          //   [results.data.result.score]: results.data.result.score,
-          //   [results.data.result.sub_skill]: results.data.result.sub_skill,
-          //   [results.data.result.option]: results.data.result.option
-          // });
-        }
+        setSkillScores(results.data.result);
       } catch (error) {
         console.log(`Error getting Initial Skills: ${error}`);
       }
@@ -68,22 +59,22 @@ export default function CharacterAbilityScores() {
                     <ul key={category.id}>
                       <h5>{category.category} Skills</h5>
                       {
-                        // skills === null ?
-                        //   null :
-                        //   (
-                        //     skills.map(skill => (
-                        //       skill.category === category.category ?
-                        //         < Counter 
-                        //           key={skill.id} 
-                        //           name={skill.skill} 
-                        //           ability={skill.ability} 
+                        skills === null ?
+                          null :
+                          (
+                            skills.map(skill => (
+                              skill.category === category.category ?
+                                < Counter 
+                                  key={skill.id} 
+                                  name={skill.skill} 
+                                  ability={skill.ability} 
 
-                        //           // set={skill} 
-                        //           // value={skill} 
-                        //         />
-                        //         : null
-                        //     ))
-                        //   )
+                                  // set={skill} 
+                                  value={skill} 
+                                />
+                                : null
+                            ))
+                          )
                       }
                     </ul>
                   ))
