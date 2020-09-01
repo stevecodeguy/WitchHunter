@@ -21,6 +21,46 @@ router.get('', auth.checkAuth, (req, res) => {
   });
 });
 
+router.get('/abilities_category', (req, res) => {
+  db.pool.query(query.sqlGetAbilitiesCategory(), (err, result) => {
+    if (err) throw err;
+    if (result.length > 0) {
+      return res.send({ result });
+    }
+    res.send('Unable to get Abilities Category table');
+  });
+});
+
+router.get('/abilities', (req, res) => {
+  db.pool.query(query.sqlGetAbilities(), (err, result) => {
+    if (err) throw err;
+    if (result.length > 0) {
+      return res.send({ result });
+    }
+    res.send('Unable to get Abilities table');
+  });
+});
+
+router.get('/skill_categories', (req, res) => {
+  db.pool.query(query.sqlGetSkillsCategory(), (err, result) => {
+    if (err) throw err;
+    if (result.length > 0) {
+      return res.send({ result });
+    }
+    res.send('Unable to get Skill categories table');
+  });
+});
+
+router.get('/skills', (req, res) => {
+  db.pool.query(query.sqlGetSkills(), (err, result) => {
+    if (err) throw err;
+    if (result.length > 0) {
+      return res.send({ result });
+    }
+    res.send('Unable to get Skills table');
+  });
+});
+
 router.post('/save_info', auth.checkAuth, (req, res) => {
   const id = req.session.userId;
   db.pool.query(saveQuery.sqlSaveCharacterInfo(id, req.body), (err, result) => {

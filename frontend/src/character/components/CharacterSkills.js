@@ -1,57 +1,82 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Counter from '../components/child_components/Counter';
 
+import AuthAPI from '../../utils/context/AuthApi';
+
 export default function CharacterAbilityScores() {
   const [skill, setSkill] = useState({});
+  const [skills, setSkills] = useState(null);
+  const [skillCategories, setSkillCategories] = useState(null);
+
+  const modifySkill = () => {
+
+  };
+
+  useEffect(() => {
+    const getSkillCategories = async () => {
+      try {
+        let results = await AuthAPI.get('/characters/skill_categories');
+        for (const category in results.data.result){
+          results.data.result[category].id = parseInt(category);
+        }
+        setSkillCategories(results.data.result);
+      } catch (error) {
+        console.log(`Error getting Skill Categories: ${error}`);
+      }
+    };
+
+    const getSkills = async () => {
+      try {
+        const results = await AuthAPI.get(`/characters/skills`);
+        setSkills(results.data.result);
+      } catch (error) {
+        console.log(`Error getting Skills: ${error}`);
+      }
+    };
+
+    getSkillCategories();
+    getSkills();
+  }, []);
 
   return (
     <form method="post">
 
       <div>
-        <div>
-          <h5>Fighting Skills</h5>
-          <Counter name='archery' ability='agility'/>
-          <Counter name='firearms' ability='agility'/>
-          <Counter name='grapple' ability='strength'/>
-          <Counter name='hand to hand' ability='strength'/>
-          <Counter name='throw' ability='strength'/>
-        </div>
-        <div>
-          <h5>Interaction Skills</h5>
-          <Counter name='charm' ability='personality'/>
-          <Counter name='command' ability='courage'/>
-          <Counter name='deceive' ability='personality'/>
-          <Counter name='empathy' ability='intuition'/>
-          <Counter name='intimidate' ability='personality'/>
-          <Counter name='pantomime' ability='personality'/>
-        </div>
-        <div>
-          <h5>Movement Skills</h5>
-          <Counter name='acrobatics' ability='agility'/>
-          <Counter name='climb' ability='strength'/>
-          <Counter name='contortionist' ability='agility'/>
-          <Counter name='drive' ability='agility'/>
-          <Counter name='jump' ability='strength'/>
-          <Counter name='ride' ability='agility'/>
-          <Counter name='row' ability='strength'/>
-          <Counter name='stealth' ability='agility'/>
-          <Counter name='swim' ability='strength'/>
-        </div>
-        <div>
-          <h5>Reaction Skills</h5>
-          <Counter name='balance' ability='agility'/>
-          <Counter name='concentrate' ability='strength'/>
-          <Counter name='contortionist' ability='agility'/>
-          <Counter name='drive' ability='agility'/>
-          <Counter name='jump' ability='strength'/>
-          <Counter name='ride' ability='agility'/>
-          <Counter name='row' ability='strength'/>
-          <Counter name='stealth' ability='agility'/>
-          <Counter name='swim' ability='strength'/>
-        </div>
+        {
+          skillCategories === null ?
+            null :
+            (
+              <div>
+                {
+                  skillCategories.map(category => (
+                    <ul key={category.id}>
+                      <h5>{category.category} Skills</h5>
+                      {
+                        skills === null ?
+                          null :
+                          (
+                            skills.map(skill => (
+                              skill.category === category.category ?
+                                < Counter 
+                                  key={skill.id} 
+                                  name={skill.skill} 
+                                  ability={skill.ability} 
 
+                                  // set={skill} 
+                                  // value={skill} 
+                                />
+                                : null
+                            ))
+                          )
+                      }
+                    </ul>
+                  ))
+                }
+              </div>
+            )
+        }
       </div>
-    </form>
+    </form >
   );
 }

@@ -9,6 +9,8 @@ import AbilityScores from '../components/child_components/AbilityScore';
 
 export default function CharacterAbilityScores() {
   const [generatingAbilities, setGeneratingAbilities] = useState(null);
+  const [abilities, setAbilities] = useState(null);
+  const [abilitiesCategories, setAbilitiesCategories] = useState(null); //need to get id for key value pairs
   const [spentPoints, setSpentPoints] = useState(0);
   const [abilityScore, setAbilityScore] = useState({
     strength: 2,
@@ -22,6 +24,7 @@ export default function CharacterAbilityScores() {
     personality: 2
   });
   const INITIAL_POINTS = 100;
+  let counter = 0;
 
   const auth = useContext(AuthContext);
   let history = useHistory();
@@ -44,7 +47,7 @@ export default function CharacterAbilityScores() {
   }
 
   const checkSpentPoints = () => {
-    if(spentPoints === 100) {
+    if (spentPoints === 100) {
       return true;
     } else {
       alert('You must spend all points before continuing!')
@@ -53,21 +56,40 @@ export default function CharacterAbilityScores() {
   }
 
   const saveAbilities = async () => {
-    if (!!auth.state.uuid){
+    if (!!auth.state.uuid) {
       try {
-        if(checkSpentPoints()){
+        if (checkSpentPoints()) {
           console.log(abilityScore)
-          await AuthAPI.post(`/characters/save_abilities`, 
-            abilityScore
-          );
+          await AuthAPI.post(`/characters/save_abilities`, abilityScore);
         }
-      } catch(error){
+      } catch (error) {
         console.log(`Error saving abilities: ${error}`);
       }
     }
   }
 
   useEffect(() => {
+    const getAbilitiesCategories = async () => {
+      try {
+        let results = await AuthAPI.get('/characters/abilities_category');
+        for (const category in results.data.result){
+          results.data.result[category].id = parseInt(category);
+        }
+        setAbilitiesCategories(results.data.result);
+      } catch (error) {
+        console.log(`Error getting Abilities table. Error: ${error}`);
+      }
+    }
+
+    const getAbilities = async () => {
+      try {
+        const results = await AuthAPI.get('/characters/abilities');
+        setAbilities(results.data.result);
+      } catch (error) {
+        console.log(`Error getting Abilities table. Error: ${error}`);
+      }
+    }
+
     const getAbilityCosts = async () => {
       try {
         const results = await AuthAPI.get('/characters/ability/costs');
@@ -76,6 +98,9 @@ export default function CharacterAbilityScores() {
         console.log('Abilities database call error: ' + error);
       }
     }
+
+    getAbilitiesCategories();
+    getAbilities();
     getAbilityCosts();
   }, [])
 
@@ -106,63 +131,40 @@ export default function CharacterAbilityScores() {
 
       <form method="post">
         <div>
-          <div>
-            <h3>Physical Abilities</h3>
-            <AbilityScores
-              ability='strength'
-              abilityScore={abilityScore.strength}
-              adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
-            />
-            <AbilityScores
-              ability='agility'
-              abilityScore={abilityScore.agility}
-              adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
-            />
-            <AbilityScores
-              ability='toughness'
-              abilityScore={abilityScore.toughness}
-              adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
-            />
-          </div>
-          <div>
-            <h3>Mental Abilities</h3>
-            <AbilityScores
-              ability='education'
-              abilityScore={abilityScore.education}
-              adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
-            />
-            <AbilityScores
-              ability='reason'
-              abilityScore={abilityScore.reason}
-              adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
-            />
-            <AbilityScores
-              ability='will'
-              abilityScore={abilityScore.will}
-              adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
-            />
-          </div>
-          <div>
-            <h3>Spiritual Abilities</h3>
-            <AbilityScores
-              ability='courage'
-              abilityScore={abilityScore.courage}
-              adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
-            />
-            <AbilityScores
-              ability='intuition'
-              abilityScore={abilityScore.intuition}
-              adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
-            />
-            <AbilityScores
-              ability='personality'
-              abilityScore={abilityScore.personality}
-              adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
-            />
-          </div>
+          {
+            abilitiesCategories === null ?
+              null :
+              abilitiesCategories.map(category => (
+                <ul key={category.id}>
+                  <h3>{`${category.category.charAt(0).toUpperCase() + category.category.slice(1)} Abilities`}</h3>
+                  {
+                    abilities === null ?
+                      null :
+                      abilities.map(ability => (
+                        (
+                          ability.category === category.category ?
+                          <li key={ability.id}>
+                            {
+                                <AbilityScores
+                                  
+                                  ability={ability.ability}
+                                  abilityScore={abilityScore[ability.ability]}
+                                  adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
+                                />
+                              }
+                          </li>
+                          : null
+                        )
+                      ))
+                  }
+                </ul>
+              ))
+          }
+        </div>
+        <div>
           <button
             onClick={() => {
-              if(checkSpentPoints()) {
+              if (checkSpentPoints()) {
                 saveAbilities();
                 history.push('/character/new/skills')
               }
@@ -170,9 +172,9 @@ export default function CharacterAbilityScores() {
           >Next</button>
           <button
             onClick={() => {
-                history.push('/character/new/skills');
+              history.push('/character/new/skills');
             }}
-          >Ignore</button> 
+          >Ignore</button>
           {/* TEMP BUTTON 'IGNORE'. Remove later */}
         </div>
       </form>

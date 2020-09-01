@@ -18,6 +18,14 @@ const sqlGetInfoAbilityCosts = () => `SELECT * FROM witchhunter.generating_abili
 
 const sqlListCharacters = (userId) => `SELECT id, name, description FROM character_info WHERE fk_user = ${userId};`;
 
+const sqlGetAbilities = () => `SELECT id, ability, category FROM abilities;`;
+
+const sqlGetAbilitiesCategory = () => `SELECT DISTINCT category FROM abilities;`;
+
+const sqlGetSkillsCategory = () => `SELECT DISTINCT category FROM skills;`;
+
+const sqlGetSkills = () => `SELECT id, category, skill, ability FROM skills;`;
+
 exports.sqlGetCharacterAbilities = sqlGetCharacterAbilities;
 exports.sqlGetCharacterArmor = sqlGetCharacterArmor;
 exports.sqlGetCharacterGear = sqlGetCharacterGear;
@@ -28,3 +36,7 @@ exports.sqlGetCharacterTalents = sqlGetCharacterTalents;
 exports.sqlGetCharacterWeapons = sqlGetCharacterWeapons;
 exports.sqlGetInfoAbilityCosts = sqlGetInfoAbilityCosts;
 exports.sqlListCharacters = sqlListCharacters;
+exports.sqlGetAbilities = sqlGetAbilities;
+exports.sqlGetAbilitiesCategory = sqlGetAbilitiesCategory;
+exports.sqlGetSkillsCategory = sqlGetSkillsCategory;
+exports.sqlGetSkills = sqlGetSkills;
