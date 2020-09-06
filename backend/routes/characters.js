@@ -61,7 +61,6 @@ router.get('/skills', (req, res) => {
   });
 });
 
-//INITIAL SKILLS - TODO, NOTHING DONE HERE YET
 router.get('/initial_skills', (req, res) => {
   db.pool.query(query.sqlGetInitialSkills(req.session.backgroundId), (err, result) => {
     if (err) throw err;
@@ -69,6 +68,16 @@ router.get('/initial_skills', (req, res) => {
       return res.send({ result });
     }
     res.send('Unable to get initial skills');
+  });
+});
+
+router.get('/background_categories', (req, res) => {
+  db.pool.query(query.sqlGetBackgroundCategories(req.session.backgroundId), (err, result) => {
+    if (err) throw err;
+    if (result.length > 0) {
+      return res.send({ result });
+    }
+    res.send('Unable to get Background Categories');
   });
 });
 

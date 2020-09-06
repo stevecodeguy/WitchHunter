@@ -30,3 +30,8 @@ button {
   flex-wrap: nowrap;
   justify-content: space-between;
 }
+
+.elective_points {
+  color: red;
+  font-style: italic;
+}

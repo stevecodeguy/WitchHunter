@@ -7,12 +7,12 @@ import '../../css/characterElements.css';
 export default function Skill(props) {
   const handleCharacterSkillRankChange = (event) => {
     event.preventDefault();
-    props.set({adjustment: parseInt(event.target.value), name: props.name});
+    props.set({adjustment: parseInt(event.target.value), name: props.name, category: props.category});
   }
   
   const handleCharacterSkillRankPlusMinus = (modifier) => {
     if (modifier === -1 && (props.value + modifier) < 0) return;
-    props.set({adjustment: parseInt(props.value + modifier), name: props.name});
+    props.set({adjustment: parseInt(modifier), name: props.name, category: props.category});
   }
 
   return (
