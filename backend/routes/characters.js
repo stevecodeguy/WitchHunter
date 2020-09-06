@@ -71,6 +71,16 @@ router.get('/initial_skills', (req, res) => {
   });
 });
 
+router.get('/background_requirements', (req, res) => {
+  db.pool.query(query.sqlGetBackgroundRequirements(req.session.backgroundId), (err, result) => {
+    if (err) throw err;
+    if (result.length > 0) {
+      return res.send({ result });
+    }
+    res.send('Unable to get Background Requirements');
+  });
+});
+
 router.get('/background_categories', (req, res) => {
   db.pool.query(query.sqlGetBackgroundCategories(req.session.backgroundId), (err, result) => {
     if (err) throw err;

@@ -83,39 +83,25 @@ export default function CharacterAbilityScores() {
   }
 
   useEffect(() => {
-    const getAbilitiesCategories = async () => {
-      try {
-        let results = await AuthAPI.get('/characters/abilities_category');
-        for (const category in results.data.result){
-          results.data.result[category].id = parseInt(category);
-        }
-        setAbilitiesCategories(results.data.result);
-      } catch (error) {
-        console.log(`Error getting Abilities table. Error: ${error}`);
-      }
-    }
-
     const getAbilities = async () => {
       try {
-        const results = await AuthAPI.get('/characters/abilities');
-        setAbilities(results.data.result);
+        let categoryResults = await AuthAPI.get('/characters/abilities_category');
+        for (const category in categoryResults.data.result){
+          categoryResults.data.result[category].id = parseInt(category);
+        }
+        setAbilitiesCategories(categoryResults.data.result);
+
+        const abilityResults = await AuthAPI.get('/characters/abilities');
+        setAbilities(abilityResults.data.result);
+
+        const costResults = await AuthAPI.get('/characters/ability/costs');
+        setGeneratingAbilities(costResults.data);
       } catch (error) {
-        console.log(`Error getting Abilities table. Error: ${error}`);
+        console.log(`Error getting Abilities. Error: ${error}`);
       }
     }
 
-    const getAbilityCosts = async () => {
-      try {
-        const results = await AuthAPI.get('/characters/ability/costs');
-        setGeneratingAbilities(results.data);
-      } catch (error) {
-        console.log('Abilities database call error: ' + error);
-      }
-    }
-
-    getAbilitiesCategories();
     getAbilities();
-    getAbilityCosts();
   }, [])
 
   return (
