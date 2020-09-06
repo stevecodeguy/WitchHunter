@@ -15,7 +15,7 @@ export default function Counter(props) {
   }
 
   const handleCharacterSkillRankPlusMinus = (modifier) => {
-    if ((modifier === -1 || modifier === -5) && ((props.value + modifier) <= 0)) return;
+    if ((modifier === -1 || modifier === -5) && ((props.value + modifier) < 0)) return;
     props.set(parseInt(props.value + modifier || 1));
   }
 

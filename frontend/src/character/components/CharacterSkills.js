@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import Counter from '../components/child_components/Counter';
+import Skill from '../components/child_components/Skill';
 
 import AuthAPI from '../../utils/context/AuthApi';
 
@@ -17,7 +17,7 @@ export default function CharacterSkills() {
         let skillList = skillsResult.data.result;
         const initialList = initialResult.data.result;
 
-        for (let key in skillList){
+        for (let key in skillList) {
           skillList[key].score = 0
         }
 
@@ -26,8 +26,7 @@ export default function CharacterSkills() {
           skillList[key].score = iSkill.score;
         });
 
-        setSkills(skillList);
-
+        setSkills( skillList );
 
         let categories = await AuthAPI.get('/characters/skill_categories');
         for (const category in categories.data.result) {
@@ -43,6 +42,13 @@ export default function CharacterSkills() {
     getSkills();
   }, []);
 
+  const setSkillsObject = (data) => {
+    const index = Object.keys(skills).find(index => skills[index].skill === data.name);
+    const newScores = [...skills];
+    newScores[index] = {...newScores[index], score: data.adjustment };
+    setSkills(newScores)
+  }
+
   return (
     <form method="post">
 
@@ -57,16 +63,16 @@ export default function CharacterSkills() {
                     <ul key={category.id}>
                       <h5>{category.category} Skills</h5>
                       {
-                        !!skills ?
+                        skills.length > 0 ?
                           (
                             skills.filter(skill => skill.category === category.category).map(skill => (
-                                < Counter 
-                                  key={skill.id} 
-                                  name={skill.skill} 
-                                  ability={skill.ability} 
-                                  // set={skill} 
-                                  value={skill.score} 
-                                />
+                              <Skill
+                                key={skill.id}
+                                name={skill.skill}
+                                ability={skill.ability}
+                                set={(data) => setSkillsObject(data)}
+                                value={skill.score}
+                              />
                             ))
                           ) : null
                       }
