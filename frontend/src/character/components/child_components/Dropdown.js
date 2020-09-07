@@ -57,7 +57,7 @@ export default function Dropdown(props) {
           <h5>Social Standing: </h5>
           <p>{props.value.social_standing}</p>
           <h5>Ability: </h5>
-          <p>{props.value.background.ability}</p>
+          <p>{props.value.ability}</p>
           <h5>Ability Description: </h5>
           <p>{props.value.ability_description}</p>
         </>

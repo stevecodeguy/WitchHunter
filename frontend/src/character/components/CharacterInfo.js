@@ -97,11 +97,11 @@ export default function CharacterInfo() {
       religion: "Catholic"
     });
     setBackground({
-      id: 1, 
-      background: "Adventurer", 
-      social_standing: "Commoner",
-      ability: "Dumb Luck",
-      ability_description: "Once per scene re-roll one action roll. You must take the second result"
+      id: 2, 
+      background: "Artisan", 
+      social_standing: "Artisan",
+      ability: "Muse",
+      ability_description: "Once per day per point of reason while making a Professional action, +2 dice."
     });
     setCatalyst('Stubbed Toe');
     setOrder({

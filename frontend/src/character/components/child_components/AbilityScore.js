@@ -27,7 +27,7 @@ export default function AbilityScore(props) {
       <input 
         type="number" 
         name={props.ability}
-        value={abilityScore} 
+        value={props.abilityScore} 
         onChange={handleCharacterAbilityScoresChange}
         required />
       <button 

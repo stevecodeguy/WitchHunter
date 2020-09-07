@@ -72,6 +72,7 @@ router.get('/initial_skills', (req, res) => {
 });
 
 router.get('/background_requirements', (req, res) => {
+  console.log(req.session.backgroundId)
   db.pool.query(query.sqlGetBackgroundRequirements(req.session.backgroundId), (err, result) => {
     if (err) throw err;
     if (result.length > 0) {

@@ -53,8 +53,21 @@ export default function CharacterAbilityScores() {
     }
     // If Spent Points would not go below zero adjust. Returns will indicate to adjust the Ability Score 
     if (INITIAL_POINTS - (spentPoints + points) >= 0) {
-      await setSpentPoints(spentPoints + points);
-      await setAbilityScore({ ...abilityScore, [ability]: newScore });
+      if (typeof (ability) === 'object' && ability !== null) {
+
+        let abilitiesString = '{';
+        for (const id in ability){
+          abilitiesString = abilitiesString +
+            '"' + ability[id].ability.toLowerCase() + '": ' + ability[id].score + ', '
+        }
+        abilitiesString = abilitiesString.substring(0, abilitiesString.length -2) + '}';
+        let abilitiesJSON = {...abilityScore, ...JSON.parse(abilitiesString)};
+
+        await setAbilityScore(abilitiesJSON);
+      } else {
+        await setSpentPoints(spentPoints + points);
+        await setAbilityScore({ ...abilityScore, [ability]: newScore });
+      }
       return true;
     } else {
       return false;
@@ -86,7 +99,7 @@ export default function CharacterAbilityScores() {
     const getAbilities = async () => {
       try {
         let categoryResults = await AuthAPI.get('/characters/abilities_category');
-        for (const category in categoryResults.data.result){
+        for (const category in categoryResults.data.result) {
           categoryResults.data.result[category].id = parseInt(category);
         }
         setAbilitiesCategories(categoryResults.data.result);
@@ -96,13 +109,30 @@ export default function CharacterAbilityScores() {
 
         const costResults = await AuthAPI.get('/characters/ability/costs');
         setGeneratingAbilities(costResults.data);
+
+        const requirementResults = await AuthAPI.get('/characters/background_requirements');
+        if (requirementResults.data !== 'Unable to get Background Requirements') {
+          if (requirementResults.data.result.length > 1) {
+            adjustSpentPoints(requirementResults.data.result);
+          } else if (requirementResults.data.result.length === 1) {
+            adjustSpentPoints(
+              requirementResults.data.result[0].ability.toLowerCase(),
+              requirementResults.data.result[0].score,
+              1
+            );
+          }
+        }
       } catch (error) {
         console.log(`Error getting Abilities. Error: ${error}`);
       }
     }
 
     getAbilities();
-  }, [])
+  }, []);
+
+  useEffect(() => {
+
+  }, []);
 
   return (
     <>
@@ -143,17 +173,16 @@ export default function CharacterAbilityScores() {
                       abilities.map(ability => (
                         (
                           ability.category === category.category ?
-                          <li key={ability.id}>
-                            {
+                            <li key={ability.id}>
+                              {
                                 <AbilityScores
-                                  
                                   ability={ability.ability}
                                   abilityScore={abilityScore[ability.ability]}
                                   adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
                                 />
                               }
-                          </li>
-                          : null
+                            </li>
+                            : null
                         )
                       ))
                   }
