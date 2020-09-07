@@ -47,22 +47,32 @@ export default function CharacterAbilityScores() {
   const adjustSpentPoints = async (ability, newScore, modifier) => {
     let points;
     if (modifier === 1) {
+      // Points calculation if modified from base  of 2
       points = newScore !== 2 ? (newScore - 2) * 10 : 10;
     } else {
+      // Points calculation if greater than 1
       points = newScore > 1 ? (newScore - 1) * -10 : -10;
     }
+
     // If Spent Points would not go below zero adjust. Returns will indicate to adjust the Ability Score 
     if (INITIAL_POINTS - (spentPoints + points) >= 0) {
       if (typeof (ability) === 'object' && ability !== null) {
 
+        let scoreAdjustment = 0;
         let abilitiesString = '{';
-        for (const id in ability){
+        for (const id in ability) {
           abilitiesString = abilitiesString +
-            '"' + ability[id].ability.toLowerCase() + '": ' + ability[id].score + ', '
-        }
-        abilitiesString = abilitiesString.substring(0, abilitiesString.length -2) + '}';
-        let abilitiesJSON = {...abilityScore, ...JSON.parse(abilitiesString)};
+            '"' + ability[id].ability.toLowerCase() + '": ' + ability[id].score + ', ';
 
+          scoreAdjustment += ability[id].score - 2;
+        }
+        abilitiesString = abilitiesString.substring(0, abilitiesString.length - 2) + '}';
+        let abilitiesJSON = { ...abilityScore, ...JSON.parse(abilitiesString) };
+
+        console.log(scoreAdjustment * - 10)
+        // points = newScore > 1 ? (newScore - 1) * -10 : -10;
+
+        await setSpentPoints(spentPoints + (scoreAdjustment * 10));
         await setAbilityScore(abilitiesJSON);
       } else {
         await setSpentPoints(spentPoints + points);
@@ -128,10 +138,6 @@ export default function CharacterAbilityScores() {
     }
 
     getAbilities();
-  }, []);
-
-  useEffect(() => {
-
   }, []);
 
   return (
