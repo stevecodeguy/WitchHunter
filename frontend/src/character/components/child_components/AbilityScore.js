@@ -5,13 +5,13 @@ import '../../css/characterElements.css';
 export default function AbilityScore(props) {
   const [abilityScore, setAbilityScore] = useState(props.abilityScore);
 
-  const handleCharacterAbilityScoresChange = (event) => { 
+  const handleCharacterAbilityScoresChange = (event) => {
     event.preventDefault();
     setAbilityScore(event.target.value);
   }
 
-  const handleCharacterAbilityScoresPlusMinus = async (modifier) => { 
-    if (modifier === -1 && props.abilityScore <= 1) return;
+  const handleCharacterAbilityScoresPlusMinus = async (modifier) => {
+    if (modifier === -1 && ((props.abilityScore + modifier) < props.minimumScore)) return;
     if (modifier === 1 && props.abilityScore >= 5) return;
     if (await props.adjustSpentPoints(props.ability, props.abilityScore + modifier, modifier)) {
       // If Spent Points would not go below zero, increase Ability Score
@@ -24,17 +24,17 @@ export default function AbilityScore(props) {
       <label htmlFor={props.ability}>
         <b>{props.ability.charAt(0).toUpperCase() + props.ability.slice(1)}</b>
       </label>
-      <input 
-        type="number" 
+      <input
+        type="number"
         name={props.ability}
-        value={props.abilityScore} 
+        value={props.abilityScore}
         onChange={handleCharacterAbilityScoresChange}
         required />
-      <button 
+      <button
         onClick={() => handleCharacterAbilityScoresPlusMinus(1)}
         type='button'
       >+</button>
-      <button 
+      <button
         onClick={() => handleCharacterAbilityScoresPlusMinus(-1)}
         type='button'
       >-</button>

@@ -10,18 +10,18 @@ import AbilityScores from '../components/child_components/AbilityScore';
 export default function CharacterAbilityScores() {
   const [generatingAbilities, setGeneratingAbilities] = useState(null);
   const [abilities, setAbilities] = useState(null);
-  const [abilitiesCategories, setAbilitiesCategories] = useState(null); //need to get id for key value pairs
+  const [abilitiesCategories, setAbilitiesCategories] = useState(null);
   const [spentPoints, setSpentPoints] = useState(0);
   const [abilityScore, setAbilityScore] = useState({
-    strength: 2,
-    agility: 2,
-    toughness: 2,
-    education: 2,
-    reason: 2,
-    will: 2,
-    courage: 2,
-    intuition: 2,
-    personality: 2
+    strength: { score: 2, minimum: 1 },
+    agility: { score: 2, minimum: 1 },
+    toughness: { score: 2, minimum: 1 },
+    education: { score: 2, minimum: 1 },
+    reason: { score: 2, minimum: 1 },
+    will: { score: 2, minimum: 1 },
+    courage: { score: 2, minimum: 1 },
+    intuition: { score: 2, minimum: 1 },
+    personality: { score: 2, minimum: 1 }
   });
   const INITIAL_POINTS = 100;
 
@@ -31,20 +31,20 @@ export default function CharacterAbilityScores() {
   const setFakeAbilities = (event) => {
     event.preventDefault();
     setAbilityScore({
-      strength: 5,
-      agility: 2,
-      toughness: 2,
-      education: 4,
-      reason: 2,
-      will: 2,
-      courage: 3,
-      intuition: 2,
-      personality: 2
+      strength: { score: 5, minimum: 1 },
+      agility: { score: 4, minimum: 1 },
+      toughness: { score: 3, minimum: 1 },
+      education: { score: 2, minimum: 1 },
+      reason: { score: 2, minimum: 1 },
+      will: { score: 2, minimum: 1 },
+      courage: { score: 2, minimum: 1 },
+      intuition: { score: 2, minimum: 1 },
+      personality: { score: 2, minimum: 1 }
     });
     setSpentPoints(100);
   }
 
-  const adjustSpentPoints = async (ability, newScore, modifier) => {
+  const adjustSpentPoints = async (ability, newScore, modifier, setMinimums = false) => {
     let points;
     if (modifier === 1) {
       // Points calculation if modified from base  of 2
@@ -57,26 +57,29 @@ export default function CharacterAbilityScores() {
     // If Spent Points would not go below zero adjust. Returns will indicate to adjust the Ability Score 
     if (INITIAL_POINTS - (spentPoints + points) >= 0) {
       if (typeof (ability) === 'object' && ability !== null) {
-
         let scoreAdjustment = 0;
-        let abilitiesString = '{';
-        for (const id in ability) {
-          abilitiesString = abilitiesString +
-            '"' + ability[id].ability.toLowerCase() + '": ' + ability[id].score + ', ';
+        let abilitiesJSON = {};
+        let abilitiesCollection = {};
 
-          scoreAdjustment += ability[id].score - 2;
+        for (const key in ability) {
+          setMinimums ?
+            abilitiesJSON = JSON.parse('{"' + ability[key].ability.toLowerCase() + '": {"score": ' + ability[key].score + ', ' + '"minimum": ' + ability[key].score + '}}') :
+            abilitiesJSON = JSON.parse('{"' + ability[key].ability.toLowerCase() + '": {"score": ' + ability[key].score + '}}');
+
+          scoreAdjustment += ability[key].score - 2;
+
+          abilitiesCollection = { ...abilitiesCollection, ...abilitiesJSON }
         }
-        abilitiesString = abilitiesString.substring(0, abilitiesString.length - 2) + '}';
-        let abilitiesJSON = { ...abilityScore, ...JSON.parse(abilitiesString) };
 
-        console.log(scoreAdjustment * - 10)
-        // points = newScore > 1 ? (newScore - 1) * -10 : -10;
-
+        await setAbilityScore({ ...abilityScore, ...abilitiesCollection });
         await setSpentPoints(spentPoints + (scoreAdjustment * 10));
-        await setAbilityScore(abilitiesJSON);
       } else {
+        let newAbilityScore = {};
+        setMinimums ?
+          newAbilityScore = { ...abilityScore, [ability]: { score: newScore, minimum: newScore } } :
+          newAbilityScore = { ...abilityScore, [ability]: { score: newScore, minimum: abilityScore[ability].minimum} };
+        await setAbilityScore(newAbilityScore);
         await setSpentPoints(spentPoints + points);
-        await setAbilityScore({ ...abilityScore, [ability]: newScore });
       }
       return true;
     } else {
@@ -122,13 +125,15 @@ export default function CharacterAbilityScores() {
 
         const requirementResults = await AuthAPI.get('/characters/background_requirements');
         if (requirementResults.data !== 'Unable to get Background Requirements') {
+
           if (requirementResults.data.result.length > 1) {
-            adjustSpentPoints(requirementResults.data.result);
+            adjustSpentPoints(requirementResults.data.result, null, null, true);
           } else if (requirementResults.data.result.length === 1) {
             adjustSpentPoints(
               requirementResults.data.result[0].ability.toLowerCase(),
               requirementResults.data.result[0].score,
-              1
+              1,
+              true
             );
           }
         }
@@ -151,14 +156,13 @@ export default function CharacterAbilityScores() {
         </thead>
         <tbody>
           {
-            generatingAbilities === null ?
-              null :
+            !!generatingAbilities ?
               generatingAbilities.map(item => (
                 <tr key={item.id}>
                   <td>{item.score}</td>
                   <td>{item.total_cost}</td>
                 </tr>
-              ))
+              )) : null
           }
         </tbody>
       </table>
@@ -168,14 +172,12 @@ export default function CharacterAbilityScores() {
       <form method="post">
         <div>
           {
-            abilitiesCategories === null ?
-              null :
+            !!abilitiesCategories ?
               abilitiesCategories.map(category => (
                 <ul key={category.id}>
                   <h3>{`${category.category.charAt(0).toUpperCase() + category.category.slice(1)} Abilities`}</h3>
                   {
-                    abilities === null ?
-                      null :
+                    !!abilities ?
                       abilities.map(ability => (
                         (
                           ability.category === category.category ?
@@ -183,17 +185,18 @@ export default function CharacterAbilityScores() {
                               {
                                 <AbilityScores
                                   ability={ability.ability}
-                                  abilityScore={abilityScore[ability.ability]}
+                                  abilityScore={abilityScore[ability.ability].score}
+                                  minimumScore={abilityScore[ability.ability].minimum}
                                   adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
                                 />
                               }
                             </li>
                             : null
                         )
-                      ))
+                      )) : null
                   }
                 </ul>
-              ))
+              )) : null
           }
         </div>
         <div>
