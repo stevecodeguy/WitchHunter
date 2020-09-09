@@ -87,7 +87,7 @@ export default function CharacterSkills() {
                           (
                             backgroundElectives.filter(elective => elective.category === category.category).map(skill => (
                               skill.elective_skills > 0 ?
-                                <h5 className="elective_points">{skill.elective_skills} Elective Skill{skill.elective_skills > 1 ? ('s') : null}</h5>
+                                <h5 key={skill.id + skill.elective_skills} className="elective_points">{skill.elective_skills} Elective Skill{skill.elective_skills > 1 ? ('s') : null}</h5>
                                 : null
                             ))
                           ) : null
