@@ -57,9 +57,9 @@ export default function CharacterSkills() {
     const newScores = [...skills];
 
     if (
-        electives[eIndex].elective_skills - data.adjustment >= 0 &&
-        newScores[index].score + data.adjustment >= newScores[index].minScore
-      ) {
+      electives[eIndex].elective_skills - data.adjustment >= 0 &&
+      newScores[index].score + data.adjustment >= newScores[index].minScore
+    ) {
       electives[eIndex] = { ...electives[eIndex], elective_skills: electives[eIndex].elective_skills - data.adjustment };
       setBackgroundElectives(electives);
 
@@ -87,7 +87,23 @@ export default function CharacterSkills() {
                           (
                             backgroundElectives.filter(elective => elective.category === category.category).map(skill => (
                               skill.elective_skills > 0 ?
-                                <h5 key={skill.id + skill.elective_skills} className="elective_points">{skill.elective_skills} Elective Skill{skill.elective_skills > 1 ? ('s') : null}</h5>
+                                <div key={skill.id + skill.elective_skills}  >
+                                  <h5 className="elective_points">{skill.elective_skills} Elective Skill{skill.elective_skills > 1 ? ('s') : null}</h5>
+                                  {skill.elective_skills >= 2 ?
+                                    <>
+                                      <label htmlFor="move">Transfer to: </label>
+                                      <select name="move" id="move_elective">
+                                        {skill.category === 'Fighting' ? null : <option value="fighting">Fighting Skills</option>}
+                                        {skill.category === 'Interaction' ? null : <option value="interaction">Interaction Skills</option>}
+                                        {skill.category === 'Movement' ? null : <option value="movement">Movement Skills</option>}
+                                        {skill.category === 'Professional' ? null : <option value="professional">Professional Skills</option>}
+                                        {skill.category === 'Reaction' ? null : <option value="reaction">Reaction Skills</option>}
+                                      </select>
+                                      <p> (2/1 cost) </p>
+                                      <input type="button" value="Transfer" />
+                                    </>
+                                    : null}
+                                </div>
                                 : null
                             ))
                           ) : null
