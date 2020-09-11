@@ -7,6 +7,7 @@ import AuthAPI from '../../utils/context/AuthApi';
 export default function CharacterSkills() {
   const [skills, setSkills] = useState(null);
   const [skillCategories, setSkillCategories] = useState(null);
+  const [transferTo, setTransferTo] = useState(null);
   const [backgroundElectives, setBackgroundElectives] = useState([]);
 
   useEffect(() => {
@@ -68,6 +69,16 @@ export default function CharacterSkills() {
     }
   }
 
+  const transferSkills = (event) => {
+    event.preventDefault();
+    console.log(transferTo)
+  }
+
+  const transferChange = (event) => {
+    event.preventDefault();
+    setTransferTo(event.target.value);
+  }
+
   return (
     <form method="post">
 
@@ -92,7 +103,8 @@ export default function CharacterSkills() {
                                   {skill.elective_skills >= 2 ?
                                     <>
                                       <label htmlFor="move">Transfer to: </label>
-                                      <select name="move" id="move_elective">
+                                      <select name="move" id="move_elective" defaultValue="choose" onChange={(event) => transferChange(event)}>
+                                        <option value="choose">(choose section)</option>
                                         {skill.category === 'Fighting' ? null : <option value="fighting">Fighting Skills</option>}
                                         {skill.category === 'Interaction' ? null : <option value="interaction">Interaction Skills</option>}
                                         {skill.category === 'Movement' ? null : <option value="movement">Movement Skills</option>}
@@ -100,7 +112,7 @@ export default function CharacterSkills() {
                                         {skill.category === 'Reaction' ? null : <option value="reaction">Reaction Skills</option>}
                                       </select>
                                       <p> (2/1 cost) </p>
-                                      <input type="button" value="Transfer" />
+                                      <button onClick={(event) => transferSkills(event)}>Transfer</button>
                                     </>
                                     : null}
                                 </div>
