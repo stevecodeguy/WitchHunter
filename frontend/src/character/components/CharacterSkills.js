@@ -24,7 +24,7 @@ export default function CharacterSkills() {
           skillList[key].minScore = 0;
         }
 
-        initialList.map(iSkill => {
+        initialList.forEach(iSkill => {
           const key = Object.keys(skillList).find(key => skillList[key].skill === iSkill.skill);
           skillList[key].score = iSkill.score;
           skillList[key].minScore = iSkill.score;
