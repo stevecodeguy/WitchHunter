@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 import Skill from '../components/child_components/Skill';
+import TransferElectives from '../components/child_components/TransferElectives';
 
 import AuthAPI from '../../utils/context/AuthApi';
 
 export default function CharacterSkills() {
   const [skills, setSkills] = useState(null);
   const [skillCategories, setSkillCategories] = useState(null);
-  const [transferTo, setTransferTo] = useState(null);
   const [backgroundElectives, setBackgroundElectives] = useState([]);
 
   useEffect(() => {
@@ -69,14 +69,40 @@ export default function CharacterSkills() {
     }
   }
 
-  const transferSkills = (event) => {
-    event.preventDefault();
-    console.log(transferTo)
-  }
+  const transferSkills = (transferTo, category) => {
+    let bgElectives = backgroundElectives;
+    const newElectives = bgElectives.find(array => array.category === category);
+    if (newElectives.elective_skills <= 1) return;
 
-  const transferChange = (event) => {
-    event.preventDefault();
-    setTransferTo(event.target.value);
+    for (const index in bgElectives) {
+      if (bgElectives[index].category === category) {
+        // if (!!bgElectives[index].transferredFrom) {
+        //   console.log('in here')
+        //   if (!!bgElectives[index].transferredFrom[transferTo] && bgElectives[index].transferredFrom[transferTo] > 1) {
+        //     console.log('minused')
+        //     bgElectives[index].transferredFrom[transferTo] = bgElectives[index].transferredFrom[transferTo] - 1;
+        //   } else {
+        //     console.log('deleted')
+        //     delete bgElectives[index].transferredFrom[transferTo];
+        //   }
+        // }
+
+        bgElectives[index].elective_skills -= 2;
+      }
+
+      if (bgElectives[index].category === transferTo) {
+        if (bgElectives[index].transferredFrom === undefined) {
+          bgElectives[index].transferredFrom = {};
+        }
+
+        bgElectives[index].elective_skills += 1;
+        bgElectives[index].transferredFrom = {
+          ...bgElectives[index].transferredFrom,
+          [category]: bgElectives[index].transferredFrom[category] + 1 || 1
+        }
+      }
+    }
+    setBackgroundElectives([...bgElectives]);
   }
 
   return (
@@ -100,20 +126,13 @@ export default function CharacterSkills() {
                               skill.elective_skills > 0 ?
                                 <div key={skill.id + skill.elective_skills}  >
                                   <h5 className="elective_points">{skill.elective_skills} Elective Skill{skill.elective_skills > 1 ? ('s') : null}</h5>
-                                  {skill.elective_skills >= 2 ?
-                                    <>
-                                      <label htmlFor="move">Transfer to: </label>
-                                      <select name="move" id="move_elective" defaultValue="choose" onChange={(event) => transferChange(event)}>
-                                        <option value="choose">(choose section)</option>
-                                        {skill.category === 'Fighting' ? null : <option value="fighting">Fighting Skills</option>}
-                                        {skill.category === 'Interaction' ? null : <option value="interaction">Interaction Skills</option>}
-                                        {skill.category === 'Movement' ? null : <option value="movement">Movement Skills</option>}
-                                        {skill.category === 'Professional' ? null : <option value="professional">Professional Skills</option>}
-                                        {skill.category === 'Reaction' ? null : <option value="reaction">Reaction Skills</option>}
-                                      </select>
-                                      <p> (2/1 cost) </p>
-                                      <button onClick={(event) => transferSkills(event)}>Transfer</button>
-                                    </>
+                                  {skill.elective_skills >= 1 ?
+                                    <TransferElectives
+                                      category={skill.category}
+                                      electives={skill.elective_skills}
+                                      transferredFrom={skill.transferredFrom}
+                                      transferSkills={transferSkills}
+                                    />
                                     : null}
                                 </div>
                                 : null

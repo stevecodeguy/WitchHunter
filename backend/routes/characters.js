@@ -13,7 +13,7 @@ const saveQuery = require('../util/queries/postCharacterQueries');
 router.get('', auth.checkAuth, (req, res) => {
   const id = req.session.userId;
   db.pool.query(query.sqlListCharacters(id), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send({ id, uuid: req.session.uuid, result });
     }
@@ -23,7 +23,7 @@ router.get('', auth.checkAuth, (req, res) => {
 
 router.get('/abilities_category', (req, res) => {
   db.pool.query(query.sqlGetAbilitiesCategory(), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send({ result });
     }
@@ -33,7 +33,7 @@ router.get('/abilities_category', (req, res) => {
 
 router.get('/abilities', (req, res) => {
   db.pool.query(query.sqlGetAbilities(), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send({ result });
     }
@@ -43,7 +43,7 @@ router.get('/abilities', (req, res) => {
 
 router.get('/skill_categories', (req, res) => {
   db.pool.query(query.sqlGetSkillsCategory(), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send({ result });
     }
@@ -53,7 +53,7 @@ router.get('/skill_categories', (req, res) => {
 
 router.get('/skills', (req, res) => {
   db.pool.query(query.sqlGetSkills(), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send({ result });
     }
@@ -63,7 +63,7 @@ router.get('/skills', (req, res) => {
 
 router.get('/initial_skills', (req, res) => {
   db.pool.query(query.sqlGetInitialSkills(req.session.backgroundId), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send({ result });
     }
@@ -73,7 +73,7 @@ router.get('/initial_skills', (req, res) => {
 
 router.get('/background_requirements', (req, res) => {
   db.pool.query(query.sqlGetBackgroundRequirements(req.session.backgroundId), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send({ result });
     }
@@ -83,7 +83,7 @@ router.get('/background_requirements', (req, res) => {
 
 router.get('/background_categories', (req, res) => {
   db.pool.query(query.sqlGetBackgroundCategories(req.session.backgroundId), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send({ result });
     }
@@ -95,7 +95,7 @@ router.post('/save_info', auth.checkAuth, (req, res) => {
   const id = req.session.userId;
   req.session.backgroundId = req.body.background.id;
   db.pool.query(saveQuery.sqlSaveCharacterInfo(id, req.body), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.insertId > 0) {
       req.session.characterId = result.insertId;
       return res.send({ id, uuid: req.session.uuid, result });
@@ -121,7 +121,7 @@ router.post('/save_abilities', auth.checkAuth, (req, res) => {
 // Route Character Info
 router.get('/info/:characterId', (req, res) => {
   db.pool.query(query.sqlGetCharacterInfo(req.userId, req.params.characterId), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send(result[0]);
     }
@@ -131,7 +131,7 @@ router.get('/info/:characterId', (req, res) => {
 
 router.get('/abilities/:characterId', (req, res) => {
   db.pool.query(query.sqlGetCharacterAbilities(req.params.characterId), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send(result[0]);
     }
@@ -141,7 +141,7 @@ router.get('/abilities/:characterId', (req, res) => {
 
 router.get('/ability/costs', (req, res) => {
   db.pool.query(query.sqlGetInfoAbilityCosts(), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send(result);
     }
@@ -151,7 +151,7 @@ router.get('/ability/costs', (req, res) => {
 
 router.get('/armor/:characterId', (req, res) => {
   db.pool.query(query.sqlGetCharacterArmor(req.params.characterId), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send(result[0]);
     }
@@ -161,7 +161,7 @@ router.get('/armor/:characterId', (req, res) => {
 
 router.get('/gear/:characterId', (req, res) => {
   db.pool.query(query.sqlGetCharacterGear(req.params.characterId), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send(result);
     }
@@ -171,7 +171,7 @@ router.get('/gear/:characterId', (req, res) => {
 
 router.get('/rites/:characterId', (req, res) => {
   db.pool.query(query.sqlGetCharacterRites(req.params.characterId), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send(result);
     }
@@ -181,7 +181,7 @@ router.get('/rites/:characterId', (req, res) => {
 
 router.get('/skills/:characterId', (req, res) => {
   db.pool.query(query.sqlGetCharacterSkills(req.params.characterId), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send(result);
     }
@@ -191,7 +191,7 @@ router.get('/skills/:characterId', (req, res) => {
 
 router.get('/talents/:characterId', (req, res) => {
   db.pool.query(query.sqlGetCharacterTalents(req.params.characterId), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send(result);
     }
@@ -201,7 +201,7 @@ router.get('/talents/:characterId', (req, res) => {
 
 router.get('/weapons/:characterId', (req, res) => {
   db.pool.query(query.sqlGetCharacterSkills(req.params.characterId), (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     if (result.length > 0) {
       return res.send(result);
     }

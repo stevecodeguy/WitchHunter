@@ -100,6 +100,9 @@ export default function CharacterAbilityScores() {
     if (!!auth.state.uuid) {
       try {
         if (checkSpentPoints()) {
+          for (const index in abilityScore){
+            abilityScore[index] = abilityScore[index].score
+          }
           await AuthAPI.post(`/characters/save_abilities`, abilityScore);
         }
       } catch (error) {
@@ -201,15 +204,17 @@ export default function CharacterAbilityScores() {
         </div>
         <div>
           <button
-            onClick={() => {
+            onClick={(event) => {
               if (checkSpentPoints()) {
+                event.preventDefault();
                 saveAbilities();
                 history.push('/character/new/skills')
               }
             }}
           >Next</button>
           <button
-            onClick={() => {
+            onClick={(event) => {
+              event.preventDefault();
               history.push('/character/new/skills');
             }}
           >Ignore</button>
