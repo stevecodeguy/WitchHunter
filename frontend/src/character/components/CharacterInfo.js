@@ -166,6 +166,7 @@ export default function CharacterInfo() {
           <Counter name="damnation" set={setDamnation} value={damnation} />
         </ul>
         <button
+          type="button"
           onClick={() => {
             if (checkForm()) {
               saveCharacterInfo();
@@ -174,11 +175,13 @@ export default function CharacterInfo() {
           }}
         >Next</button>
         <button
+          type="button"
           onClick={() => {
               history.push('/character/new/abilities');
           }}
         >Ignore</button> 
         <button
+          type="button"
           onClick={() => {
             setFakeCharacter();
           }}

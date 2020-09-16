@@ -215,6 +215,7 @@ export default function CharacterAbilityScores() {
         </div>
         <div>
           <button
+            type="button"
             onClick={(event) => {
               if (checkSpentPoints()) {
                 event.preventDefault();
@@ -224,12 +225,14 @@ export default function CharacterAbilityScores() {
             }}
           >Next</button>
           <button
+            type="button"
             onClick={(event) => {
               event.preventDefault();
               history.push('/character/new/skills');
             }}
           >Ignore</button>
           <button
+            type="button"
             onClick={(event) => {
               setFakeAbilities(event);
             }}
