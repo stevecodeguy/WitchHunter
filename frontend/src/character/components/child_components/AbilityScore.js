@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import '../../css/characterElements.css';
 
 export default function AbilityScore(props) {
-  const [abilityScore, setAbilityScore] = useState(props.abilityScore);
-
   const handleCharacterAbilityScoresChange = (event) => {
     event.preventDefault();
-    setAbilityScore(event.target.value);
+    //TO DO
   }
 
   const handleCharacterAbilityScoresPlusMinus = async (modifier) => {
     if (modifier === -1 && ((props.abilityScore + modifier) < props.minimumScore)) return;
     if (modifier === 1 && props.abilityScore >= 5) return;
-    if (await props.adjustSpentPoints(props.ability, props.abilityScore + modifier, modifier)) {
+    // if (await props.adjustSpentPoints(props.ability, props.abilityScore + modifier, modifier)) {
       // If Spent Points would not go below zero, increase Ability Score
-      await setAbilityScore(props.abilityScore + modifier);
-    };
+      await props.adjustSpentPoints(props.ability, props.abilityScore + modifier, modifier)
+      // await setAbilityScore(props.abilityScore + modifier);
+    // };
   }
 
   return (
