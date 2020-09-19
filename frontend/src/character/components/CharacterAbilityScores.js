@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-extra-boolean-cast */
 import React, { useEffect, useContext, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';

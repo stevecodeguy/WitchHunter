@@ -71,7 +71,9 @@ export default function CharacterSkills() {
 
   const transferSkills = (skillDestination, skillSource) => {
     let bgElectives = backgroundElectives;
-    if (bgElectives.find(array => array.category === skillSource).elective_skills <= 1) return;
+    const electiveSource = bgElectives.find(array => array.category === skillSource);
+    if (electiveSource.elective_skills <= 1) return;
+    if (!!electiveSource.transferredFrom && !!electiveSource.transferredFrom[skillDestination]) return refundSkills(skillDestination, skillSource);
 
     for (const index in bgElectives) {
       // Reduce transferred skills by 2
@@ -99,7 +101,7 @@ export default function CharacterSkills() {
 
   const refundSkills = (skillDestination, skillSource) => {
     let bgElectives = backgroundElectives;
-console.log(skillDestination, skillSource)
+
     for (const index in bgElectives) {
       // If the source contains the destination in the transferred from object lower the amount by 1 or delete if at 1.
       if (bgElectives[index].category === skillSource) {

@@ -11,7 +11,9 @@ export default function TransferElectives(props) {
 
   const transferSkills = (event) => {
     event.preventDefault();
-    props.transferSkills(transferTo, props.category);
+    if(!!transferTo){
+      props.transferSkills(transferTo, props.category);
+    }
   }
 
   const refundSkills = (event, key) => {
