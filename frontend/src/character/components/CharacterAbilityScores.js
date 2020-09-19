@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-boolean-cast */
 import React, { useEffect, useContext, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -45,57 +46,64 @@ export default function CharacterAbilityScores() {
   }
 
   const adjustSpentPoints = useCallback(
-  // const adjustSpentPoints =
+    // const adjustSpentPoints =
     async (ability, newScore, modifier, setMinimums = false) => {
-    let points;
-    if (modifier === 1) {
-      // Points calculation if modified from base  of 2
-      points = newScore !== 2 ? (newScore - 2) * 10 : 10;
-    } else {
-      // Points calculation if greater than 1
-      points = newScore > 1 ? (newScore - 1) * -10 : -10;
-    }
+      let points;
+      if (modifier === 1) {
+        // Points calculation if modified from base  of 2
+        points = newScore !== 2 ? (newScore - 2) * 10 : 10;
+      } else {
+        // Points calculation if greater than 1
+        points = newScore > 1 ? (newScore - 1) * -10 : -10;
+      }
 
-    // If Spent Points would not go below zero adjust. Returns will indicate to adjust the Ability Score 
-    if (INITIAL_POINTS - (spentPoints + points) >= 0) {
+      // If Spent Points would not go below zero adjust.
+      // if (INITIAL_POINTS - (spentPoints + points) >= 0) {
       if (typeof (ability) === 'object' && ability !== null) {
-        let scoreAdjustment = 0;
-        let abilitiesJSON = {};
-        let abilitiesCollection = {};
 
-        await setAbilityScore(abilityScore => {
+        setAbilityScore(abilityScore => {
+          let abilitiesJSON = {};
+          let abilitiesCollection = {};
+
           for (const key in ability) {
             setMinimums ?
               abilitiesJSON = JSON.parse(`{"${ability[key].ability.toLowerCase()}": {"score": ${ability[key].score}, "minimum": ${ability[key].score}}`) :
               abilitiesJSON = JSON.parse(`{"${ability[key].ability.toLowerCase()}": {"score": ${ability[key].score}}}`);
-  
+
             abilitiesCollection = { ...abilitiesCollection, ...abilitiesJSON }
           }
           return { ...abilityScore, ...abilitiesCollection }
         });
 
-        await setSpentPoints(spentPoints => {
-          for (const key in ability) {
-            scoreAdjustment += ability[key].score - 2;
+        setSpentPoints(spent => {
+          if (INITIAL_POINTS - (spent + points) >= 0) {
+            let scoreAdjustment = 0;
+
+            for (const key in ability) {
+              scoreAdjustment += ability[key].score - 2;
+            }
+            return spent + (scoreAdjustment * 10);
           }
-          return spentPoints + (scoreAdjustment * 10)
+          return spent;
         });
       } else {
-        
-        await setAbilityScore(abilityScore => {
+
+        setAbilityScore(abilityScore => {
           let newAbilityScore = {};
           setMinimums ?
             newAbilityScore = { ...abilityScore, [ability]: { score: newScore, minimum: newScore } } :
-            newAbilityScore = { ...abilityScore, [ability]: { score: newScore, minimum: abilityScore[ability].minimum} };
+            newAbilityScore = { ...abilityScore, [ability]: { score: newScore, minimum: abilityScore[ability].minimum } };
           return newAbilityScore;
         });
-        await setSpentPoints(spentPoints => spentPoints + points);
+
+        setSpentPoints(spent => {
+          if (INITIAL_POINTS - (spent + points) >= 0) {
+            return spent + points;
+          }
+          return spent;
+        });
       }
-      return true;
-    } else {
-      return false;
-    }
-  }, [spentPoints]);
+    }, []);
 
 
   const checkSpentPoints = () => {
@@ -111,7 +119,7 @@ export default function CharacterAbilityScores() {
     if (!!auth.state.uuid) {
       try {
         if (checkSpentPoints()) {
-          for (const index in abilityScore){
+          for (const index in abilityScore) {
             abilityScore[index] = abilityScore[index].score
           }
           await AuthAPI.post(`/characters/save_abilities`, abilityScore);
