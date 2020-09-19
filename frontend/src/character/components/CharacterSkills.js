@@ -69,39 +69,57 @@ export default function CharacterSkills() {
     }
   }
 
-  const transferSkills = (transferTo, category) => {
+  const transferSkills = (skillDestination, skillSource) => {
     let bgElectives = backgroundElectives;
-    const newElectives = bgElectives.find(array => array.category === category);
-    if (newElectives.elective_skills <= 1) return;
+    if (bgElectives.find(array => array.category === skillSource).elective_skills <= 1) return;
 
     for (const index in bgElectives) {
-      if (bgElectives[index].category === category) {
-        // if (!!bgElectives[index].transferredFrom) {
-        //   console.log('in here')
-        //   if (!!bgElectives[index].transferredFrom[transferTo] && bgElectives[index].transferredFrom[transferTo] > 1) {
-        //     console.log('minused')
-        //     bgElectives[index].transferredFrom[transferTo] = bgElectives[index].transferredFrom[transferTo] - 1;
-        //   } else {
-        //     console.log('deleted')
-        //     delete bgElectives[index].transferredFrom[transferTo];
-        //   }
-        // }
-
+      // Reduce transferred skills by 2
+      if (bgElectives[index].category === skillSource) {
         bgElectives[index].elective_skills -= 2;
       }
 
-      if (bgElectives[index].category === transferTo) {
+      // Create transferredFrom object to contain where the skills came from.
+      if (bgElectives[index].category === skillDestination) {
         if (bgElectives[index].transferredFrom === undefined) {
           bgElectives[index].transferredFrom = {};
         }
 
         bgElectives[index].elective_skills += 1;
+
         bgElectives[index].transferredFrom = {
           ...bgElectives[index].transferredFrom,
-          [category]: bgElectives[index].transferredFrom[category] + 1 || 1
+          [skillSource]: bgElectives[index].transferredFrom[skillSource] + 1 || 1
         }
       }
     }
+
+    setBackgroundElectives([...bgElectives]);
+  }
+
+  const refundSkills = (skillDestination, skillSource) => {
+    let bgElectives = backgroundElectives;
+console.log(skillDestination, skillSource)
+    for (const index in bgElectives) {
+      // If the source contains the destination in the transferred from object lower the amount by 1 or delete if at 1.
+      if (bgElectives[index].category === skillSource) {
+        if (!!bgElectives[index].transferredFrom && !!bgElectives[index].transferredFrom[skillDestination]) {
+          if (bgElectives[index].transferredFrom[skillDestination] > 1) {
+            bgElectives[index].transferredFrom[skillDestination] = bgElectives[index].transferredFrom[skillDestination] - 1;
+          } else {
+            delete bgElectives[index].transferredFrom[skillDestination];
+          }
+        }
+
+        bgElectives[index].elective_skills -= 1;
+      }
+
+      // Refund the 2 for 1 cost to the original source.
+      if (bgElectives[index].category === skillDestination) {
+        bgElectives[index].elective_skills += 2;
+      }
+    }
+
     setBackgroundElectives([...bgElectives]);
   }
 
@@ -132,6 +150,7 @@ export default function CharacterSkills() {
                                       electives={skill.elective_skills}
                                       transferredFrom={skill.transferredFrom}
                                       transferSkills={transferSkills}
+                                      refundSkills={refundSkills}
                                     />
                                     : null}
                                 </div>

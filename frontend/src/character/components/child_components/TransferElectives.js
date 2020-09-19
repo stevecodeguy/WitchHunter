@@ -6,13 +6,22 @@ export default function TransferElectives(props) {
   const transferChange = (event) => {
     event.preventDefault();
     const transferCat = event.target.value;
-    setTransferTo(transferCat.charAt(0).toUpperCase() + transferCat.slice(1));
+    setTransferTo((transferCat.charAt(0).toUpperCase() + transferCat.slice(1)).toString());
   }
 
-  const sendSkills = (event) => {
+  const transferSkills = (event) => {
     event.preventDefault();
-    console.log(transferTo, props.category);
     props.transferSkills(transferTo, props.category);
+  }
+
+  const refundSkills = (event, key) => {
+    event.preventDefault();
+
+    for(const transferredFrom in props.transferredFrom){
+      if(key === transferredFrom){
+        props.refundSkills(key, props.category);
+      }
+    }
   }
 
   return (
@@ -30,7 +39,7 @@ export default function TransferElectives(props) {
               {props.category === 'Reaction' ? null : <option value="reaction">Reaction Skills</option>}
             </select>
             <p> (2/1 cost) </p>
-            <button onClick={(event) => sendSkills(event)}>Transfer</button>
+            <button onClick={(event) => transferSkills(event)}>Transfer</button>
           </>
         ) : null
       }
@@ -39,7 +48,7 @@ export default function TransferElectives(props) {
           Object.entries(props.transferredFrom).map(([key, value]) => (
             <div key={key}>
               <p>{`${value} elective${value > 1 ? `s` : ``} transferred from ${key}`}</p>
-              <button onClick={(event) => sendSkills(event)}>Return to {key}</button>
+              <button onClick={(event) => refundSkills(event, key)}>Return to {key}</button>
             </div>
           )) : null
       }
