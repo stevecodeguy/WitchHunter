@@ -59,7 +59,6 @@ export default function CharacterAbilityScores() {
       }
 
       // If Spent Points would not go below zero adjust.
-      // if (INITIAL_POINTS - (spentPoints + points) >= 0) {
       if (typeof (ability) === 'object' && ability !== null) {
 
         setAbilityScore(abilityScore => {

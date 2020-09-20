@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Skill from '../components/child_components/Skill';
 import TransferElectives from '../components/child_components/TransferElectives';
@@ -9,6 +10,8 @@ export default function CharacterSkills() {
   const [skills, setSkills] = useState(null);
   const [skillCategories, setSkillCategories] = useState(null);
   const [backgroundElectives, setBackgroundElectives] = useState([]);
+
+  let history = useHistory();
 
   useEffect(() => {
     const getSkills = async () => {
@@ -75,10 +78,15 @@ export default function CharacterSkills() {
     if (electiveSource.elective_skills <= 1) return;
     if (!!electiveSource.transferredFrom && !!electiveSource.transferredFrom[skillDestination]) return refundSkills(skillDestination, skillSource);
 
+    let electiveMove = 0;
+    if (!!electiveSource.elective_skills){
+      electiveMove = electiveSource.elective_skills
+    }
+
     for (const index in bgElectives) {
       // Reduce transferred skills by 2
       if (bgElectives[index].category === skillSource) {
-        bgElectives[index].elective_skills -= 2;
+        bgElectives[index].elective_skills = 0;
       }
 
       // Create transferredFrom object to contain where the skills came from.
@@ -87,11 +95,11 @@ export default function CharacterSkills() {
           bgElectives[index].transferredFrom = {};
         }
 
-        bgElectives[index].elective_skills += 1;
+        bgElectives[index].elective_skills += Math.floor(electiveMove / 2);
 
         bgElectives[index].transferredFrom = {
           ...bgElectives[index].transferredFrom,
-          [skillSource]: bgElectives[index].transferredFrom[skillSource] + 1 || 1
+          [skillSource]: bgElectives[index].transferredFrom[skillSource] + electiveMove || electiveMove
         }
       }
     }
@@ -101,24 +109,27 @@ export default function CharacterSkills() {
 
   const refundSkills = (skillDestination, skillSource) => {
     let bgElectives = backgroundElectives;
+    const electiveSource = bgElectives.find(array => array.category === skillSource);
+
+    let electiveMove = 0;
+    if (!!electiveSource.transferredFrom && !!electiveSource.transferredFrom[skillDestination]){
+      electiveMove = electiveSource.transferredFrom[skillDestination]
+    }
 
     for (const index in bgElectives) {
-      // If the source contains the destination in the transferred from object lower the amount by 1 or delete if at 1.
+      // If the source contains the destination in the transferred from object lower the amount by amount originally transferred.
       if (bgElectives[index].category === skillSource) {
         if (!!bgElectives[index].transferredFrom && !!bgElectives[index].transferredFrom[skillDestination]) {
-          if (bgElectives[index].transferredFrom[skillDestination] > 1) {
-            bgElectives[index].transferredFrom[skillDestination] = bgElectives[index].transferredFrom[skillDestination] - 1;
-          } else {
+            bgElectives[index].transferredFrom[skillDestination] = bgElectives[index].transferredFrom[skillDestination] - electiveMove;
             delete bgElectives[index].transferredFrom[skillDestination];
-          }
         }
 
         bgElectives[index].elective_skills -= 1;
       }
 
-      // Refund the 2 for 1 cost to the original source.
+      // Refund skills to the original source.
       if (bgElectives[index].category === skillDestination) {
-        bgElectives[index].elective_skills += 2;
+        bgElectives[index].elective_skills += electiveMove;
       }
     }
 
@@ -181,6 +192,25 @@ export default function CharacterSkills() {
               </div>
             )
         }
+        <button
+          type="button"
+          onClick={() => {
+
+          }}
+        >Next</button>
+        <button
+          type="button"
+          onClick={() => {
+            history.push('/character/new/abilities');
+          }}
+        >Ignore</button>
+        <button
+          type="button"
+          onClick={() => {
+
+          }}
+        >Fill</button>
+        {/* TEMP BUTTON 'IGNORE' and 'FILL'. Remove later */}
       </div>
     </form >
   );
