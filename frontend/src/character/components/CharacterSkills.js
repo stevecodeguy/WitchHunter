@@ -18,6 +18,8 @@ export default function CharacterSkills() {
       try {
         const skillsResult = await AuthAPI.get(`/characters/skills`);
         const initialResult = await AuthAPI.get(`/characters/initial_skills`);
+//         const abilitiesResult = await AuthAPI.get(`/characters/abilities_current`);
+// console.log(abilitiesResult)
 
         let skillList = skillsResult.data.result;
         const initialList = initialResult.data.result;
@@ -25,12 +27,15 @@ export default function CharacterSkills() {
         for (let key in skillList) {
           skillList[key].score = 0;
           skillList[key].minScore = 0;
+          skillList[key].maxScore = 5;
         }
 
         initialList.forEach(iSkill => {
           const key = Object.keys(skillList).find(key => skillList[key].skill === iSkill.skill);
           skillList[key].score = iSkill.score;
           skillList[key].minScore = iSkill.score;
+          skillList[key].maxScore = iSkill.score;
+          console.log(iSkill)
         });
 
         setSkills(skillList);

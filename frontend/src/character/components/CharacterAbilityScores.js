@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-extra-boolean-cast */
 import React, { useEffect, useContext, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { AuthContext } from '../../utils/context/AuthContext';
+import { CharacterContext } from '../../utils/context/CharacterContext';
 import AuthAPI from '../../utils/context/AuthApi';
 import Points from '../components/child_components/Points';
 
@@ -14,25 +13,16 @@ export default function CharacterAbilityScores() {
   const [abilities, setAbilities] = useState(null);
   const [abilitiesCategories, setAbilitiesCategories] = useState(null);
   const [spentPoints, setSpentPoints] = useState(0);
-  const [abilityScore, setAbilityScore] = useState({
-    strength: { score: 2, minimum: 1 },
-    agility: { score: 2, minimum: 1 },
-    toughness: { score: 2, minimum: 1 },
-    education: { score: 2, minimum: 1 },
-    reason: { score: 2, minimum: 1 },
-    will: { score: 2, minimum: 1 },
-    courage: { score: 2, minimum: 1 },
-    intuition: { score: 2, minimum: 1 },
-    personality: { score: 2, minimum: 1 }
-  });
+
   const INITIAL_POINTS = 100;
 
   const auth = useContext(AuthContext);
+  const character = useContext(CharacterContext);
   let history = useHistory();
 
   const setFakeAbilities = (event) => {
     event.preventDefault();
-    setAbilityScore({
+    character.setAbilityScore({
       strength: { score: 5, minimum: 1 },
       agility: { score: 4, minimum: 1 },
       toughness: { score: 3, minimum: 1 },
@@ -61,7 +51,7 @@ export default function CharacterAbilityScores() {
       // If Spent Points would not go below zero adjust.
       if (typeof (ability) === 'object' && ability !== null) {
 
-        setAbilityScore(abilityScore => {
+        character.setAbilityScore(abilityScore => {
           let abilitiesJSON = {};
           let abilitiesCollection = {};
 
@@ -72,7 +62,7 @@ export default function CharacterAbilityScores() {
 
             abilitiesCollection = { ...abilitiesCollection, ...abilitiesJSON }
           }
-          return { ...abilityScore, ...abilitiesCollection }
+          return { ...character.abilityScore, ...abilitiesCollection }
         });
 
         setSpentPoints(spent => {
@@ -88,7 +78,7 @@ export default function CharacterAbilityScores() {
         });
       } else {
 
-        setAbilityScore(abilityScore => {
+        character.setAbilityScore(abilityScore => {
           let newAbilityScore = {};
           setMinimums ?
             newAbilityScore = { ...abilityScore, [ability]: { score: newScore, minimum: newScore } } :
@@ -119,10 +109,10 @@ export default function CharacterAbilityScores() {
     if (!!auth.state.uuid) {
       try {
         if (checkSpentPoints()) {
-          for (const index in abilityScore) {
-            abilityScore[index] = abilityScore[index].score
+          for (const index in character.abilityScore) {
+            character.abilityScore[index] = character.abilityScore[index].score
           }
-          await AuthAPI.post(`/characters/save_abilities`, abilityScore);
+          await AuthAPI.post(`/characters/save_abilities`, character.abilityScore);
         }
       } catch (error) {
         console.log(`Error saving abilities: ${error}`);
@@ -207,8 +197,8 @@ export default function CharacterAbilityScores() {
                               {
                                 <AbilityScores
                                   ability={ability.ability}
-                                  abilityScore={abilityScore[ability.ability].score}
-                                  minimumScore={abilityScore[ability.ability].minimum}
+                                  abilityScore={character.abilityScore[ability.ability].score}
+                                  minimumScore={character.abilityScore[ability.ability].minimum}
                                   adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
                                 />
                               }
@@ -228,7 +218,7 @@ export default function CharacterAbilityScores() {
               if (checkSpentPoints()) {
                 event.preventDefault();
                 saveAbilities();
-                history.push('/character/new/skills')
+                history.push('/character/new/skills');
               }
             }}
           >Next</button>

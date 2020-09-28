@@ -4,11 +4,14 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AuthProvider } from '../src/utils/context/AuthContext';
+import { CharacterProvider } from '../src/utils/context/CharacterContext';
 
 ReactDOM.render(
-    <AuthProvider>
-      < App />
-    </AuthProvider>,
+  <AuthProvider>
+    <CharacterProvider>
+      <App />
+    </CharacterProvider>
+  </AuthProvider>,
   document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

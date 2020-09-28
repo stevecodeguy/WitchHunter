@@ -129,8 +129,8 @@ router.get('/info/:characterId', (req, res) => {
   });
 });
 
-router.get('/abilities/:characterId', (req, res) => {
-  db.pool.query(query.sqlGetCharacterAbilities(req.params.characterId), (err, result) => {
+router.get('/abilities_current', (req, res) => {
+  db.pool.query(query.sqlGetCharacterAbilities(req.session.characterId), (err, result) => {
     if (err) console.log(err);
     if (result.length > 0) {
       return res.send(result[0]);
