@@ -199,6 +199,7 @@ export default function CharacterAbilityScores() {
                                   ability={ability.ability}
                                   abilityScore={abilityScore[ability.ability].score}
                                   minimumScore={abilityScore[ability.ability].minimum}
+                                  spentPoints={spentPoints}
                                   adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
                                 />
                               }

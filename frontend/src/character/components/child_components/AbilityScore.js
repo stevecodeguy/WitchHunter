@@ -11,11 +11,8 @@ export default function AbilityScore(props) {
   const handleCharacterAbilityScoresPlusMinus = async (modifier) => {
     if (modifier === -1 && ((props.abilityScore + modifier) < props.minimumScore)) return;
     if (modifier === 1 && props.abilityScore >= 5) return;
-    // if (await props.adjustSpentPoints(props.ability, props.abilityScore + modifier, modifier)) {
-      // If Spent Points would not go below zero, increase Ability Score
-      await props.adjustSpentPoints(props.ability, props.abilityScore + modifier, modifier)
-      // await setAbilityScore(props.abilityScore + modifier);
-    // };
+    if (modifier === 1 && props.spentPoints >= 100) return;
+    await props.adjustSpentPoints(props.ability, props.abilityScore + modifier, modifier)
   }
 
   return (
