@@ -37,13 +37,35 @@ export default function CharacterAbilityScores() {
   }
 
   const adjustSpentPoints = useCallback((ability, newScore, modifier, setMinimums = false) => {
-    let points;
+    let points = 0;
     if (modifier === 1) {
-      // Points calculation if modified from base  of 2
+      // Points calculation if modified from base of 2
       points = newScore !== 2 ? (newScore - 2) * 10 : 10;
-    } else {
+    } else if (modifier === -1) {
       // Points calculation if greater than 1
-      points = newScore > 1 ? (newScore - 1) * -10 : -10;
+      points = (newScore - 1) * -10;
+    } else if (modifier === 0) {
+      // Points calculation is set by typing
+
+      // POINTS NOT CALCULATING CORRECTLY.
+      const oldValue = newScore.oldValue;
+      const newValue = newScore.newValue;
+
+      newScore = newScore.newValue;
+
+      let sumArr = [];
+      if (oldValue < newValue) {
+        for (let i = oldValue - oldValue; i <= newValue - oldValue; i++) {
+          if (oldValue * 1 === 1) sumArr.push(-1);
+          sumArr.push(i);
+        }
+      } else {
+        for (let i = newValue - newValue; i <= oldValue - newValue; i++) {
+          if (newValue * 1 === 1) sumArr.push(-1);
+          sumArr.push(i);
+        }
+      }
+      points = sumArr.reduce((accumulator, currentValue) => { return (accumulator * 1) + (currentValue * 1) }, 0) * 10;
     }
 
     // Adjust with complete overwrite (Object) or individual ability adjustment.
@@ -80,8 +102,8 @@ export default function CharacterAbilityScores() {
       setAbilityScore(abilityScore => {
         let newAbilityScore = {};
         setMinimums ?
-          newAbilityScore = { ...abilityScore, [ability]: { score: newScore, minimum: newScore } } :
-          newAbilityScore = { ...abilityScore, [ability]: { score: newScore, minimum: abilityScore[ability].minimum } };
+          newAbilityScore = { ...abilityScore, [ability]: { score: newScore * 1, minimum: newScore } } :
+          newAbilityScore = { ...abilityScore, [ability]: { score: newScore * 1, minimum: abilityScore[ability].minimum } };
         return newAbilityScore;
       });
 
