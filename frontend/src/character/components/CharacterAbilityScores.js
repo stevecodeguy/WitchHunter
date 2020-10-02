@@ -43,29 +43,7 @@ export default function CharacterAbilityScores() {
       points = newScore !== 2 ? (newScore - 2) * 10 : 10;
     } else if (modifier === -1) {
       // Points calculation if greater than 1
-      points = (newScore - 1) * -10;
-    } else if (modifier === 0) {
-      // Points calculation is set by typing
-
-      // POINTS NOT CALCULATING CORRECTLY.
-      const oldValue = newScore.oldValue;
-      const newValue = newScore.newValue;
-
-      newScore = newScore.newValue;
-
-      let sumArr = [];
-      if (oldValue < newValue) {
-        for (let i = oldValue - oldValue; i <= newValue - oldValue; i++) {
-          if (oldValue * 1 === 1) sumArr.push(-1);
-          sumArr.push(i);
-        }
-      } else {
-        for (let i = newValue - newValue; i <= oldValue - newValue; i++) {
-          if (newValue * 1 === 1) sumArr.push(-1);
-          sumArr.push(i);
-        }
-      }
-      points = sumArr.reduce((accumulator, currentValue) => { return (accumulator * 1) + (currentValue * 1) }, 0) * 10;
+      points = newScore > 1 ? (newScore - 1) * -10 : -10;
     }
 
     // Adjust with complete overwrite (Object) or individual ability adjustment.

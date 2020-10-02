@@ -6,23 +6,32 @@ export default function AbilityScore(props) {
   const handleCharacterAbilityScoresChange = (event) => {
     event.preventDefault();
     if (event.key >= 0 && event.key <= 5 && (event.key !== event.target.value)) {
-      // const increaseOrDecrease = event.key >= event.target.value ? 1 : -1;
-      // let sumArr = [];
-      // let arr = [event.target.value, event.key];
-      // arr.sort((a, b) => a -b);
 
-      // console.log(arr)
-      // for (let i = arr[0] - arr[0]; i <= arr[1] - arr[0]; i++){
-      //   if (arr[0] * 1 === 1) sumArr.push(-1);
-      //   sumArr.push(i);
-      // }
-      // let sum = sumArr.reduce((accumulator, currentValue) => {return (accumulator * 1) + (currentValue * 1)}, 0) * 10;
-      // console.log('sum', sum, arr);
+      let lowScore;
+      let highScore;
+      let modifier;
+      if(event.key > event.target.value){
+        lowScore = event.target.value;
+        highScore = event.key;
+        modifier = 1;
+      } else {
+        lowScore = event.key;
+        highScore = event.target.value;
+        modifier = -1;
+      }
 
-      let scores = {"oldValue":event.target.value, "newValue": event.key};
+      
+      for (let i = 1; i <= (highScore - lowScore); i++){
+        if (modifier === -1 && ((props.abilityScore + modifier) < props.minimumScore)) return;
+        if (modifier === 1 && props.abilityScore >= 5) return;
+        if (modifier === 1 && props.spentPoints >= 100) return;
 
-      props.adjustSpentPoints(props.ability, scores, 0);
-      event.target.value = event.key;
+        console.log('For loops', i, props.abilityScore + (i * modifier))
+
+        props.adjustSpentPoints(props.ability, props.abilityScore + (i * modifier), modifier);
+        event.target.value = i;
+      }
+
     }
   }
 
@@ -30,7 +39,7 @@ export default function AbilityScore(props) {
     if (modifier === -1 && ((props.abilityScore + modifier) < props.minimumScore)) return;
     if (modifier === 1 && props.abilityScore >= 5) return;
     if (modifier === 1 && props.spentPoints >= 100) return;
-    await props.adjustSpentPoints(props.ability, props.abilityScore + modifier, modifier)
+    await props.adjustSpentPoints(props.ability, props.abilityScore + modifier, modifier);
   }
 
   return (
