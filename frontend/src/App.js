@@ -15,6 +15,7 @@ import CharacterList from './character/pages/CharacterList';
 import CharacterInfo from './character/components/CharacterInfo';
 import CharacterAbilityScores from './character/components/CharacterAbilityScores';
 import CharacterSkills from './character/components/CharacterSkills';
+import CharacterTalents from './character/components/CharacterTalents';
 
 // User Routes
 import NewUser from './user/pages/NewUser';
@@ -36,6 +37,9 @@ function App() {
         </Route>
         <Route path='/character/new/skills'>
           <CharacterSkills />
+        </Route>
+        <Route path='/character/new/talents'>
+          <CharacterTalents />
         </Route>
         <Route path='/characters' exact>
           <CharacterList />

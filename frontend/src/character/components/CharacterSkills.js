@@ -202,13 +202,12 @@ export default function CharacterSkills() {
         <button
           type="button"
           onClick={() => {
-
+            history.push('/character/new/talents');
           }}
         >Next</button>
         <button
           type="button"
           onClick={() => {
-
           }}
         >Fill</button>
         {/* TEMP BUTTON 'IGNORE' and 'FILL'. Remove later */}
