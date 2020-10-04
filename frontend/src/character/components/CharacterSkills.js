@@ -24,8 +24,6 @@ export default function CharacterSkills() {
         let skillList = skillsResult.data.result;
         const initialList = initialResult.data.result;
 
-        // console.log(Object.keys(abilityScore))
-
         for (let key in skillList) {
           skillList[key].score = 0;
           skillList[key].minScore = 0;
