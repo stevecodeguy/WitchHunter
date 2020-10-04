@@ -53,7 +53,7 @@ export default function CharacterSkills() {
     };
 
     getSkills();
-  }, []);
+  }, [abilityScore]);
 
   const setSkillsObject = (data) => {
 
@@ -186,6 +186,7 @@ export default function CharacterSkills() {
                                 name={skill.skill}
                                 ability={skill.ability}
                                 category={skill.category}
+                                max={skill.maxScore}
                                 set={(data) => setSkillsObject(data)}
                                 value={skill.score}
                               />
