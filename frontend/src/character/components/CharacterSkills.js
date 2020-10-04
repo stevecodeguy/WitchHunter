@@ -63,9 +63,12 @@ export default function CharacterSkills() {
     const index = Object.keys(skills).find(index => skills[index].skill === data.name);
     const newScores = [...skills];
 
+    // electives[eIndex] returns category adjusted and the number of elective skills remaining
+    // newScores[index] returns the entire object for the skill (ability, category, max, min, current score, skill name)
     if (
       electives[eIndex].elective_skills - data.adjustment >= 0 &&
-      newScores[index].score + data.adjustment >= newScores[index].minScore
+      (newScores[index].score + data.adjustment >= newScores[index].minScore &&
+        newScores[index].score + data.adjustment <= newScores[index].maxScore)
     ) {
       electives[eIndex] = { ...electives[eIndex], elective_skills: electives[eIndex].elective_skills - data.adjustment };
       setBackgroundElectives(electives);
