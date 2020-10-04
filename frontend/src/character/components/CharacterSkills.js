@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Skill from '../components/child_components/Skill';
 import TransferElectives from '../components/child_components/TransferElectives';
 
 import AuthAPI from '../../utils/context/AuthApi';
+import { CharacterContext } from '../../utils/context/CharacterContext';
 
 export default function CharacterSkills() {
   const [skills, setSkills] = useState(null);
   const [skillCategories, setSkillCategories] = useState(null);
   const [backgroundElectives, setBackgroundElectives] = useState([]);
+  const { abilityScore } = useContext(CharacterContext)
 
   let history = useHistory();
 
@@ -18,24 +20,22 @@ export default function CharacterSkills() {
       try {
         const skillsResult = await AuthAPI.get(`/characters/skills`);
         const initialResult = await AuthAPI.get(`/characters/initial_skills`);
-//         const abilitiesResult = await AuthAPI.get(`/characters/abilities_current`);
-// console.log(abilitiesResult)
 
         let skillList = skillsResult.data.result;
         const initialList = initialResult.data.result;
 
+        // console.log(Object.keys(abilityScore))
+
         for (let key in skillList) {
           skillList[key].score = 0;
           skillList[key].minScore = 0;
-          skillList[key].maxScore = 5;
+          skillList[key].maxScore = abilityScore[skillList[key].ability.toLowerCase()];
         }
 
-        initialList.forEach(iSkill => {
-          const key = Object.keys(skillList).find(key => skillList[key].skill === iSkill.skill);
-          skillList[key].score = iSkill.score;
-          skillList[key].minScore = iSkill.score;
-          skillList[key].maxScore = iSkill.score;
-          console.log(iSkill)
+        initialList.forEach(initSkill => {
+          const key = Object.keys(skillList).find(key => skillList[key].skill === initSkill.skill);
+          skillList[key].score = initSkill.score;
+          skillList[key].minScore = initSkill.score;
         });
 
         setSkills(skillList);
@@ -84,7 +84,7 @@ export default function CharacterSkills() {
     if (!!electiveSource.transferredFrom && !!electiveSource.transferredFrom[skillDestination]) return refundSkills(skillDestination, skillSource);
 
     let electiveMove = 0;
-    if (!!electiveSource.elective_skills){
+    if (!!electiveSource.elective_skills) {
       electiveMove = electiveSource.elective_skills
     }
 
@@ -117,7 +117,7 @@ export default function CharacterSkills() {
     const electiveSource = bgElectives.find(array => array.category === skillSource);
 
     let electiveMove = 0;
-    if (!!electiveSource.transferredFrom && !!electiveSource.transferredFrom[skillDestination]){
+    if (!!electiveSource.transferredFrom && !!electiveSource.transferredFrom[skillDestination]) {
       electiveMove = electiveSource.transferredFrom[skillDestination]
     }
 
@@ -125,8 +125,8 @@ export default function CharacterSkills() {
       // If the source contains the destination in the transferred from object lower the amount by amount originally transferred.
       if (bgElectives[index].category === skillSource) {
         if (!!bgElectives[index].transferredFrom && !!bgElectives[index].transferredFrom[skillDestination]) {
-            bgElectives[index].transferredFrom[skillDestination] = bgElectives[index].transferredFrom[skillDestination] - electiveMove;
-            delete bgElectives[index].transferredFrom[skillDestination];
+          bgElectives[index].transferredFrom[skillDestination] = bgElectives[index].transferredFrom[skillDestination] - electiveMove;
+          delete bgElectives[index].transferredFrom[skillDestination];
         }
 
         bgElectives[index].elective_skills -= 1;

@@ -19,14 +19,11 @@ export default function AbilityScore(props) {
         highScore = event.target.value;
         modifier = -1;
       }
-
       
       for (let i = 1; i <= (highScore - lowScore); i++){
         if (modifier === -1 && ((props.abilityScore + modifier) < props.minimumScore)) return;
         if (modifier === 1 && props.abilityScore >= 5) return;
         if (modifier === 1 && props.spentPoints >= 100) return;
-
-        console.log('For loops', i, props.abilityScore + (i * modifier))
 
         props.adjustSpentPoints(props.ability, props.abilityScore + (i * modifier), modifier);
         event.target.value = i;
@@ -39,6 +36,7 @@ export default function AbilityScore(props) {
     if (modifier === -1 && ((props.abilityScore + modifier) < props.minimumScore)) return;
     if (modifier === 1 && props.abilityScore >= 5) return;
     if (modifier === 1 && props.spentPoints >= 100) return;
+    
     await props.adjustSpentPoints(props.ability, props.abilityScore + modifier, modifier);
   }
 
