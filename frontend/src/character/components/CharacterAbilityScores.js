@@ -226,13 +226,6 @@ export default function CharacterAbilityScores() {
           <button
             type="button"
             onClick={(event) => {
-              event.preventDefault();
-              history.push('/character/new/skills');
-            }}
-          >Ignore</button>
-          <button
-            type="button"
-            onClick={(event) => {
               setFakeAbilities(event);
             }}
           >Fill</button>

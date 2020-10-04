@@ -208,12 +208,6 @@ export default function CharacterSkills() {
         <button
           type="button"
           onClick={() => {
-            history.push('/character/new/abilities');
-          }}
-        >Ignore</button>
-        <button
-          type="button"
-          onClick={() => {
 
           }}
         >Fill</button>

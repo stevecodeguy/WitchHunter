@@ -177,12 +177,6 @@ export default function CharacterInfo() {
         <button
           type="button"
           onClick={() => {
-              history.push('/character/new/abilities');
-          }}
-        >Ignore</button> 
-        <button
-          type="button"
-          onClick={() => {
             setFakeCharacter();
           }}
         >Fill</button> 
