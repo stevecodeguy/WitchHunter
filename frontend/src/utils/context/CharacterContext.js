@@ -17,13 +17,16 @@ export const CharacterProvider = (props) => {
     intuition: { score: 2, minimum: 1 },
     personality: { score: 2, minimum: 1 }
   });
+  const [skills, setSkills] = useState([]);
 
   const value = useMemo(() => {
     return {
       abilityScore,
-      setAbilityScore
+      skills,
+      setAbilityScore,
+      setSkills
     }
-  }, [abilityScore, setAbilityScore]);
+  }, [abilityScore, setAbilityScore, skills, setSkills]);
 
   return (
     <CharacterContext.Provider value={value}>

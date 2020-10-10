@@ -8,10 +8,10 @@ import AuthAPI from '../../utils/context/AuthApi';
 import { CharacterContext } from '../../utils/context/CharacterContext';
 
 export default function CharacterSkills() {
-  const [skills, setSkills] = useState(null);
-  const [skillCategories, setSkillCategories] = useState(null);
+  // const [skills, setSkills] = useState([]);
+  const [skillCategories, setSkillCategories] = useState([]);
   const [backgroundElectives, setBackgroundElectives] = useState([]);
-  const { abilityScore } = useContext(CharacterContext)
+  const { abilityScore, skills, setSkills } = useContext(CharacterContext)
 
   let history = useHistory();
 
@@ -53,7 +53,8 @@ export default function CharacterSkills() {
     };
 
     getSkills();
-  }, [abilityScore]);
+  }, [abilityScore, setSkills]);
+
 
   const setSkillsObject = (data) => {
 
@@ -63,20 +64,36 @@ export default function CharacterSkills() {
     const index = Object.keys(skills).find(index => skills[index].skill === data.name);
     const newScores = [...skills];
 
+    // scoreAdjust will calulate what the value will change to.
+    // electiveAdjust will remove the value from the elective points remaining.
+    let scoreAdjust = 0;
+    let electiveAdjust = 0;
+
+    // data.overwrite will catch if the adjustment was a typed value, or a +/- click.
+    if (data.overwrite) {
+      scoreAdjust = data.adjustment;
+      electiveAdjust = electives[eIndex].elective_skills - data.adjustment + newScores[index].score;
+    } else {
+      scoreAdjust = newScores[index].score + data.adjustment;
+      electiveAdjust = electives[eIndex].elective_skills - data.adjustment;
+    }
+
     // electives[eIndex] returns category adjusted and the number of elective skills remaining
-    // newScores[index] returns the entire object for the skill (ability, category, max, min, current score, skill name)
+    // newScores[index] returns the entire object for the skills (ability, category, max, min, current score, skill name)
+
     if (
-      electives[eIndex].elective_skills - data.adjustment >= 0 &&
-      (newScores[index].score + data.adjustment >= newScores[index].minScore &&
-        newScores[index].score + data.adjustment <= newScores[index].maxScore)
+      electiveAdjust >= 0 &&
+      (scoreAdjust >= newScores[index].minScore &&
+        scoreAdjust <= newScores[index].maxScore)
     ) {
-      electives[eIndex] = { ...electives[eIndex], elective_skills: electives[eIndex].elective_skills - data.adjustment };
+      electives[eIndex] = { ...electives[eIndex], elective_skills: electiveAdjust };
       setBackgroundElectives(electives);
 
-      newScores[index] = { ...newScores[index], score: newScores[index].score + data.adjustment };
+      newScores[index] = { ...newScores[index], score: scoreAdjust };
       setSkills(newScores);
     }
   }
+
 
   const transferSkills = (skillDestination, skillSource) => {
     let bgElectives = backgroundElectives;
@@ -113,6 +130,7 @@ export default function CharacterSkills() {
     setBackgroundElectives([...bgElectives]);
   }
 
+
   const refundSkills = (skillDestination, skillSource) => {
     let bgElectives = backgroundElectives;
     const electiveSource = bgElectives.find(array => array.category === skillSource);
@@ -141,6 +159,7 @@ export default function CharacterSkills() {
 
     setBackgroundElectives([...bgElectives]);
   }
+
 
   return (
     <form method="post">
