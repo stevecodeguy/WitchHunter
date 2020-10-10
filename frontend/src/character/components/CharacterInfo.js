@@ -66,9 +66,10 @@ export default function CharacterInfo() {
       try {
         if (checkForm()) {
           const height = (heightFeet * 12) + heightInches;
-          await AuthAPI.post(`/characters/save_info`, {
-            characterName, description, sex, height, weight, eyes, hair, culture, ethnicity, nationality, religion, background, catalyst, order, sinVice, virtue, heroPoints, trueFaith, damnation
-          });
+          const characterObject = { characterName, description, sex, height, weight, eyes, hair, culture, ethnicity, nationality, religion, background, catalyst, order, sinVice, virtue, heroPoints, trueFaith, damnation }
+
+          localStorage.setItem('character_info', JSON.stringify(characterObject));
+          await AuthAPI.post(`/characters/save_info`, characterObject);
         };
       } catch (error) {
         console.log(`Error saving: ${error}`);
@@ -81,7 +82,7 @@ export default function CharacterInfo() {
     setCharacterName('Testy');
     setDescription('Test from Front End');
     setSex({
-      id: 1, 
+      id: 1,
       sex: "Male"
     });
     setHeightFeet('6');
@@ -93,12 +94,12 @@ export default function CharacterInfo() {
     setEthnicity('English');
     setNationality('Spanish');
     setReligion({
-      id: 1, 
+      id: 1,
       religion: "Catholic"
     });
     setBackground({
-      id: 2, 
-      background: "Artisan", 
+      id: 2,
+      background: "Artisan",
       social_standing: "Artisan",
       ability: "Muse",
       ability_description: "Once per day per point of reason while making a Professional action, +2 dice."
@@ -135,6 +136,35 @@ export default function CharacterInfo() {
       setWeight(125);
     }
   }, [sex]);
+
+  useEffect(() => {
+    if (localStorage.getItem('character_info')) {
+      const characterObject = JSON.parse(localStorage.getItem('character_info'));
+      const heightFeet = Math.floor(characterObject.height / 12);
+      const heightInches = characterObject.height % 12;
+
+      setCharacterName(characterObject.characterName);
+      setDescription(characterObject.description);
+      setSex(characterObject.sex);
+      setHeightFeet(heightFeet);
+      setHeightInches(heightInches);
+      setWeight(characterObject.weight);
+      setEyes(characterObject.eyes);
+      setHair(characterObject.hair);
+      setCulture(characterObject.culture);
+      setEthnicity(characterObject.ethnicity);
+      setNationality(characterObject.nationality);
+      setReligion(characterObject.religion);
+      setBackground(characterObject.background);
+      setCatalyst(characterObject.catalyst);
+      setOrder(characterObject.order);
+      setSinVice(characterObject.sinVice);
+      setVirtue(characterObject.virtue);
+      setHeroPoints(characterObject.heroPoints);
+      setTrueFaith(characterObject.trueFaith);
+      setDamnation(characterObject.damnation);
+    }
+  }, [])
 
   return (
     <form method="post">
@@ -185,7 +215,7 @@ export default function CharacterInfo() {
           onClick={() => {
             setFakeCharacter();
           }}
-        >Fill</button> 
+        >Fill</button>
         {/* TEMP BUTTON 'FILL'. Remove later */}
       </div>
     </form>
