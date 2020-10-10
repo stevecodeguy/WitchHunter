@@ -225,11 +225,17 @@ export default function CharacterSkills() {
           }}
         >Next</button>
         <button
+            type="button"
+            onClick={() => {
+              history.push('/character/new/abilities');
+            }}
+          >Back to Character Abilities</button>
+        <button
           type="button"
           onClick={() => {
           }}
         >Fill</button>
-        {/* TEMP BUTTON 'IGNORE' and 'FILL'. Remove later */}
+        {/* TEMP BUTTON 'FILL'. Remove later */}
       </div>
     </form >
   );

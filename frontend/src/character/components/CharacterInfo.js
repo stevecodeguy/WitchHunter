@@ -177,10 +177,16 @@ export default function CharacterInfo() {
         <button
           type="button"
           onClick={() => {
+            history.push('/characters');
+          }}
+        >Back to Character Selection</button>
+        <button
+          type="button"
+          onClick={() => {
             setFakeCharacter();
           }}
         >Fill</button> 
-        {/* TEMP BUTTON 'IGNORE' and 'FILL'. Remove later */}
+        {/* TEMP BUTTON 'FILL'. Remove later */}
       </div>
     </form>
   );

@@ -225,11 +225,17 @@ export default function CharacterAbilityScores() {
           >Next</button>
           <button
             type="button"
+            onClick={() => {
+              history.push('/character/new/info');
+            }}
+          >Back to Character Info</button>
+          <button
+            type="button"
             onClick={(event) => {
               setFakeAbilities(event);
             }}
           >Fill</button>
-          {/* TEMP BUTTON 'IGNORE' and 'FILL'. Remove later */}
+          {/* TEMP BUTTON 'FILL'. Remove later */}
         </div>
       </form>
     </>
