@@ -27,7 +27,10 @@ export default function CharacterSkills() {
         for (let key in skillList) {
           skillList[key].score = 0;
           skillList[key].minScore = 0;
-          skillList[key].maxScore = abilityScore[skillList[key].ability.toLowerCase()];
+          skillList[key].maxScore =
+            !!abilityScore[skillList[key].ability.toLowerCase()] ?
+              abilityScore[skillList[key].ability.toLowerCase()].score :
+              null;
         }
 
         initialList.forEach(initSkill => {
@@ -225,11 +228,11 @@ export default function CharacterSkills() {
           }}
         >Next</button>
         <button
-            type="button"
-            onClick={() => {
-              history.push('/character/new/abilities');
-            }}
-          >Back to Character Abilities</button>
+          type="button"
+          onClick={() => {
+            history.push('/character/new/abilities');
+          }}
+        >Back to Character Abilities</button>
         <button
           type="button"
           onClick={() => {
