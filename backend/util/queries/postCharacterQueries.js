@@ -86,5 +86,22 @@ const sqlSaveCharacterAbilities = (characterId, body) => `INSERT INTO character_
   ${body.personality.minimum}
 );`;
 
+const sqlSaveCharacterSkills = (characterId, body) => {
+  let sqlBuild = `INSERT INTO character_skills (
+    fk_character_info_id, 
+    fk_skill_id, 
+    \`rank\`
+    ) VALUES `;
+  for (const key in body) {
+    if (body[key].score > 0) {
+      sqlBuild += `( ${characterId}, ${body[key].id}, ${body[key].score} ),\n`
+    }
+  }
+  sqlBuild = sqlBuild.substring(0, sqlBuild.length - 2) + ';';
+
+  return sqlBuild;
+};
+
 exports.sqlSaveCharacterInfo = sqlSaveCharacterInfo;
 exports.sqlSaveCharacterAbilities = sqlSaveCharacterAbilities;
+exports.sqlSaveCharacterSkills = sqlSaveCharacterSkills;
