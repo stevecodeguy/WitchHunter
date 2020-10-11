@@ -47,25 +47,43 @@ const sqlSaveCharacterInfo = (userId, body) => `INSERT INTO character_info (
 const sqlSaveCharacterAbilities = (characterId, body) => `INSERT INTO character_abilities (
   fk_character_info_id, 
   physical_strength, 
+  physical_strength_min, 
   physical_agility, 
+  physical_agility_min, 
   physical_toughness, 
+  physical_toughness_min, 
   mental_education, 
+  mental_education_min, 
   mental_reason, 
+  mental_reason_min, 
   mental_will, 
+  mental_will_min, 
   spiritual_courage, 
+  spiritual_courage_min, 
   spiritual_intuition, 
-  spiritual_personality
+  spiritual_intuition_min, 
+  spiritual_personality,
+  spiritual_personality_min
 ) VALUES (
   ${characterId}, 
-  ${body.strength}, 
-  ${body.agility}, 
-  ${body.toughness}, 
-  ${body.education}, 
-  ${body.reason}, 
-  ${body.will}, 
-  ${body.courage}, 
-  ${body.intuition}, 
-  ${body.personality}
+  ${body.strength.score}, 
+  ${body.strength.minimum}, 
+  ${body.agility.score}, 
+  ${body.agility.minimum}, 
+  ${body.toughness.score}, 
+  ${body.toughness.minimum}, 
+  ${body.education.score}, 
+  ${body.education.minimum}, 
+  ${body.reason.score}, 
+  ${body.reason.minimum}, 
+  ${body.will.score}, 
+  ${body.will.minimum}, 
+  ${body.courage.score}, 
+  ${body.courage.minimum}, 
+  ${body.intuition.score}, 
+  ${body.intuition.minimum}, 
+  ${body.personality.score},
+  ${body.personality.minimum}
 );`;
 
 exports.sqlSaveCharacterInfo = sqlSaveCharacterInfo;

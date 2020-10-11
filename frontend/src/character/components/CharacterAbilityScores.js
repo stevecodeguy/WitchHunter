@@ -9,15 +9,20 @@ import Points from '../components/child_components/Points';
 import AbilityScores from '../components/child_components/AbilityScore';
 
 export default function CharacterAbilityScores() {
-  const [generatingAbilities, setGeneratingAbilities] = useState(null);
-  const [abilities, setAbilities] = useState(null);
-  const [abilitiesCategories, setAbilitiesCategories] = useState(null);
-  const [spentPoints, setSpentPoints] = useState(0);
+  const [generatingAbilities, setGeneratingAbilities] = useState('');
+  const [abilities, setAbilities] = useState('');
+  const [abilitiesCategories, setAbilitiesCategories] = useState('');
+  // const [spentPoints, setSpentPoints] = useState(0);
 
   const INITIAL_POINTS = 100;
 
   const auth = useContext(AuthContext);
-  const { abilityScore, setAbilityScore } = useContext(CharacterContext);
+  const {
+    abilityScore,
+    setAbilityScore,
+    spentSkillPoints,
+    setSpentSkillPoints
+  } = useContext(CharacterContext);
   let history = useHistory();
 
   const setFakeAbilities = (event) => {
@@ -33,7 +38,7 @@ export default function CharacterAbilityScores() {
       intuition: { score: 2, minimum: 1 },
       personality: { score: 2, minimum: 1 }
     });
-    setSpentPoints(100);
+    setSpentSkillPoints(100);
   }
 
   const adjustSpentPoints = useCallback((ability, newScore, modifier, setMinimums = false) => {
@@ -63,7 +68,7 @@ export default function CharacterAbilityScores() {
         return { ...abilityScore, ...abilitiesCollection }
       });
 
-      setSpentPoints(spent => {
+      setSpentSkillPoints(spent => {
         if (INITIAL_POINTS - (spent + points) >= 0) {
           let scoreAdjustment = 0;
 
@@ -85,17 +90,17 @@ export default function CharacterAbilityScores() {
         return newAbilityScore;
       });
 
-      setSpentPoints(spent => {
+      setSpentSkillPoints(spent => {
         if (INITIAL_POINTS - (spent + points) >= 0) {
           return spent + points;
         }
         return spent;
       });
     }
-  }, [setAbilityScore]);
+  }, [setAbilityScore, setSpentSkillPoints]);
 
   const checkSpentPoints = () => {
-    if (spentPoints === 100) {
+    if (spentSkillPoints === 100) {
       return true;
     } else {
       alert('You must spend all points before continuing!')
@@ -107,9 +112,8 @@ export default function CharacterAbilityScores() {
     if (!!auth.state.uuid) {
       try {
         if (checkSpentPoints()) {
-          for (const index in abilityScore) {
-            abilityScore[index] = abilityScore[index].score
-          }
+          localStorage.setItem('character_abilities', JSON.stringify(abilityScore));
+          localStorage.setItem('character_abilities_spent', spentSkillPoints);
           await AuthAPI.post(`/characters/save_abilities`, abilityScore);
         }
       } catch (error) {
@@ -179,7 +183,7 @@ export default function CharacterAbilityScores() {
         </tbody>
       </table>
 
-      <Points initial={INITIAL_POINTS} spentPoints={spentPoints} />
+      <Points initial={INITIAL_POINTS} spentPoints={spentSkillPoints} />
 
       <form method="post">
         <div>
@@ -199,7 +203,7 @@ export default function CharacterAbilityScores() {
                                   ability={ability.ability}
                                   abilityScore={abilityScore[ability.ability].score}
                                   minimumScore={abilityScore[ability.ability].minimum}
-                                  spentPoints={spentPoints}
+                                  spentPoints={spentSkillPoints}
                                   adjustSpentPoints={(ability, newScore, modifier) => adjustSpentPoints(ability, newScore, modifier)}
                                 />
                               }

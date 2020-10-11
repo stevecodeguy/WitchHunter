@@ -164,7 +164,7 @@ export default function CharacterInfo() {
       setTrueFaith(characterObject.trueFaith);
       setDamnation(characterObject.damnation);
     }
-  }, [])
+  }, []);
 
   return (
     <form method="post">
