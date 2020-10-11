@@ -126,11 +126,11 @@ export default function CharacterInfo() {
   }
 
   useEffect(() => {
-    if (sex.sex === 'Male') {
+    if (sex.sex === 'Male' && !localStorage.getItem('character_info')) {
       setHeightFeet(5);
       setHeightInches(5);
       setWeight(150);
-    } else if (sex.sex === 'Female') {
+    } else if (sex.sex === 'Female' && !localStorage.getItem('character_info')) {
       setHeightFeet(5);
       setHeightInches(1);
       setWeight(125);

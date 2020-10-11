@@ -37,6 +37,7 @@ export default function Dropdown(props) {
         name={props.name}
         defaultValue=""
         onChange={(event) => handleCharacterDropdownChange(event)}
+        value={props.value[props.name]}
         required
       >
         <option value="" disabled>{`Choose ${LabelName(props)}`}</option>
