@@ -12,7 +12,6 @@ export default function CharacterAbilityScores() {
   const [generatingAbilities, setGeneratingAbilities] = useState('');
   const [abilities, setAbilities] = useState('');
   const [abilitiesCategories, setAbilitiesCategories] = useState('');
-  // const [spentPoints, setSpentPoints] = useState(0);
 
   const INITIAL_POINTS = 100;
 
@@ -219,9 +218,8 @@ export default function CharacterAbilityScores() {
         <div>
           <button
             type="button"
-            onClick={(event) => {
+            onClick={() => {
               if (checkSpentPoints()) {
-                event.preventDefault();
                 saveAbilities();
                 history.push('/character/new/skills');
               }

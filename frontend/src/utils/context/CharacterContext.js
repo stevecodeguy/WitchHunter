@@ -42,22 +42,39 @@ export const CharacterProvider = (props) => {
     return 0;
   });
   // Skill scores Context
-  const [skills, setSkills] = useState([]);
+  const [skills, setSkills] = useState(() => {
+    if (localStorage.getItem('character_skills')) {
+      return JSON.parse(localStorage.getItem('character_skills'));
+    }
+    return [];
+  });
+  // Background Electives Context
+  const [backgroundElectives, setBackgroundElectives] = useState(() => {
+    if (localStorage.getItem('character_electives')) {
+      console.log(JSON.parse(localStorage.getItem('character_electives')))
+      return JSON.parse(localStorage.getItem('character_electives'));
+    }
+    return [];
+  });
 
   const value = useMemo(() => {
     return {
       abilityScore,
+      backgroundElectives,
       skills,
       spentSkillPoints,
       setAbilityScore,
+      setBackgroundElectives,
       setSkills,
       setSpentSkillPoints
     }
   }, [
     abilityScore,
+    backgroundElectives,
     skills,
     spentSkillPoints,
     setAbilityScore,
+    setBackgroundElectives,
     setSkills,
     setSpentSkillPoints
   ]);
