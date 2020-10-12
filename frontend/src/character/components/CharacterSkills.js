@@ -40,22 +40,29 @@ export default function CharacterSkills() {
         let skillList = skillsResult.data.result;
         const initialList = initialResult.data.result;
 
-        for (let key in skillList) {
-          skillList[key].score = 0;
-          skillList[key].minScore = 0;
-          skillList[key].maxScore =
-            !!abilityScore[skillList[key].ability.toLowerCase()] ?
-              abilityScore[skillList[key].ability.toLowerCase()].score :
-              null;
+        if (skills.length === 0) {
+          for (let key in skillList) {
+            skillList[key].score = 0;
+            skillList[key].minScore = 0;
+            skillList[key].maxScore =
+              !!abilityScore[skillList[key].ability.toLowerCase()] ?
+                abilityScore[skillList[key].ability.toLowerCase()].score :
+                null;
+          }
+
+          initialList.forEach(initSkill => {
+            const key = Object.keys(skillList).find(key => skillList[key].skill === initSkill.skill);
+            skillList[key].score = initSkill.score;
+            skillList[key].minScore = initSkill.score;
+          });
+
+          console.log('list: ', skillList)
+          // THIS IS OVERWRITING THE LOCAL STORAGE
+          setSkills(skillList);
+          
+          let backgroundCategories = await AuthAPI.get('/characters/background_categories');
+          setBackgroundElectives(backgroundCategories.data.result);
         }
-
-        initialList.forEach(initSkill => {
-          const key = Object.keys(skillList).find(key => skillList[key].skill === initSkill.skill);
-          skillList[key].score = initSkill.score;
-          skillList[key].minScore = initSkill.score;
-        });
-
-        setSkills(skillList);
 
         let categories = await AuthAPI.get('/characters/skill_categories');
         for (const category in categories.data.result) {
@@ -63,8 +70,6 @@ export default function CharacterSkills() {
         }
         setSkillCategories(categories.data.result);
 
-        let backgroundCategories = await AuthAPI.get('/characters/background_categories');
-        setBackgroundElectives(backgroundCategories.data.result);
 
       } catch (error) {
         console.log(`Error getting Skills: ${error}`);
@@ -72,7 +77,7 @@ export default function CharacterSkills() {
     };
 
     getSkills();
-  }, [abilityScore, setSkills, setBackgroundElectives]);
+  }, [abilityScore, setSkills, setBackgroundElectives, skills.length]);
 
 
   const setSkillsObject = (data) => {

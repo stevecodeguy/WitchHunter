@@ -51,7 +51,6 @@ export const CharacterProvider = (props) => {
   // Background Electives Context
   const [backgroundElectives, setBackgroundElectives] = useState(() => {
     if (localStorage.getItem('character_electives')) {
-      console.log(JSON.parse(localStorage.getItem('character_electives')))
       return JSON.parse(localStorage.getItem('character_electives'));
     }
     return [];
