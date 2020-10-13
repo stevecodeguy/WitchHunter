@@ -58,11 +58,11 @@ export default function CharacterSkills() {
 
           setSkills(skillList);
 
-          let backgroundCategories = await AuthAPI.get('/characters/background_categories');
+          const backgroundCategories = await AuthAPI.get('/characters/background_categories');
           setBackgroundElectives(backgroundCategories.data.result);
         }
 
-        let categories = await AuthAPI.get('/characters/skill_categories');
+        const categories = await AuthAPI.get('/characters/skill_categories');
         for (const category in categories.data.result) {
           categories.data.result[category].id = parseInt(category);
         }
@@ -207,7 +207,28 @@ export default function CharacterSkills() {
 
   return (
     <form method="post">
-
+      <button
+        type="button"
+        onClick={() => {
+          if (checkSkills()) {
+            saveSkills();
+            history.push('/character/new/talents');
+          }
+        }}
+      >Next</button>
+      <button
+        type="button"
+        onClick={() => {
+          history.push('/character/new/abilities');
+        }}
+      >Back to Character Abilities</button>
+      <button
+        type="button"
+        onClick={() => {
+          setFakeCharacter();
+        }}
+      >Fill</button>
+      {/* TEMP BUTTON 'FILL'. Remove later */}
       <div>
         <h3>Choose Elective Skills</h3>
         {
@@ -262,28 +283,6 @@ export default function CharacterSkills() {
               </div>
             )
         }
-        <button
-          type="button"
-          onClick={() => {
-            if (checkSkills()) {
-              saveSkills();
-              history.push('/character/new/talents');
-            }
-          }}
-        >Next</button>
-        <button
-          type="button"
-          onClick={() => {
-            history.push('/character/new/abilities');
-          }}
-        >Back to Character Abilities</button>
-        <button
-          type="button"
-          onClick={() => {
-            setFakeCharacter();
-          }}
-        >Fill</button>
-        {/* TEMP BUTTON 'FILL'. Remove later */}
       </div>
     </form >
   );

@@ -55,6 +55,13 @@ export const CharacterProvider = (props) => {
     }
     return [];
   });
+  // Talents Context
+  const [talents, setTalents] = useState(() => {
+    if (localStorage.getItem('character_talents')) {
+      return JSON.parse(localStorage.getItem('character_talents'));
+    }
+    return [];
+  })
 
   const value = useMemo(() => {
     return {
@@ -62,20 +69,24 @@ export const CharacterProvider = (props) => {
       backgroundElectives,
       skills,
       spentSkillPoints,
+      talents,
       setAbilityScore,
       setBackgroundElectives,
       setSkills,
-      setSpentSkillPoints
+      setSpentSkillPoints,
+      setTalents
     }
   }, [
     abilityScore,
     backgroundElectives,
     skills,
     spentSkillPoints,
+    talents,
     setAbilityScore,
     setBackgroundElectives,
     setSkills,
-    setSpentSkillPoints
+    setSpentSkillPoints,
+    setTalents
   ]);
 
   return (

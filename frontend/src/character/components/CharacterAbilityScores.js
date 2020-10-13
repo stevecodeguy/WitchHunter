@@ -162,6 +162,30 @@ export default function CharacterAbilityScores() {
 
   return (
     <>
+      <div>
+        <button
+          type="button"
+          onClick={() => {
+            if (checkSpentPoints()) {
+              saveAbilities();
+              history.push('/character/new/skills');
+            }
+          }}
+        >Next</button>
+        <button
+          type="button"
+          onClick={() => {
+            history.push('/character/new/info');
+          }}
+        >Back to Character Info</button>
+        <button
+          type="button"
+          onClick={(event) => {
+            setFakeAbilities(event);
+          }}
+        >Fill</button>
+        {/* TEMP BUTTON 'FILL'. Remove later */}
+      </div>
       <table>
         <thead>
           <tr>
@@ -214,30 +238,6 @@ export default function CharacterAbilityScores() {
                 </ul>
               )) : null
           }
-        </div>
-        <div>
-          <button
-            type="button"
-            onClick={() => {
-              if (checkSpentPoints()) {
-                saveAbilities();
-                history.push('/character/new/skills');
-              }
-            }}
-          >Next</button>
-          <button
-            type="button"
-            onClick={() => {
-              history.push('/character/new/info');
-            }}
-          >Back to Character Info</button>
-          <button
-            type="button"
-            onClick={(event) => {
-              setFakeAbilities(event);
-            }}
-          >Fill</button>
-          {/* TEMP BUTTON 'FILL'. Remove later */}
         </div>
       </form>
     </>

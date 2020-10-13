@@ -61,6 +61,16 @@ router.get('/skills', (req, res) => {
   });
 });
 
+router.get('/talents', (req, res) => {
+  db.pool.query(query.sqlGetTalents(), (err, result) => {
+    if (err) console.log(err);
+    if (result.length > 0) {
+      return res.send({ result });
+    }
+    res.send('Unable to get Talents table');
+  });
+});
+
 router.get('/initial_skills', (req, res) => {
   db.pool.query(query.sqlGetInitialSkills(req.session.backgroundId), (err, result) => {
     if (err) console.log(err);

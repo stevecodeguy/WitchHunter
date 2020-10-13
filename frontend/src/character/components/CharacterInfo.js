@@ -169,6 +169,28 @@ export default function CharacterInfo() {
   return (
     <form method="post">
       <div>
+      <button
+          type="button"
+          onClick={() => {
+            if (checkForm()) {
+              saveCharacterInfo();
+              history.push('/character/new/abilities');
+            }
+          }}
+        >Next</button>
+        <button
+          type="button"
+          onClick={() => {
+            history.push('/characters');
+          }}
+        >Back to Character Selection</button>
+        <button
+          type="button"
+          onClick={() => {
+            setFakeCharacter();
+          }}
+        >Fill</button>
+        {/* TEMP BUTTON 'FILL'. Remove later */}
         <ul>
           <TextEntry name="name" labelName="Character Name" set={setCharacterName} value={characterName} />
           <TextAreaEntry name="description" set={setDescription} value={description} />
@@ -195,28 +217,6 @@ export default function CharacterInfo() {
           <Counter name="trueFaith" labelName="True Faith" set={setTrueFaith} value={trueFaith} />
           <Counter name="damnation" set={setDamnation} value={damnation} />
         </ul>
-        <button
-          type="button"
-          onClick={() => {
-            if (checkForm()) {
-              saveCharacterInfo();
-              history.push('/character/new/abilities');
-            }
-          }}
-        >Next</button>
-        <button
-          type="button"
-          onClick={() => {
-            history.push('/characters');
-          }}
-        >Back to Character Selection</button>
-        <button
-          type="button"
-          onClick={() => {
-            setFakeCharacter();
-          }}
-        >Fill</button>
-        {/* TEMP BUTTON 'FILL'. Remove later */}
       </div>
     </form>
   );
