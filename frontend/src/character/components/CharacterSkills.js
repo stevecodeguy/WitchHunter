@@ -56,10 +56,8 @@ export default function CharacterSkills() {
             skillList[key].minScore = initSkill.score;
           });
 
-          console.log('list: ', skillList)
-          // THIS IS OVERWRITING THE LOCAL STORAGE
           setSkills(skillList);
-          
+
           let backgroundCategories = await AuthAPI.get('/characters/background_categories');
           setBackgroundElectives(backgroundCategories.data.result);
         }
