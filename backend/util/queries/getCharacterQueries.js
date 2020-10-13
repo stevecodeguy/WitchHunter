@@ -34,6 +34,8 @@ const sqlGetBackgroundCategories = (backgroundId) => `SELECT id, category, elect
 
 const sqlGetTalents = () => `SELECT id, talent, benefit, category FROM talents;`;
 
+const sqlGetTalentRequirements = () => `SELECT id, fk_talent_id, requirement, sub_skill, requirement_type, score, \`option\` FROM talent_requirement;`;
+
 exports.sqlGetCharacterAbilities = sqlGetCharacterAbilities;
 exports.sqlGetCharacterArmor = sqlGetCharacterArmor;
 exports.sqlGetCharacterGear = sqlGetCharacterGear;
@@ -51,4 +53,5 @@ exports.sqlGetSkills = sqlGetSkills;
 exports.sqlGetInitialSkills = sqlGetInitialSkills;
 exports.sqlGetBackgroundRequirements = sqlGetBackgroundRequirements;
 exports.sqlGetBackgroundCategories = sqlGetBackgroundCategories;
-exports.sqlGetTalents = sqlGetTalents;
+exports.sqlGetTalents = sqlGetTalents; 
+exports.sqlGetTalentRequirements = sqlGetTalentRequirements; 

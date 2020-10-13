@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Talents(props) {
+export default function TalentsSelected(props) {
   return (
     <>
       <h5>{props.talent}</h5>
@@ -8,9 +8,9 @@ export default function Talents(props) {
       <h6>Benefit</h6><p>{props.benefit}</p>
       <button
         onClick={() => {
-          props.addTalent(props.id);
+          props.removeTalent(props.id);
         }}
-      >Add Talent to Character</button>
+      >Remove</button>
     </>
   )
 }
