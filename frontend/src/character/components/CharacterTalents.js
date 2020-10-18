@@ -52,20 +52,48 @@ export default function CharacterTalents() {
     setTalents(currentTalents => {
       return [...currentTalents, selectedTalent];
     });
-// May need to set temp list before updating.
+
     setTalentList(currentList => {
-      currentList[selectedTalent.id - 1] = {...selectedTalent, hide: true};
-      return currentList;
+      const hiddenId = currentList.findIndex(talent => id === talent.id);
+      currentList[hiddenId] = { ...selectedTalent, hide: true };
+      return [...currentList];
     });
   }
 
   const removeTalent = (id) => {
+    const removedTalentId = talentList.findIndex(talent => talent.id === id);
     const removedTalent = talentList.find(talent => talent.id === id);
-    console.log('here ', removedTalent)
-    
+
+    setTalents(currentTalents => {
+      const deleteTalent = currentTalents.findIndex(curTalent => curTalent.id === id);
+      currentTalents.splice(deleteTalent, 1);
+      return [...currentTalents];
+    });
+
     setTalentList(currentList => {
-      currentList[removedTalent.id - 1] = {...removedTalent, hide: false};
-      return currentList;
+      const tempList = currentList;
+      delete tempList[removedTalentId].hide;
+      return [ ...tempList ];
+    });
+
+    setSelected(currentSelected => {
+      let basicAdjust = currentSelected.basic;
+      let greaterAdjust = currentSelected.greater;
+      let sumAdjust = currentSelected.sum;
+
+      if (removedTalent.category === "basic") {
+        basicAdjust -= 1;
+        sumAdjust -= 1;
+      } else if (removedTalent.category === "greater"){
+        greaterAdjust -= 1;
+        sumAdjust -= 2;
+      }
+      return { 
+        ...currentSelected, 
+        basic: basicAdjust, 
+        greater: greaterAdjust, 
+        sum: sumAdjust 
+      }
     });
   }
 
@@ -110,15 +138,15 @@ export default function CharacterTalents() {
       <ul>
         {talentList.length > 0 ? talentList.map(talent => (
           !talent.hide ?
-          <li key={talent.id + 'list'}>
-            <Talents
-              id={talent.id}
-              talent={talent.talent}
-              benefit={talent.benefit}
-              category={talent.category}
-              addTalent={addTalent}
-            />
-          </li> : null
+            <li key={talent.id + 'list'}>
+              <Talents
+                id={talent.id}
+                talent={talent.talent}
+                benefit={talent.benefit}
+                category={talent.category}
+                addTalent={addTalent}
+              />
+            </li> : null
         )) : null}
       </ul>
     </>
