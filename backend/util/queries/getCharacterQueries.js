@@ -34,7 +34,7 @@ const sqlGetBackgroundCategories = (backgroundId) => `SELECT id, category, elect
 
 const sqlGetTalents = () => `SELECT id, talent, benefit, category FROM talents;`;
 
-const sqlGetTalentRequirements = () => `SELECT id, fk_talent_id, requirement, sub_skill, requirement_type, score, \`option\` FROM talent_requirement;`;
+const sqlGetTalentRequirements = () => `SELECT talents.id, talents.talent, talent_requirement.requirement, talent_requirement.sub_skill, talent_requirement.requirement_type, talent_requirement.score, talent_requirement.\`option\` FROM talents RIGHT JOIN talent_requirement ON talents.id = talent_requirement.fk_talent_id;`;
 
 exports.sqlGetCharacterAbilities = sqlGetCharacterAbilities;
 exports.sqlGetCharacterArmor = sqlGetCharacterArmor;

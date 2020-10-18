@@ -13,10 +13,11 @@ export default function CharacterTalents() {
   const [talentList, setTalentList] = useState([]);
   const [talentRequirements, setTalentRequirements] = useState([]);
   const [selected, setSelected] = useState({ basic: 0, greater: 0, sum: 0 });
+  const [availabiltySet, setAvailabilitySet] = useState(false);
 
   const auth = useContext(AuthContext);
   const {
-    abilities,
+    abilityScore,
     skills,
     talents,
     setTalents
@@ -109,6 +110,42 @@ export default function CharacterTalents() {
     getTalents();
   }, [setTalents]);
 
+  useEffect(() => {
+    if(talentList.length > 0 && talentRequirements.length > 0 && !availabiltySet){
+      const abilityObj = Object.entries(abilityScore);
+
+      for(const index in talentList){
+        if (talentRequirements.find(tr => talentList[index].id === tr.id)){
+          const trIndex = talentRequirements.findIndex(tr => talentList[index].id === tr.id);
+
+          if (talentRequirements[trIndex].requirement_type === 'skill'){
+            const checkScore = skills.find(s => s.skill === talentRequirements[trIndex].requirement);
+            
+            if (checkScore.score < talentRequirements[trIndex].score){
+              talentList[index] = {
+                ...talentList[index], 
+                failedRequirements: true
+              }
+            } 
+          }
+
+          if (talentRequirements[trIndex].requirement_type === 'ability'){
+            const checkAbility = abilityObj.find(aScore => aScore[0] === talentRequirements[trIndex].requirement.toLowerCase());
+
+            if (checkAbility[1].score < talentRequirements[trIndex].score){
+              talentList[index] = {
+                ...talentList[index], 
+                failedRequirements: true
+              }
+            } 
+          }
+        }
+      }
+      setAvailabilitySet(true);
+    }
+
+  }, [abilityScore, skills, talentList, talentRequirements, availabiltySet, setAvailabilitySet])
+
   return (
     <>
       <h1>Talents</h1>
@@ -137,7 +174,7 @@ export default function CharacterTalents() {
       <h2>Talent List</h2>
       <ul>
         {talentList.length > 0 ? talentList.map(talent => (
-          !talent.hide ?
+          !talent.hide && !talent.failedRequirements?
             <li key={talent.id + 'list'}>
               <Talents
                 id={talent.id}
