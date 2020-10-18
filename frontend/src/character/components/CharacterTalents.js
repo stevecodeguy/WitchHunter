@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import Talents from '../components/child_components/Talents';
 import TalentsSelected from '../components/child_components/TalentsSelected';
+import TalentsUnavailable from '../components/child_components/TalentsUnavailable';
 
 import { AuthContext } from '../../utils/context/AuthContext';
 import AuthAPI from '../../utils/context/AuthApi';
@@ -74,7 +75,7 @@ export default function CharacterTalents() {
     setTalentList(currentList => {
       const tempList = currentList;
       delete tempList[removedTalentId].hide;
-      return [ ...tempList ];
+      return [...tempList];
     });
 
     setSelected(currentSelected => {
@@ -85,15 +86,15 @@ export default function CharacterTalents() {
       if (removedTalent.category === "basic") {
         basicAdjust -= 1;
         sumAdjust -= 1;
-      } else if (removedTalent.category === "greater"){
+      } else if (removedTalent.category === "greater") {
         greaterAdjust -= 1;
         sumAdjust -= 2;
       }
-      return { 
-        ...currentSelected, 
-        basic: basicAdjust, 
-        greater: greaterAdjust, 
-        sum: sumAdjust 
+      return {
+        ...currentSelected,
+        basic: basicAdjust,
+        greater: greaterAdjust,
+        sum: sumAdjust
       }
     });
   }
@@ -111,33 +112,77 @@ export default function CharacterTalents() {
   }, [setTalents]);
 
   useEffect(() => {
-    if(talentList.length > 0 && talentRequirements.length > 0 && !availabiltySet){
+    if (talentList.length > 0 && talentRequirements.length > 0 && !availabiltySet) {
       const abilityObj = Object.entries(abilityScore);
 
-      for(const index in talentList){
-        if (talentRequirements.find(tr => talentList[index].id === tr.id)){
-          const trIndex = talentRequirements.findIndex(tr => talentList[index].id === tr.id);
+      for (const index in talentList) {
+        if (talentRequirements.find(tr => talentList[index].id === tr.id)) {
+          
+          for (const talentIndex in talentRequirements) {
+            if (talentRequirements[talentIndex].id === talentList[index].id) {
+              // const trIndex = talentRequirements.findIndex(tr => talentList[index].id === tr.id);
 
-          if (talentRequirements[trIndex].requirement_type === 'skill'){
-            const checkScore = skills.find(s => s.skill === talentRequirements[trIndex].requirement);
-            
-            if (checkScore.score < talentRequirements[trIndex].score){
-              talentList[index] = {
-                ...talentList[index], 
-                failedRequirements: true
+              
+              if (talentRequirements[talentIndex].requirement_type === 'skill') {
+                const checkScore = skills.find(s => s.skill === talentRequirements[talentIndex].requirement);
+                
+                if (checkScore.score < talentRequirements[talentIndex].score) {
+                  talentList[index] = {
+                    ...talentList[index],
+                    failedRequirements: true,
+                    requirements: 
+                      !!talentList[index].requirements && talentList[index].requirements.length >= 1 ? 
+                        [ ...talentList[index].requirements, {...talentRequirements[talentIndex] }] : 
+                        [ {...talentRequirements[talentIndex] }] 
+                  }
+                }
               }
-            } 
-          }
 
-          if (talentRequirements[trIndex].requirement_type === 'ability'){
-            const checkAbility = abilityObj.find(aScore => aScore[0] === talentRequirements[trIndex].requirement.toLowerCase());
+              if (talentRequirements[talentIndex].requirement_type === 'ability') {
+                const checkAbility = abilityObj.find(aScore => aScore[0] === talentRequirements[talentIndex].requirement.toLowerCase());
 
-            if (checkAbility[1].score < talentRequirements[trIndex].score){
-              talentList[index] = {
-                ...talentList[index], 
-                failedRequirements: true
+                if (checkAbility[1].score < talentRequirements[talentIndex].score) {
+                  talentList[index] = {
+                    ...talentList[index],
+                    failedRequirements: true,
+                    requirements: 
+                      !!talentList[index].requirements && talentList[index].requirements.length >= 1 ? 
+                        [ ...talentList[index].requirements, {...talentRequirements[talentIndex] }] : 
+                        [ {...talentRequirements[talentIndex] }] 
+                  }
+                }
               }
-            } 
+//TO DO
+              // if (talentRequirements[talentIndex].requirement_type === 'talent') {
+              //   const checkAbility = abilityObj.find(aScore => aScore[0] === talentRequirements[talentIndex].requirement.toLowerCase());
+
+              //   if (checkAbility[1].score < talentRequirements[talentIndex].score) {
+              //     talentList[index] = {
+              //       ...talentList[index],
+              //       failedRequirements: true,
+              //       requirements: 
+              //         !!talentList[index].requirements && talentList[index].requirements.length >= 1 ? 
+              //           [ ...talentList[index].requirements, {...talentRequirements[talentIndex] }] : 
+              //           [ {...talentRequirements[talentIndex] }] 
+              //     }
+              //   }
+              // }
+
+              // if (talentRequirements[talentIndex].requirement_type === 'spirit') {
+              //   const checkAbility = abilityObj.find(aScore => aScore[0] === talentRequirements[talentIndex].requirement.toLowerCase());
+
+              //   if (checkAbility[1].score < talentRequirements[talentIndex].score) {
+              //     talentList[index] = {
+              //       ...talentList[index],
+              //       failedRequirements: true,
+              //       requirements: 
+              //         !!talentList[index].requirements && talentList[index].requirements.length >= 1 ? 
+              //           [ ...talentList[index].requirements, {...talentRequirements[talentIndex] }] : 
+              //           [ {...talentRequirements[talentIndex] }] 
+              //     }
+              //   }
+              // }
+            }
           }
         }
       }
@@ -174,7 +219,7 @@ export default function CharacterTalents() {
       <h2>Talent List</h2>
       <ul>
         {talentList.length > 0 ? talentList.map(talent => (
-          !talent.hide && !talent.failedRequirements?
+          !talent.hide && !talent.failedRequirements && talent.category !== 'heroic' ?
             <li key={talent.id + 'list'}>
               <Talents
                 id={talent.id}
@@ -182,6 +227,22 @@ export default function CharacterTalents() {
                 benefit={talent.benefit}
                 category={talent.category}
                 addTalent={addTalent}
+              />
+            </li> : null
+        )) : null}
+      </ul>
+
+      <h2>Unavailable Talents</h2>
+      <ul>
+        {talentList.length > 0 ? talentList.map(talent => (
+          talent.failedRequirements &&  talent.category !== 'heroic' ?
+            <li key={talent.id + 'failed'}>
+              <TalentsUnavailable
+                id={talent.id}
+                talent={talent.talent}
+                benefit={talent.benefit}
+                category={talent.category}
+                requirements={talent.requirements}
               />
             </li> : null
         )) : null}
