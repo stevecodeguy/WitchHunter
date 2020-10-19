@@ -30,11 +30,11 @@ const sqlGetInitialSkills = (backgroundId) => `SELECT id, skill, score, sub_skil
 
 const sqlGetBackgroundRequirements = (backgroundId) => `SELECT id, ability, score FROM background_requirements WHERE fk_background_id = ${backgroundId};`
 
-const sqlGetBackgroundCategories = (backgroundId) => `SELECT id, category, elective_skills FROM background_categories WHERE fk_background_id = ${backgroundId};`
+const sqlGetBackgroundCategories = (backgroundId) => `SELECT id, category, elective_skills FROM background_categories WHERE fk_background_id = ${backgroundId};`;
 
-const sqlGetTalents = () => `SELECT id, talent, benefit, category FROM talents;`;
+const sqlGetTalents = () => `SELECT id, talent, benefit, category, FALSE AS requirementsFail FROM talents`;
 
-const sqlGetTalentRequirements = () => `SELECT talents.id, talents.talent, talent_requirement.requirement, talent_requirement.sub_skill, talent_requirement.requirement_type, talent_requirement.score, talent_requirement.\`option\` FROM talents RIGHT JOIN talent_requirement ON talents.id = talent_requirement.fk_talent_id;`;
+const sqlGetTalentRequirements = () => `SELECT talent_requirement.id, talent_requirement.fk_talent_id, talent_requirement.requirement, talent_requirement.sub_skill, talent_requirement.requirement_type, talent_requirement.score, talent_requirement.\`option\` FROM talent_requirement;`;
 
 exports.sqlGetCharacterAbilities = sqlGetCharacterAbilities;
 exports.sqlGetCharacterArmor = sqlGetCharacterArmor;
