@@ -32,7 +32,7 @@ const sqlGetBackgroundRequirements = (backgroundId) => `SELECT id, ability, scor
 
 const sqlGetBackgroundCategories = (backgroundId) => `SELECT id, category, elective_skills FROM background_categories WHERE fk_background_id = ${backgroundId};`;
 
-const sqlGetTalents = () => `SELECT id, talent, benefit, category, FALSE AS requirementsFail FROM talents`;
+const sqlGetTalents = () => `SELECT id, talent, benefit, category FROM talents`;
 
 const sqlGetTalentRequirements = () => `SELECT talent_requirement.id, talent_requirement.fk_talent_id, talent_requirement.requirement, talent_requirement.sub_skill, talent_requirement.requirement_type, talent_requirement.score, talent_requirement.\`option\` FROM talent_requirement;`;
 

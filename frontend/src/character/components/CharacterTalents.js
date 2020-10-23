@@ -2,6 +2,8 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
+import '../css/characterTalents.css';
+
 import Talents from '../components/child_components/Talents';
 import TalentsSelected from '../components/child_components/TalentsSelected';
 import TalentsUnavailable from '../components/child_components/TalentsUnavailable';
@@ -99,12 +101,21 @@ export default function CharacterTalents() {
     });
   }
 
-  // Axios calles to get starting data
+  // Axios calls to get starting data
   useEffect(() => {
     const getTalents = async () => {
       const talentsData = await AuthAPI.get('/characters/talents');
-      console.log(talentsData.data.result)
-      setTalentList(talentsData.data.result);
+      let tData = talentsData.data.result;
+
+      for (const key in tData){
+        tData[key] = {
+          ...tData[key],
+          requirementsFail: false,
+          hide: false
+        }
+      }
+
+      setTalentList(tData);
 
       const talentRequirementsData = await AuthAPI.get('/characters/talent_requirements');
       setTalentRequirements(talentRequirementsData.data.result);
@@ -157,10 +168,10 @@ export default function CharacterTalents() {
           tList[talentListCurrentIndex] = {
             ...tList[talentListCurrentIndex],
             requirementsFail,
-            requirements:
-              !!tList[talentListCurrentIndex].requirements && tList[talentListCurrentIndex].requirements.length >= 1 ?
-                [...tList[talentListCurrentIndex].requirements, { ...tReq[index] }] :
-                [{ ...tReq[index] }]
+            // requirements:
+            //   !!tList[talentListCurrentIndex].requirements && tList[talentListCurrentIndex].requirements.length >= 1 ?
+            //     [...tList[talentListCurrentIndex].requirements, { ...tReq[index] }] :
+            //     [{ ...tReq[index] }]
           }
         }
         setTalentList(tList);
@@ -224,7 +235,7 @@ export default function CharacterTalents() {
           <h6>Basic: {selected.basic}</h6>
           <h6>Greater: {selected.greater}</h6>
         </div>
-        <ul>
+        <ul className='talentCard'>
           {talents.length > 0 ? talents.map(talent => (
             <li key={talent.id + 'selected'}>
               <TalentsSelected
@@ -240,9 +251,9 @@ export default function CharacterTalents() {
       </div>
 
       <h2>Talent List</h2>
-      <ul>
+      <ul className='talentCard'>
         {talentList.length > 0 ? talentList.map(talent => (
-          !talent.hide && !talent.failedRequirements && talent.category !== 'heroic' ?
+          !talent.hide && !talent.requirementsFail && talent.category !== 'heroic' ?
             <li key={talent.id + 'list'}>
               <Talents
                 id={talent.id}
@@ -256,9 +267,9 @@ export default function CharacterTalents() {
       </ul>
 
       <h2>Unavailable Talents</h2>
-      <ul>
+      <ul className='talentCard'>
         {talentList.length > 0 ? talentList.map(talent => (
-          !talent.requirementsFail && !!talent.requirements && talent.requirements.length > 0 && talent.category !== 'heroic' ?
+          talent.requirementsFail && talent.category !== 'heroic' ?
             <li key={talent.id + 'failed'}>
               <TalentsUnavailable
                 id={talent.id}
