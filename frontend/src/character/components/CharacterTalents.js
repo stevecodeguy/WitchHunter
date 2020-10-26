@@ -277,6 +277,7 @@ export default function CharacterTalents() {
                 benefit={talent.benefit}
                 category={talent.category}
                 requirements={talent.requirements}
+                option={talent.option}
               />
             </li> : null
         )) : null}

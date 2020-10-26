@@ -1,8 +1,8 @@
 .talentCard {
-  display: inline-flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 0 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 220px));
+  column-gap: 24px;
+  justify-content: center;
 }
 
 .talentCard li button {
@@ -10,16 +10,20 @@
   white-space: nowrap;
   display: flex;
   justify-content: center;
+  
 }
 
 .talentCard li{
-  flex-wrap: wrap;
   border: 1px solid black;
   border-radius: 6px;
   padding: 8px;
   list-style: none;
-  margin: 0 auto 8px 4px;
+  margin: 0 auto 4px;
   width: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: rgba(240, 239, 239, 0.753);
 }
 
 .talentCard li h5 {
@@ -46,5 +50,30 @@
 
 .talentCard li span {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
+}
+
+.talentTop {
+  height: 100px;
+}
+
+.talentReqs h4 {
+  text-align: center;
+  margin-bottom: 6px;
+  margin-top: 10px;
+}
+
+.talentReqs hr {
+  border-top: 1px dashed rgb(191, 185, 185);
+  width: 60%;
+  margin: 2px auto;
+}
+
+.talentReqs div:last-of-type hr {
+  display: none;
+}
+
+.talentReqs .typeScore {
+  display: flex;
+  justify-content: space-around;
 }
