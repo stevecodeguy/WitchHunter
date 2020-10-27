@@ -33,7 +33,8 @@ app.use(session({
   rolling: true,
   saveUninitialized: false,
   cookie: {
-    maxAge: 1000 * 60 * 60
+    maxAge: 1000 * 60 * 60,
+    sameSite: true
   }
 }));
 
