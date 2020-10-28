@@ -15,7 +15,12 @@ import { CharacterContext } from '../../utils/context/CharacterContext';
 export default function CharacterTalents() {
   const [talentList, setTalentList] = useState([]);
   const [talentRequirements, setTalentRequirements] = useState([]);
-  const [selected, setSelected] = useState({ basic: 0, greater: 0, sum: 0 });
+  const [selected, setSelected] = useState(() => {
+    if (localStorage.getItem('character_talent_costs')) {
+      return JSON.parse(localStorage.getItem('character_talent_costs'));
+    }
+    return { basic: 0, greater: 0, sum: 0 };
+  });
 
   const auth = useContext(AuthContext);
   const {
@@ -72,7 +77,7 @@ export default function CharacterTalents() {
         let basicAdjust = currentSelected.basic;
         let greaterAdjust = currentSelected.greater;
         let sumAdjust = currentSelected.sum;
-  
+
         if (category === "basic") {
           basicAdjust -= 1;
           sumAdjust -= 1;
@@ -116,7 +121,7 @@ export default function CharacterTalents() {
           }
           // Delete talents based on above array
           if (storeDeleteId.length > 0) {
-            for (let i = storeDeleteId.length -1; i >= 0; i--) {
+            for (let i = storeDeleteId.length - 1; i >= 0; i--) {
               changeSelected(current[storeDeleteId[i]].category);
               current.splice(storeDeleteId[i], 1);
             }
@@ -179,6 +184,27 @@ export default function CharacterTalents() {
     }
     return true;
   }, [talents]);
+
+  const checkTalents = () => {
+    if (selected.sum === 4) {
+      return true;
+    }
+    return false;
+  };
+
+  const saveTalents = async () => {
+    if (!!auth.state.uuid) {
+      try {
+        if (checkTalents()) {
+          localStorage.setItem('character_talents', JSON.stringify(talents));
+          localStorage.setItem('character_talent_costs', JSON.stringify(selected));
+          // await AuthAPI.post(`/characters/save_skills`, skills);
+        }
+      } catch (error) {
+        console.log(`Error saving abilities: ${error}`);
+      }
+    }
+  }
 
   // UseEffect to check Talent requirements
   useEffect(() => {
@@ -245,6 +271,28 @@ export default function CharacterTalents() {
 
   return (
     <>
+      <button
+        type="button"
+        onClick={() => {
+          if (checkTalents()) {
+            saveTalents();
+            history.push('/character/new/equipment');
+          }
+        }}
+      >Next</button>
+      <button
+        type="button"
+        onClick={() => {
+          history.push('/character/new/skills');
+        }}
+      >Back to Character Skills</button>
+      <button
+        type="button"
+        onClick={() => {
+          // setFakeCharacter();
+        }}
+      >Fill</button>
+      {/* TEMP BUTTON 'FILL'. Remove later */}
       <h1>Talents</h1>
       <p>Select either 2 Basic talents and a Greater Talent <b>-or-</b> 4 Basic talents.</p>
       <div>
