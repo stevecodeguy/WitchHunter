@@ -67,37 +67,67 @@ export default function CharacterTalents() {
     const removedTalentId = talentList.findIndex(talent => talent.id === id);
     const removedTalent = talentList.find(talent => talent.id === id);
 
+    const changeSelected = (category) => {
+      setSelected(currentSelected => {
+        let basicAdjust = currentSelected.basic;
+        let greaterAdjust = currentSelected.greater;
+        let sumAdjust = currentSelected.sum;
+  
+        if (category === "basic") {
+          basicAdjust -= 1;
+          sumAdjust -= 1;
+        } else if (category === "greater") {
+          greaterAdjust -= 1;
+          sumAdjust -= 2;
+        }
+        return {
+          ...currentSelected,
+          basic: basicAdjust,
+          greater: greaterAdjust,
+          sum: sumAdjust
+        }
+      });
+    };
+
+    const changeTalentList = (talentId) => {
+      console.log('id', talentId)
+      setTalentList(currentList => {
+        const tempList = currentList;
+        tempList[talentId].hide = false;
+        return [...tempList];
+      });
+    };
+
     setTalents(currentTalents => {
-      const deleteTalent = currentTalents.findIndex(curTalent => curTalent.id === id);
-      currentTalents.splice(deleteTalent, 1);
-      return [...currentTalents];
-    });
+      const current = [...currentTalents];
+      const deleteTalent = current.findIndex(curTalent => curTalent.id === id);
+      current.splice(deleteTalent, 1);
+      // Check and remove any talents that have lost their requirement after above deletion
+      for (let index in current) {
+        if (!!current[index].requirements && current[index].requirements.length > 0) {
+          let storeDeleteId = [];
+          // Create array of talent ids to delete
+          for (let tIndex in current[index].requirements) {
+            const deleteRequiredChild = current.findIndex(cTal => cTal.id === current[index].requirements[tIndex].fk_talent_id);
+            const unhideIndex = talentList.findIndex(tList => tList.id === current[index].id);
 
-    setTalentList(currentList => {
-      const tempList = currentList;
-      delete tempList[removedTalentId].hide;
-      return [...tempList];
-    });
-
-    setSelected(currentSelected => {
-      let basicAdjust = currentSelected.basic;
-      let greaterAdjust = currentSelected.greater;
-      let sumAdjust = currentSelected.sum;
-
-      if (removedTalent.category === "basic") {
-        basicAdjust -= 1;
-        sumAdjust -= 1;
-      } else if (removedTalent.category === "greater") {
-        greaterAdjust -= 1;
-        sumAdjust -= 2;
+            changeTalentList(unhideIndex);
+            storeDeleteId.push(deleteRequiredChild);
+          }
+          // Delete talents based on above array
+          if (storeDeleteId.length > 0) {
+            for (let i = storeDeleteId.length -1; i >= 0; i--) {
+              changeSelected(current[storeDeleteId[i]].category);
+              current.splice(storeDeleteId[i], 1);
+            }
+          }
+        }
       }
-      return {
-        ...currentSelected,
-        basic: basicAdjust,
-        greater: greaterAdjust,
-        sum: sumAdjust
-      }
+      return current;
     });
+
+    changeTalentList(removedTalentId);
+    changeSelected(removedTalent.category);
   }
 
   // Axios calls to get starting data
@@ -162,21 +192,15 @@ export default function CharacterTalents() {
 
           if (newTalents.find(tl => tl.id === talentRequirements[index].fk_talent_id)) {
 
-            if (talentRequirements[index].requirement_type === 'talent') requirementsFail = checkTalent(talentRequirements[index].requirement, requirementsFail );
+            if (talentRequirements[index].requirement_type === 'talent') requirementsFail = checkTalent(talentRequirements[index].requirement, requirementsFail);
 
             newTalents[talentListCurrentIndex] = {
               ...newTalents[talentListCurrentIndex],
               requirementsFail
             }
-
-            console.log('index ', newTalents.findIndex(tl => tl.id === talentRequirements[index].fk_talent_id), 
-            'find ', newTalents.find(tl => tl.id === talentRequirements[index].fk_talent_id),
-            'reqType ', talentRequirements[index].requirement_type
-            )
           }
         }
       }
-      // console.log(newTalents)
       return newTalents;
     });
   }, [talents, talentRequirements, checkTalent, setTalentList]);
@@ -200,8 +224,6 @@ export default function CharacterTalents() {
 
             if (talentRequirements[index].requirement_type === 'ability') requirementsFail = checkAbility(talentRequirements[index].requirement, talentRequirements[index].score, requirementsFail);
 
-            // if (talentRequirements[index].requirement_type === 'spirit') requirementsFail = true;
-
             newTalents[talentListCurrentIndex] = {
               ...newTalents[talentListCurrentIndex],
               requirementsFail,
@@ -210,11 +232,6 @@ export default function CharacterTalents() {
                   [...newTalents[talentListCurrentIndex].requirements, { ...talentRequirements[index] }] :
                   [{ ...talentRequirements[index] }]
             }
-
-            console.log('index ', newTalents.findIndex(tl => tl.id === talentRequirements[index].fk_talent_id), 
-            'find ', newTalents.find(tl => tl.id === talentRequirements[index].fk_talent_id),
-            'reqType ', talentRequirements[index].requirement_type
-            )
           }
         }
       }
@@ -225,8 +242,6 @@ export default function CharacterTalents() {
     checkAbility,
     checkSkill
   ]);
-
-  useEffect(() => { console.log(talentList) }, [talentList])
 
   return (
     <>
