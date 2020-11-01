@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -31,6 +31,12 @@ export default function CharacterTalents() {
   } = useContext(CharacterContext);
 
   let history = useHistory();
+
+  const setFakeCharacter = () => {
+    setTalents([{"id":1,"talent":"Adaptable","benefit":"Use medium weapons while Grappling","category":"basic","requirementsFail":false,"hide":false},{"id":4,"talent":"Basic Animist","benefit":"May learn Animist rites","category":"basic","requirementsFail":false,"hide":false},{"id":60,"talent":"Greater Animist","benefit":"May learn greater Animism Rites","category":"greater","requirementsFail":false,"hide":false,"requirements":[{"id":50,"fk_talent_id":60,"requirement":"Basic Animist","sub_skill":null,"requirement_type":"talent","score":0,"option":null}]}]);
+
+    setSelected({"basic":2,"greater":1,"sum":4});
+  };
 
   const addTalent = (id) => {
     const selectedTalent = talentList.find(talent => talent.id === id);
@@ -289,7 +295,7 @@ export default function CharacterTalents() {
       <button
         type="button"
         onClick={() => {
-          // setFakeCharacter();
+          setFakeCharacter();
         }}
       >Fill</button>
       {/* TEMP BUTTON 'FILL'. Remove later */}

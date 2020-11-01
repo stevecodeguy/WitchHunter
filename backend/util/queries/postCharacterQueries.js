@@ -102,6 +102,11 @@ const sqlSaveCharacterSkills = (characterId, body) => {
   return sqlBuild;
 };
 
+const sqlSaveCharacterTalents = (characterId, body) => {
+  return body;
+};
+
 exports.sqlSaveCharacterInfo = sqlSaveCharacterInfo;
 exports.sqlSaveCharacterAbilities = sqlSaveCharacterAbilities;
 exports.sqlSaveCharacterSkills = sqlSaveCharacterSkills;
+exports.sqlSaveCharacterTalents = sqlSaveCharacterTalents;
