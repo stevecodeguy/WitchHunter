@@ -10,6 +10,7 @@ const cors = require('cors');
 const routeUser = require('./routes/user');
 const routeCharacters = require('./routes/characters');
 const routeInfo = require('./routes/info');
+const routeItems = require('./routes/items');
 
 //Utilities
 const db = require('./util/database');
@@ -42,6 +43,7 @@ app.use(session({
 app.use('/user', routeUser);
 app.use('/characters', routeCharacters);
 app.use('/info', routeInfo);
+app.use('/items', routeItems);
 
 
 app.get('*', (req, res) => {

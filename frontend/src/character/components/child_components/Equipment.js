@@ -1,10 +1,10 @@
 import React from 'react';
 
-import LabelName from '../../../utils/LabelName';
+// import LabelName from '../../../utils/LabelName';
 
-import '../../css/characterElements.css';
+// import '../../css/characterElements.css';
 
-export default function Skill(props) {
+export default function Equipment(props) {
   const handleCharacterSkillRankChange = (event) => {
     event.preventDefault();
     

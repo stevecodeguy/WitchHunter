@@ -45,7 +45,7 @@ router.get('/background', (req, res) => {
 });
 
 router.get('/sex', (req, res) => {
-  db.pool.query(query.sqlGetSex(), (err, result) => {
+  db.pool.query(query.sqlGetInfoSex(), (err, result) => {
     if (err) throw err;
     res.send(result);
   });

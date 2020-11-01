@@ -61,7 +61,7 @@ export const CharacterProvider = (props) => {
       return JSON.parse(localStorage.getItem('character_talents'));
     }
     return [];
-  })
+  });
 
   const value = useMemo(() => {
     return {
