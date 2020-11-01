@@ -94,7 +94,7 @@ const sqlSaveCharacterSkills = (characterId, body) => {
     ) VALUES `;
   for (const key in body) {
     if (body[key].score > 0) {
-      sqlBuild += `( ${characterId}, ${body[key].id}, ${body[key].score} ),\n`
+      sqlBuild += `( ${characterId}, ${body[key].id}, ${body[key].score} ),\n`;
     }
   }
   sqlBuild = sqlBuild.substring(0, sqlBuild.length - 2) + ';';
@@ -103,7 +103,16 @@ const sqlSaveCharacterSkills = (characterId, body) => {
 };
 
 const sqlSaveCharacterTalents = (characterId, body) => {
-  return body;
+  let sqlBuild = `INSERT INTO character_talents (
+    fk_character_info_id, 
+    fk_talent_id
+  ) VALUES `;
+  body.forEach(talent => {
+    sqlBuild += `(${characterId}, ${talent.id} ),\n`;
+  });
+  sqlBuild = sqlBuild.substring(0, sqlBuild.length - 2) + ';';
+
+  return sqlBuild;
 };
 
 exports.sqlSaveCharacterInfo = sqlSaveCharacterInfo;

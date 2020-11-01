@@ -204,7 +204,7 @@ export default function CharacterTalents() {
         if (checkTalents()) {
           localStorage.setItem('character_talents', JSON.stringify(talents));
           localStorage.setItem('character_talent_costs', JSON.stringify(selected));
-          // await AuthAPI.post(`/characters/save_skills`, skills);
+          await AuthAPI.post(`/characters/save_talents`, talents);
         }
       } catch (error) {
         console.log(`Error saving abilities: ${error}`);
