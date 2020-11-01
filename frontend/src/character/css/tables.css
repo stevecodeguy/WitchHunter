@@ -1,0 +1,25 @@
+th {
+  background-color:   rgba(89, 58, 12, 0.452);
+  padding: 1px 8px;
+}
+
+td {
+  text-align: center;
+  padding: 1px 8px;
+}
+
+td:first-child {
+  text-align: left;
+}
+
+tr:nth-child(odd) {
+  background-color:   rgba(165, 131, 79, 0.302);
+}
+
+tr:nth-child(even) {
+  background-color:   rgba(230, 230, 230, 0.919);
+}
+
+tr:nth-child(1) {
+  background-color: inherit;
+}
