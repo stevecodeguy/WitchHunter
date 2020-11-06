@@ -4,6 +4,9 @@ import AuthAPI from '../../utils/context/AuthApi';
 
 import EquipmentArmor from './child_components/EquipmentArmor';
 import EquipmentMoney from './child_components/EquipmentMoney';
+import EquipmentGear from './child_components/EquipmentGear';
+import EquipmentKits from './child_components/EquipmentKits';
+import EquipmentKitItems from './child_components/EquipmentKitItems';
 
 export default function CharacterEquipment() {
   const [money, setMoney] = useState([]);
@@ -62,6 +65,9 @@ export default function CharacterEquipment() {
       <h1>Equipment</h1>
       <EquipmentMoney money={money} />
       <EquipmentArmor armorList={armorList} />
+      <EquipmentGear gearList={gearList} />
+      <EquipmentKits kitList={kitList} />
+      <EquipmentKitItems kitItems={kitItems} />
     </>
   );
 }

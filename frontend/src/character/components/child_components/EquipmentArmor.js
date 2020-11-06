@@ -25,11 +25,11 @@ export default function EquipmentArmor({ armorList }) {
                   armor.cost_shilling > 0 ? armor.cost_shilling + 's' : null +
                     armor.cost_penny > 0 ? armor.cost_penny + 'd' : null +
                       armor.cost_farthing > 0 ? armor.cost_farthing + 'f' : null +
-                        armor.cost_pounds === 0 || !armor.cost_pounds &&
-                        armor.cost_crowns === 0 || !armor.cost_crowns &&
-                        armor.cost_shilling === 0 || !armor.cost_shilling &&
-                        armor.cost_penny === 0 || !armor.cost_penny &&
-                        armor.cost_farthing === 0 || !armor.cost_farthing ? '-' : null
+                        (armor.cost_pounds === 0 || !armor.cost_pounds) &&
+                        (armor.cost_crowns === 0 || !armor.cost_crowns) &&
+                        (armor.cost_shilling === 0 || !armor.cost_shilling) &&
+                        (armor.cost_penny === 0 || !armor.cost_penny) &&
+                        (armor.cost_farthing === 0 || !armor.cost_farthing) ? '-' : null
             }</td>
             <td>{armor.armor_value}</td>
             <td>{armor.agility_penalty}</td>
