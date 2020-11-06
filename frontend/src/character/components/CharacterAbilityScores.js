@@ -8,6 +8,8 @@ import Points from '../components/child_components/Points';
 
 import AbilityScores from '../components/child_components/AbilityScore';
 
+import '../css/tables.css';
+
 export default function CharacterAbilityScores() {
   const [generatingAbilities, setGeneratingAbilities] = useState('');
   const [abilities, setAbilities] = useState('');
@@ -198,7 +200,7 @@ export default function CharacterAbilityScores() {
             !!generatingAbilities ?
               generatingAbilities.map(item => (
                 <tr key={item.id}>
-                  <td>{item.score}</td>
+                  <td className='tableCenterText'>{item.score}</td>
                   <td>{item.total_cost}</td>
                 </tr>
               )) : null

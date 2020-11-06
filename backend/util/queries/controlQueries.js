@@ -31,5 +31,5 @@ exports.sqlGetItemsGear = sqlGetItemsGear;
 exports.sqlGetItemsKits = sqlGetItemsKits; 
 exports.sqlGetItemsKitItems = sqlGetItemsKitItems; 
 exports.sqlGetItemsShots = sqlGetItemsShots; 
-exports.sqlGetItemsVehicles = sqlGetItemsVehicles; 
+exports.sqlGetItemsVehicles = sqlGetItemsVehicles;
 exports.sqlGetItemsWeapons = sqlGetItemsWeapons; 

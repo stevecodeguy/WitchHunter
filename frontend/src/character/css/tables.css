@@ -1,6 +1,7 @@
-th {
+thead {
   background-color:   rgba(89, 58, 12, 0.452);
   padding: 1px 8px;
+  font-weight: bold;
 }
 
 td {
@@ -20,6 +21,6 @@ tr:nth-child(even) {
   background-color:   rgba(230, 230, 230, 0.919);
 }
 
-tr:nth-child(1) {
-  background-color: inherit;
+td:first-child.tableCenterText {
+  text-align: center;
 }

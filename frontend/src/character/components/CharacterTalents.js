@@ -2,8 +2,6 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import '../css/characterTalents.css';
-
 import Talents from '../components/child_components/Talents';
 import TalentsSelected from '../components/child_components/TalentsSelected';
 import TalentsUnavailable from '../components/child_components/TalentsUnavailable';
@@ -11,6 +9,8 @@ import TalentsUnavailable from '../components/child_components/TalentsUnavailabl
 import { AuthContext } from '../../utils/context/AuthContext';
 import AuthAPI from '../../utils/context/AuthApi';
 import { CharacterContext } from '../../utils/context/CharacterContext';
+
+import '../css/characterTalents.css';
 
 export default function CharacterTalents() {
   const [talentList, setTalentList] = useState([]);
