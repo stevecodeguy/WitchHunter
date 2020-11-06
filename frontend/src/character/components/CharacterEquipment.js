@@ -7,6 +7,8 @@ import EquipmentMoney from './child_components/EquipmentMoney';
 import EquipmentGear from './child_components/EquipmentGear';
 import EquipmentKits from './child_components/EquipmentKits';
 import EquipmentKitItems from './child_components/EquipmentKitItems';
+import EquipmentShots from './child_components/EquipmentShots';
+import EquipmentVehicles from './child_components/EquipmentVehicles';
 
 export default function CharacterEquipment() {
   const [money, setMoney] = useState([]);
@@ -68,6 +70,8 @@ export default function CharacterEquipment() {
       <EquipmentGear gearList={gearList} />
       <EquipmentKits kitList={kitList} />
       <EquipmentKitItems kitItems={kitItems} />
+      <EquipmentShots shots={shots} />
+      <EquipmentVehicles vehicleList={vehicleList} />
     </>
   );
 }
