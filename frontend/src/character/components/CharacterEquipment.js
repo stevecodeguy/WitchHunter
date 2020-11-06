@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 import AuthAPI from '../../utils/context/AuthApi';
 
 import EquipmentArmor from './child_components/EquipmentArmor';
+import EquipmentMoney from './child_components/EquipmentMoney';
 
 export default function CharacterEquipment() {
-  const [money, setMoney] = useState({});
+  const [money, setMoney] = useState([]);
   const [armorList, setArmorList] = useState([]);
   const [gearList, setGearList] = useState([]);
   const [kitList, setKitList] = useState([]);
@@ -19,19 +20,7 @@ export default function CharacterEquipment() {
       try {
         // Get Money from database
         const moneyData = await AuthAPI.get(`/items/money`);
-        setMoney(moneyObject => {
-          for (const key in moneyData.data) {
-            moneyObject = {
-              ...moneyObject,
-              [moneyData.data[key].coin]: {
-                abbreviation: moneyData.data[key].abbreviation,
-                exchange: moneyData.data[key].exchange_farthing,
-                type: moneyData.data[key].type
-              }
-            }
-          }
-          return moneyObject;
-        });
+        setMoney(moneyData.data);
 
         // Get Armor from database
         const armorData = await AuthAPI.get(`/items/armor`);
@@ -71,6 +60,7 @@ export default function CharacterEquipment() {
   return (
     <>
       <h1>Equipment</h1>
+      <EquipmentMoney money={money} />
       <EquipmentArmor armorList={armorList} />
     </>
   );
