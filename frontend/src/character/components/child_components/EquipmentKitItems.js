@@ -8,8 +8,8 @@ export default function EquipmentKitItems({ kitItems }) {
   useEffect(() => {
     let tempCategory = new Set();
 
-    kitItems.map((item) => {
-      tempCategory.add(item.kit)
+    kitItems.forEach((item) => {
+      tempCategory.add(item.kit);
     });
 
     setCategory(Array.from(tempCategory));
@@ -17,30 +17,26 @@ export default function EquipmentKitItems({ kitItems }) {
 
 
   return (
-    <>
+    <div className='kitItems'>
       {category.length > 0 ? category.map(cat => (
-        <ul className='talentCard'>
-          {
-            <table>
-              <thead>
-                <tr>
-                  <td key={cat}>
-                    <h5>{cat}</h5>
-                  </td>
-                </tr>
-              </thead>
-              <tbody>
-                {kitItems.map(i => (
-                  i.kit === cat ?
-                    <tr key={i.id}>
-                      <td>{i.item}</td>
-                    </tr> : null
-                ))}
-              </tbody>
-            </table>
-          }
-        </ul>
+        <table key={cat}>
+          <thead>
+            <tr>
+              <td>
+                <h5>{cat}</h5>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            {kitItems.map(i => (
+              i.kit === cat ?
+                <tr key={i.id}>
+                  <td>{i.item}</td>
+                </tr> : null
+            ))}
+          </tbody>
+        </table>
       )) : null}
-    </>
+    </div>
   );
 }

@@ -1,0 +1,9 @@
+.kitItems {
+  display: flex;
+  justify-content: space-around;
+  
+}
+
+.kitItems table {
+  width: 220px;
+}
