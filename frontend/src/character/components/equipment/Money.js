@@ -4,7 +4,7 @@ import '../../css/tables.css';
 
 export default function EquipmentMoney({ money }) {
   return (
-    <table>
+    <table className="info">
       <thead>
         <tr>
           <th>Type</th>

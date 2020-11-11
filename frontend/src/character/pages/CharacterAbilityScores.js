@@ -188,7 +188,7 @@ export default function CharacterAbilityScores() {
         >Fill</button>
         {/* TEMP BUTTON 'FILL'. Remove later */}
       </div>
-      <table>
+      <table className="info">
         <thead>
           <tr>
             <td>Ability Score</td>

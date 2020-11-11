@@ -19,7 +19,7 @@ export default function EquipmentKitItems({ kitItems }) {
   return (
     <div className='kitItems'>
       {category.length > 0 ? category.map(cat => (
-        <table key={cat}>
+        <table className="info" key={cat}>
           <thead>
             <tr>
               <td>

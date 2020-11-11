@@ -4,7 +4,7 @@ import '../../css/tables.css';
 
 export default function EquipmentShots({ shots }) {
   return (
-    <table>
+    <table className="info">
       <thead>
         <tr>
           <th>Weapon</th>

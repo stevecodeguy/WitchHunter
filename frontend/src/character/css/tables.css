@@ -47,3 +47,15 @@ tr.selected {
   background-color: rgb(209, 136, 20);
   color: white;
 }
+
+table.info .caption {
+  background-color:   rgba(97, 94, 90, 0.452);
+}
+
+table.info thead {
+  background-color:   rgba(89, 87, 84, 0.452);
+}
+
+table.info tr:nth-child(odd) {
+  background-color:   rgba(165, 158, 148, 0.302);
+}
