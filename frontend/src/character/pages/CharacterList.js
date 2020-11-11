@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import AuthAPI from '../../utils/context/AuthApi';
-import SelectTableBody from '../../utils/TableUtils';
+import selectTableBody from '../../utils/helpers/TableHelpers';
 
 import '../css/characterList.css';
 
@@ -28,7 +28,7 @@ export default function CharacterList() {
         characters.map(item => (
           <tr
             key={item.id}
-            onClick={SelectTableBody}
+            onClick={selectTableBody}
           >
             <td>{item.name}</td>
             <td>{item.description}</td>

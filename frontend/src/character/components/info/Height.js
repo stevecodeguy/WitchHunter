@@ -1,6 +1,6 @@
 import React from 'react';
 
-import LabelName from '../../../utils/LabelName';
+import LabelName from '../../../utils/helpers/LabelName';
 
 import '../../css/characterElements.css';
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import WeaponsCategory from './EquipmentWeaponsCategory';
+import WeaponsCategory from './WeaponsCategory';
 
 import '../../css/tables.css';
 

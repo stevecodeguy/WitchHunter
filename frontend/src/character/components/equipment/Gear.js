@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import SelectTableBody from '../../../utils/TableUtils';
+import selectTableBody from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
@@ -39,7 +39,7 @@ export default function EquipmentGear({ gearList }) {
             gear.category === category ? (
               <tr
                 key={gear.id}
-                onClick={SelectTableBody}
+                onClick={selectTableBody}
               >
                 <td>{gear.category}</td>
                 <td>{gear.item}</td>

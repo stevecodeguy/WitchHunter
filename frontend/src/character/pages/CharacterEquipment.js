@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 
 import AuthAPI from '../../utils/context/AuthApi';
 
-import EquipmentArmor from './child_components/EquipmentArmor';
-import EquipmentMoney from './child_components/EquipmentMoney';
-import EquipmentGear from './child_components/EquipmentGear';
-import EquipmentKits from './child_components/EquipmentKits';
-import EquipmentKitItems from './child_components/EquipmentKitItems';
-import EquipmentVehicles from './child_components/EquipmentVehicles';
-import EquipmentWeapons from './child_components/EquipmentWeapons';
+import EquipmentArmor from '../components/equipment/Armor';
+import EquipmentMoney from '../components/equipment/Money';
+import EquipmentGear from '../components/equipment/Gear';
+import EquipmentKits from '../components/equipment/Kits';
+import EquipmentKitItems from '../components/equipment/KitItems';
+import EquipmentVehicles from '../components/equipment/Vehicles';
+import EquipmentWeapons from '../components/equipment/Weapons';
 
 import '../css/characterEquipment.css';
 

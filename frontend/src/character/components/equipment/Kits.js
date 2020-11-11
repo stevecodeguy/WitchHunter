@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SelectTableBody from '../../../utils/TableUtils';
+import selectTableBody from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
@@ -18,7 +18,7 @@ export default function EquipmentKits({ kitList }) {
         {kitList.map(kit => (
           <tr
             key={kit.id}
-            onClick={SelectTableBody}
+            onClick={selectTableBody}
           >
             <td>{kit.kit}</td>
             <td>

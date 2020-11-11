@@ -11,18 +11,16 @@ import { AuthContext } from './utils/context/AuthContext';
 
 // Character Pages
 import CharacterList from './character/pages/CharacterList';
-// import CharacterNew from './routes/character/new/CharacterNew';
-import CharacterInfo from './character/components/CharacterInfo';
-import CharacterAbilityScores from './character/components/CharacterAbilityScores';
-import CharacterSkills from './character/components/CharacterSkills';
-import CharacterTalents from './character/components/CharacterTalents';
-import CharacterEquipment from './character/components/CharacterEquipment';
+import CharacterInfo from './character/pages/CharacterInfo';
+import CharacterAbilityScores from './character/pages/CharacterAbilityScores';
+import CharacterSkills from './character/pages/CharacterSkills';
+import CharacterTalents from './character/pages/CharacterTalents';
+import CharacterEquipment from './character/pages/CharacterEquipment';
 
 // User Routes
 import NewUser from './user/pages/NewUser';
 import Login from './user/pages/Login';
 import SignUpSignIn from './user/pages/SignUpSignIn';
-
 
 function App() {
   const { state, setUuid } = useContext(AuthContext);

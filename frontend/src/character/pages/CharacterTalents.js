@@ -2,9 +2,9 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import Talents from '../components/child_components/Talents';
-import TalentsSelected from '../components/child_components/TalentsSelected';
-import TalentsUnavailable from '../components/child_components/TalentsUnavailable';
+import Talents from '../components/talents/Talents';
+import TalentsSelected from '../components/talents/TalentsSelected';
+import TalentsUnavailable from '../components/talents/TalentsUnavailable';
 
 import { AuthContext } from '../../utils/context/AuthContext';
 import AuthAPI from '../../utils/context/AuthApi';

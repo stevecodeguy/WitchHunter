@@ -4,11 +4,11 @@ import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../../utils/context/AuthContext';
 import AuthAPI from '../../utils/context/AuthApi';
 
-import TextEntry from '../components/child_components/TextEntry';
-import TextAreaEntry from '../components/child_components/TextAreaEntry';
-import Dropdown from '../components/child_components/Dropdown';
-import Counter from './child_components/Counter';
-import Height from './child_components/Height';
+import TextEntry from '../components/info/TextEntry';
+import TextAreaEntry from '../components/info/TextAreaEntry';
+import Dropdown from '../components/info/Dropdown';
+import Counter from '../components/info/Counter';
+import Height from '../components/info/Height';
 
 import '../css/characterInfo.css';
 

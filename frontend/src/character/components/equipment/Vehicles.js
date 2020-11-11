@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SelectTableBody from '../../../utils/TableUtils';
+import selectTableBody from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
@@ -22,7 +22,7 @@ export default function EquipmentVehicles({ vehicleList }) {
         {vehicleList.map(vehicle => (
           <tr 
             key={vehicle.id}
-            onClick={SelectTableBody}  
+            onClick={selectTableBody}  
           >
             <td>{vehicle.vehicle}</td>
             <td>{vehicle.t_frame}</td>

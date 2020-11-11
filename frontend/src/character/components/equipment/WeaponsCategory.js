@@ -1,8 +1,8 @@
 import React from 'react';
 
-import EquipmentShots from './EquipmentShots';
+import EquipmentShots from './Shots';
 
-import SelectTableBody from '../../../utils/TableUtils';
+import selectTableBody from '../../../utils/helpers/TableHelpers';
 
 export default function WeaponsCategory({ weaponList, shots }) {
   return (
@@ -26,7 +26,7 @@ export default function WeaponsCategory({ weaponList, shots }) {
           {weaponList.map(weapon => (
             <tr 
               key={weapon.id}
-              onClick={SelectTableBody}
+              onClick={selectTableBody}
             >
               <td>{weapon.weapon}</td>
               <td>

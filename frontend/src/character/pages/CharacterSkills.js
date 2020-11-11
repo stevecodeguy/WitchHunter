@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Skill from '../components/child_components/Skill';
-import TransferElectives from '../components/child_components/TransferElectives';
+import Skill from '../components/info/Skill';
+import TransferElectives from '../components/talents/TransferElectives';
 
 import { AuthContext } from '../../utils/context/AuthContext';
 import AuthAPI from '../../utils/context/AuthApi';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 
-import LabelName from '../../../utils/LabelName';
+import LabelName from '../../../utils/helpers/LabelName';
 import { AuthContext } from '../../../utils/context/AuthContext';
 import AuthAPI from '../../../utils/context/AuthApi';
 

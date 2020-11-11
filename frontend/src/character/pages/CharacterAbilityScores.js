@@ -4,9 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../../utils/context/AuthContext';
 import { CharacterContext } from '../../utils/context/CharacterContext';
 import AuthAPI from '../../utils/context/AuthApi';
-import Points from '../components/child_components/Points';
+import Points from '../components/info/Points';
 
-import AbilityScores from '../components/child_components/AbilityScore';
+import AbilityScores from '../components/abilities/AbilityScore';
 
 import '../css/tables.css';
 

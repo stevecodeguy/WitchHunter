@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SelectTableBody from '../../../utils/TableUtils';
+import selectTableBody from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
@@ -21,7 +21,7 @@ export default function EquipmentArmor({ armorList }) {
         {armorList.map(armor => (
           <tr 
             key={armor.id}
-            onClick={SelectTableBody}
+            onClick={selectTableBody}
           >
             <td>{armor.armor}</td>
             <td>
