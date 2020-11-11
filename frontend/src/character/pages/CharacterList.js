@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import AuthAPI from '../../utils/context/AuthApi';
+import SelectTableBody from '../../utils/TableUtils';
 
-import '../css/CharacterList.css';
+import '../css/characterList.css';
 
 export default function CharacterList() {
   const history = useHistory();
@@ -27,7 +28,7 @@ export default function CharacterList() {
         characters.map(item => (
           <tr
             key={item.id}
-            onClick={select}
+            onClick={SelectTableBody}
           >
             <td>{item.name}</td>
             <td>{item.description}</td>
@@ -35,14 +36,6 @@ export default function CharacterList() {
         )
         ));
     }
-  };
-
-  const select = (event) => {
-    const tbody = event.target.parentNode.parentNode;
-    for (let i = 0; i < tbody.children.length; i++) {
-      tbody.children[i].classList.remove('selected')
-    }
-    event.target.parentNode.classList.add('selected');
   };
 
   const createButton = (event) => {

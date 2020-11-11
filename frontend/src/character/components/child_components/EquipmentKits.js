@@ -1,5 +1,7 @@
 import React from 'react';
 
+import SelectTableBody from '../../../utils/TableUtils';
+
 import '../../css/tables.css';
 
 export default function EquipmentKits({ kitList }) {
@@ -14,7 +16,10 @@ export default function EquipmentKits({ kitList }) {
       </thead>
       <tbody>
         {kitList.map(kit => (
-          <tr key={kit.id}>
+          <tr
+            key={kit.id}
+            onClick={SelectTableBody}
+          >
             <td>{kit.kit}</td>
             <td>
               {kit.cost_pounds > 0 ? kit.cost_pounds + '£ ' : null}

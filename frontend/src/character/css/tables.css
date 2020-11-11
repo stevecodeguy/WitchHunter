@@ -42,3 +42,8 @@ tr:nth-child(even) {
 td:first-child.tableCenterText {
   text-align: center;
 }
+
+tr.selected {
+  background-color: rgb(209, 136, 20);
+  color: white;
+}

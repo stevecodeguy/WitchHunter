@@ -1,5 +1,7 @@
 import React from 'react';
 
+import SelectTableBody from '../../../utils/TableUtils';
+
 import '../../css/tables.css';
 
 export default function EquipmentArmor({ armorList }) {
@@ -17,7 +19,10 @@ export default function EquipmentArmor({ armorList }) {
       </thead>
       <tbody>
         {armorList.map(armor => (
-          <tr key={armor.id}>
+          <tr 
+            key={armor.id}
+            onClick={SelectTableBody}
+          >
             <td>{armor.armor}</td>
             <td>
               {armor.cost_pounds > 0 ? armor.cost_pounds + '£ ' : null}
