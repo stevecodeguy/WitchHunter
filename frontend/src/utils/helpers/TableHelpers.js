@@ -4,4 +4,5 @@ export default function selectTableBody(event) {
     tbody.children[i].classList.remove('selected')
   }
   event.target.parentNode.classList.add('selected');
+  console.log(event.target.parentNode)
 };
