@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import selectTableBody from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
 export default function EquipmentKits({ kitList }) {
+  const [selected, setSelected] = useState(null);
+
   return (
     <table>
       <thead>
@@ -18,7 +20,7 @@ export default function EquipmentKits({ kitList }) {
         {kitList.map(kit => (
           <tr
             key={kit.id}
-            onClick={selectTableBody}
+            onClick={(event) => setSelected(kitList[selectTableBody(event)])}
           >
             <td>{kit.kit}</td>
             <td>

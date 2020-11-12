@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import selectTableBody from '../../../utils/helpers/TableHelpers';
 
@@ -6,6 +6,31 @@ import '../../css/tables.css';
 
 export default function EquipmentGear({ gearList }) {
   const [category, setCategory] = useState('Animals, Tack, and Vehicles');
+  const [categoryCounts, setCategoryCounts] = useState({});
+  const [selected, setSelected] = useState(null);
+
+  useEffect(() => {
+    // Corrects table id selection to id
+    let gearCounts = {};
+    let lastCount = 0;
+    for (let i = 1; i < gearList.length; i++) {
+      if (gearList[i].category !== gearList[i - 1].category) {
+        gearCounts = {
+          ...gearCounts,
+          [gearList[i - 1].category]: lastCount
+        }
+        lastCount = i
+      }
+      if (i === gearList.length - 1) {
+        gearCounts = {
+          ...gearCounts,
+          [gearList[i].category]: lastCount
+        }
+      }
+    }
+
+    setCategoryCounts(gearCounts);
+  }, [gearList])
 
   return (
     <div>
@@ -39,7 +64,11 @@ export default function EquipmentGear({ gearList }) {
             gear.category === category ? (
               <tr
                 key={gear.id}
-                onClick={selectTableBody}
+                onClick={(event) => setSelected(prev => {
+                  console.log(categoryCounts[gear.category])
+                  return gearList[selectTableBody(event) + categoryCounts[gear.category]]
+                })
+                }
               >
                 <td>{gear.category}</td>
                 <td>{gear.item}</td>

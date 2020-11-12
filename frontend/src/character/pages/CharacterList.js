@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import AuthAPI from '../../utils/context/AuthApi';
-import selectTableBody from '../../utils/helpers/TableHelpers';
+import selectTableBodyIndex from '../../utils/helpers/TableHelpers';
 
 import '../css/characterList.css';
 
 export default function CharacterList() {
   const history = useHistory();
   const [characters, setCharacters] = useState([]);
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
     const getCharacters = async () => {
@@ -28,7 +29,7 @@ export default function CharacterList() {
         characters.map(item => (
           <tr
             key={item.id}
-            onClick={selectTableBody}
+            onClick={(event) => setSelected(characters[selectTableBodyIndex(event)])}
           >
             <td>{item.name}</td>
             <td>{item.description}</td>

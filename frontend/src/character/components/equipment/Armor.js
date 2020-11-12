@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import selectTableBody from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
 export default function EquipmentArmor({ armorList }) {
+  const [selected, setSelected] = useState(null);
+
   return (
     <table>
       <thead>
@@ -21,7 +23,7 @@ export default function EquipmentArmor({ armorList }) {
         {armorList.map(armor => (
           <tr 
             key={armor.id}
-            onClick={selectTableBody}
+            onClick={(event) => setSelected(armorList[selectTableBody(event)])}
           >
             <td>{armor.armor}</td>
             <td>
