@@ -21,7 +21,10 @@ export default function CharacterEquipment() {
   const [shots, setShots] = useState([]);
   const [vehicleList, setVehicleList] = useState([]);
   const [weaponList, setWeaponList] = useState([]);
-  const [equipmentSelected, setEquipmentSelected] = useState('');
+  const [categorySelected, setCategorySelected] = useState({});
+  // const [inventory, setSetInventory] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [rowClass, setRowClass] = useState([]);
 
   useEffect(() => {
     const getEquipment = async () => {
@@ -65,32 +68,66 @@ export default function CharacterEquipment() {
     getEquipment();
   }, []);
 
+  useEffect(() => {
+    //set default category
+    !!categorySelected.main ? null : setCategorySelected(prev => { return { ...prev, main: 'Kits' } });
+  }, [categorySelected, setCategorySelected]);
+
   const SwitchEquipment = () => {
-    switch (equipmentSelected) {
-      case 'armor':
-        return <EquipmentArmor armorList={armorList} />
-      case 'gear':
-        return <EquipmentGear gearList={gearList} />
-      case 'kits':
+    switch (categorySelected.main) {
+      case 'Armor':
+        return <EquipmentArmor
+          armorList={armorList}
+          setSelected={setSelected}
+          rowClass={rowClass}
+          setRowClass={setRowClass}
+        />
+      case 'Gear':
+        return <EquipmentGear
+          gearList={gearList}
+          setSelected={setSelected}
+          categorySelected={categorySelected}
+          setCategorySelected={setCategorySelected}
+          rowClass={rowClass}
+          setRowClass={setRowClass}
+        />
+      case 'Kits':
         return (
           <>
-            <EquipmentKits kitList={kitList} />
+            <EquipmentKits
+              kitList={kitList}
+              setSelected={setSelected}
+              rowClass={rowClass}
+              setRowClass={setRowClass}
+            />
             <EquipmentKitItems kitItems={kitItems} />
           </>
         )
-      case 'vehicles':
-        return <EquipmentVehicles vehicleList={vehicleList} />
-      case 'weapons':
+      case 'Vehicles':
+        return <EquipmentVehicles
+          vehicleList={vehicleList}
+          setSelected={setSelected}
+          rowClass={rowClass}
+          setRowClass={setRowClass}
+        />
+      case 'Weapons':
         return (
           <>
-            <EquipmentWeapons weaponList={weaponList} shots={shots} />
+            <EquipmentWeapons
+              weaponList={weaponList}
+              shots={shots}
+              setSelected={setSelected}
+              categorySelected={categorySelected}
+              setCategorySelected={setCategorySelected}
+              rowClass={rowClass}
+              setRowClass={setRowClass}
+            />
           </>
         )
       default:
         return null;
     }
   }
-
 
   return (
     <>
@@ -99,18 +136,21 @@ export default function CharacterEquipment() {
       <select
         name="equipment"
         id="equipment_dropdown"
-        value={equipmentSelected}
+        value={categorySelected.main}
         onChange={(event) => {
-          setEquipmentSelected(event.target.value)
+          setSelected([]);
+          setRowClass([]);
+          setCategorySelected({main: event.target.value});
         }}
       >
         <option value="" disabled>Select Equipment Type</option>
-        <option key="kits" value="kits">Kits</option>
-        <option key="armor" value="armor">Armor</option>
-        <option key="gear" value="gear">Gear</option>
-        <option key="weapons" value="weapons">Weapons</option>
-        <option key="vehicles" value="vehicles">Vehicles</option>
+        <option key="kits" value="Kits">Kits</option>
+        <option key="armor" value="Armor">Armor</option>
+        <option key="gear" value="Gear">Gear</option>
+        <option key="weapons" value="Weapons">Weapons</option>
+        <option key="vehicles" value="Vehicles">Vehicles</option>
       </select>
+      <button onClick={() => console.log('hi')}>Buy item</button>
       <SwitchEquipment />
     </>
   );

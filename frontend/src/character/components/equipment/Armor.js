@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 
-import selectTableBody from '../../../utils/helpers/TableHelpers';
+import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
-export default function EquipmentArmor({ armorList }) {
-  const [selected, setSelected] = useState(null);
-
+export default function EquipmentArmor({ armorList, setSelected, rowClass, setRowClass }) {
   return (
     <table>
       <thead>
@@ -21,13 +19,25 @@ export default function EquipmentArmor({ armorList }) {
       </thead>
       <tbody>
         {armorList.map(armor => (
-          <tr 
+          <tr
             key={armor.id}
-            onClick={(event) => setSelected(armorList[selectTableBody(event)])}
+            onClick={(event) => {
+              // setSelected(armorList[selectTableRow(event)])
+              setSelected(() => {
+                const select = [...armorList];
+                return select[selectTableRow(event)];
+              });
+              setRowClass(() => {
+                let setClass = new Array(armorList.length).join('.').split('.');
+                setClass[armor.id - 1] = 'selected';
+                return setClass;
+              });
+            }}
+            className={rowClass[armor.id - 1]}
           >
             <td>{armor.armor}</td>
             <td>
-              {armor.cost_pounds > 0 ? armor.cost_pounds + '£ ' : null}
+              {armor.cost_pounds > 0 ? '£' + armor.cost_pounds + ' ' : null}
               {armor.cost_crowns > 0 ? armor.cost_crowns + 'c ' : null}
               {armor.cost_shilling > 0 ? armor.cost_shilling + 's ' : null}
               {armor.cost_penny > 0 ? armor.cost_penny + 'd ' : null}

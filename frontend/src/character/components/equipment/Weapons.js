@@ -1,29 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
-import WeaponsCategory from './WeaponsCategory';
+import { WeaponsCategory } from './WeaponsCategory';
 
 import '../../css/tables.css';
 
-export default function EquipmentWeapons({ weaponList, shots }) {
-  const [category, setCategory] = useState('Archery');
+export default function EquipmentWeapons({ weaponList, shots, setSelected, rowClass, setRowClass, categorySelected, setCategorySelected }) {
 
-  const updateCategory = weaponList.filter(weapon => weapon.category === category);
+  const updateCategory = weaponList.filter(weapon => weapon.category === categorySelected.sub);
+
+  useEffect(() => {
+    //set default sub category
+    !!categorySelected.sub ? null : setCategorySelected(prev => { return { ...prev, sub: 'Archery' } });
+  }, [categorySelected, setCategorySelected]);
 
   return (
     <div>
       <select
         name="weapons"
         id="weapons_dropdown"
-        value={category}
+        value={categorySelected.sub}
         onChange={(event) => {
-          setCategory(event.target.value)
+          setSelected([]);
+          setRowClass([]);
+          setCategorySelected(prev => { return { ...prev, sub: event.target.value } });
         }}
       >
         <option key="archery" value="Archery">Archery</option>
         <option key="firearms" value="Firearms">Firearms</option>
         <option key="melee" value="Melee and Thrown">Melee and Thrown</option>
       </select>
-      <WeaponsCategory weaponList={updateCategory} shots={shots}/>
+      <WeaponsCategory
+        weaponList={updateCategory}
+        shots={shots}
+        setSelected={setSelected}
+        rowClass={rowClass}
+        setRowClass={setRowClass}
+      />
     </div>
   );
-}
+};

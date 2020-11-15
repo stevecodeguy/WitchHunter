@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
-import selectTableBody from '../../../utils/helpers/TableHelpers';
+import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
-export default function EquipmentGear({ gearList }) {
-  const [category, setCategory] = useState('Animals, Tack, and Vehicles');
+export default function EquipmentGear({ gearList, setSelected, rowClass, setRowClass, categorySelected, setCategorySelected }) {
   const [categoryCounts, setCategoryCounts] = useState({});
-  const [selected, setSelected] = useState(null);
+
+  useEffect(() => {
+    //set default sub category
+    !!categorySelected.sub ? null : setCategorySelected(prev => { return { ...prev, sub: 'Animals, Tack, and Vehicles' } });
+  }, [categorySelected, setCategorySelected]);
 
   useEffect(() => {
     // Corrects table id selection to id
@@ -37,9 +40,11 @@ export default function EquipmentGear({ gearList }) {
       <select
         name="gear"
         id="gear_dropdown"
-        value={category}
+        value={categorySelected.sub}
         onChange={(event) => {
-          setCategory(event.target.value)
+          setSelected([]);
+          setRowClass([]);
+          setCategorySelected(prev => { return { ...prev, sub: event.target.value } });
         }}
       >
         <option key="animals" value="Animals, Tack, and Vehicles">Animals, Tack, and Vehicles</option>
@@ -61,19 +66,25 @@ export default function EquipmentGear({ gearList }) {
         </thead>
         <tbody>
           {gearList.map(gear =>
-            gear.category === category ? (
+            gear.category === categorySelected.sub ? (
               <tr
                 key={gear.id}
-                onClick={(event) => setSelected(prev => {
-                  console.log(categoryCounts[gear.category])
-                  return gearList[selectTableBody(event) + categoryCounts[gear.category]]
-                })
-                }
+                onClick={(event) => {
+                  setSelected(() => {
+                    return gearList[selectTableRow(event) + categoryCounts[gear.category]]
+                  });
+                  setRowClass(() => {
+                    let setClass = new Array(gearList.length).join('.').split('.');
+                    setClass[gear.id - 1] = 'selected';
+                    return setClass;
+                  });
+                }}
+                className={rowClass[gear.id - 1]}
               >
                 <td>{gear.category}</td>
                 <td>{gear.item}</td>
                 <td>
-                  {gear.cost_pounds > 0 ? gear.cost_pounds + '£ ' : null}
+                  {gear.cost_pounds > 0 ? '£' + gear.cost_pounds + ' ' : null}
                   {gear.cost_crowns > 0 ? gear.cost_crowns + 'c ' : null}
                   {gear.cost_shilling > 0 ? gear.cost_shilling + 's ' : null}
                   {gear.cost_penny > 0 ? gear.cost_penny + 'd ' : null}
@@ -90,6 +101,6 @@ export default function EquipmentGear({ gearList }) {
           )}
         </tbody>
       </table>
-    </div>
+    </div >
   );
 }

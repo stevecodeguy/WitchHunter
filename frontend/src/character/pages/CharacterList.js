@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import AuthAPI from '../../utils/context/AuthApi';
-import selectTableBodyIndex from '../../utils/helpers/TableHelpers';
+import { selectTableRow } from '../../utils/helpers/TableHelpers';
 
 import '../css/characterList.css';
 
@@ -29,7 +29,7 @@ export default function CharacterList() {
         characters.map(item => (
           <tr
             key={item.id}
-            onClick={(event) => setSelected(characters[selectTableBodyIndex(event)])}
+            onClick={(event) => setSelected(characters[selectTableRow(event)])}
           >
             <td>{item.name}</td>
             <td>{item.description}</td>

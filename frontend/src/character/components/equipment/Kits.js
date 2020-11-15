@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 
-import selectTableBody from '../../../utils/helpers/TableHelpers';
+import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
-export default function EquipmentKits({ kitList }) {
-  const [selected, setSelected] = useState(null);
-
+export default function EquipmentKits({ kitList, setSelected, rowClass, setRowClass }) {
   return (
     <table>
       <thead>
@@ -20,11 +18,11 @@ export default function EquipmentKits({ kitList }) {
         {kitList.map(kit => (
           <tr
             key={kit.id}
-            onClick={(event) => setSelected(kitList[selectTableBody(event)])}
+            onClick={(event) => setSelected(kitList[selectTableRow(event)])}
           >
             <td>{kit.kit}</td>
             <td>
-              {kit.cost_pounds > 0 ? kit.cost_pounds + '£ ' : null}
+              {kit.cost_pounds > 0 ? '£' + kit.cost_pounds + ' ' : null}
               {kit.cost_crowns > 0 ? kit.cost_crowns + 'c ' : null}
               {kit.cost_shilling > 0 ? kit.cost_shilling + 's ' : null}
               {kit.cost_penny > 0 ? kit.cost_penny + 'd ' : null}

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import selectTableBody from '../../../utils/helpers/TableHelpers';
+import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
-export default function EquipmentVehicles({ vehicleList }) {
+export default function EquipmentVehicles({ vehicleList, setSelected, rowClass, setRowClass }) {
   return (
     <table>
       <thead>
@@ -20,9 +20,9 @@ export default function EquipmentVehicles({ vehicleList }) {
       </thead>
       <tbody>
         {vehicleList.map(vehicle => (
-          <tr 
+          <tr
             key={vehicle.id}
-            onClick={selectTableBody}  
+            onClick={(event) => setSelected(vehicleList[selectTableRow(event)])}
           >
             <td>{vehicle.vehicle}</td>
             <td>{vehicle.t_frame}</td>

@@ -17,7 +17,6 @@ const sqlGetItemsShots = () => 'SELECT * FROM powder_shots;';
 const sqlGetItemsVehicles = () => 'SELECT * FROM vehicles;';
 const sqlGetItemsWeapons = () => 'SELECT * FROM weapons;';
 
-
 exports.sqlGetInfoReligions = sqlGetInfoReligions;
 exports.sqlGetInfoOrders = sqlGetInfoOrders;
 exports.sqlGetInfoSinsVices = sqlGetInfoSinsVices;
