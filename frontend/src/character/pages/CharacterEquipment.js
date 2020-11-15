@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 
 import AuthAPI from '../../utils/context/AuthApi';
 
-import EquipmentArmor from '../components/equipment/Armor';
-import EquipmentMoney from '../components/equipment/Money';
-import EquipmentGear from '../components/equipment/Gear';
-import EquipmentKits from '../components/equipment/Kits';
-import EquipmentKitItems from '../components/equipment/KitItems';
-import EquipmentVehicles from '../components/equipment/Vehicles';
-import EquipmentWeapons from '../components/equipment/Weapons';
+import Armor from '../components/equipment/Armor';
+import Money from '../components/equipment/Money';
+import Gear from '../components/equipment/Gear';
+import Kits from '../components/equipment/Kits';
+import KitItems from '../components/equipment/KitItems';
+import Vehicles from '../components/equipment/Vehicles';
+import Weapons from '../components/equipment/Weapons';
+import Inventory from '../components/equipment/Inventory';
 
 import '../css/characterEquipment.css';
 
@@ -22,7 +23,7 @@ export default function CharacterEquipment() {
   const [vehicleList, setVehicleList] = useState([]);
   const [weaponList, setWeaponList] = useState([]);
   const [categorySelected, setCategorySelected] = useState({});
-  // const [inventory, setSetInventory] = useState([]);
+  const [inventory, setInventory] = useState({});
   const [selected, setSelected] = useState([]);
   const [rowClass, setRowClass] = useState([]);
 
@@ -76,14 +77,14 @@ export default function CharacterEquipment() {
   const SwitchEquipment = () => {
     switch (categorySelected.main) {
       case 'Armor':
-        return <EquipmentArmor
+        return <Armor
           armorList={armorList}
           setSelected={setSelected}
           rowClass={rowClass}
           setRowClass={setRowClass}
         />
       case 'Gear':
-        return <EquipmentGear
+        return <Gear
           gearList={gearList}
           setSelected={setSelected}
           categorySelected={categorySelected}
@@ -94,17 +95,17 @@ export default function CharacterEquipment() {
       case 'Kits':
         return (
           <>
-            <EquipmentKits
+            <Kits
               kitList={kitList}
               setSelected={setSelected}
               rowClass={rowClass}
               setRowClass={setRowClass}
             />
-            <EquipmentKitItems kitItems={kitItems} />
+            <KitItems kitItems={kitItems} />
           </>
         )
       case 'Vehicles':
-        return <EquipmentVehicles
+        return <Vehicles
           vehicleList={vehicleList}
           setSelected={setSelected}
           rowClass={rowClass}
@@ -113,7 +114,7 @@ export default function CharacterEquipment() {
       case 'Weapons':
         return (
           <>
-            <EquipmentWeapons
+            <Weapons
               weaponList={weaponList}
               shots={shots}
               setSelected={setSelected}
@@ -129,10 +130,33 @@ export default function CharacterEquipment() {
     }
   }
 
+  const buyItems = (amount) => {
+    if (!!selected && !!selected.item) {
+      setInventory(prev => {
+        let newInventory = {
+          ...prev,
+          [selected.item]: {
+            weightEach: !!selected.weight_lb ? selected.weight_lb : null,
+            weight: !!selected.weight_lb ?
+              (selected.weight_lb * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+              : null,
+            quantity: !!prev[selected.item] ? (prev[selected.item].quantity + amount) : null || amount
+          }
+        }
+        return newInventory;
+      });
+    }
+  }
+
+
   return (
     <>
       <h1>Equipment</h1>
-      <EquipmentMoney money={money} />
+      <Money money={money} />
+      <Inventory
+        inventory={inventory} 
+        rowClass={rowClass}
+        />
       <select
         name="equipment"
         id="equipment_dropdown"
@@ -140,7 +164,7 @@ export default function CharacterEquipment() {
         onChange={(event) => {
           setSelected([]);
           setRowClass([]);
-          setCategorySelected({main: event.target.value});
+          setCategorySelected({ main: event.target.value });
         }}
       >
         <option value="" disabled>Select Equipment Type</option>
@@ -150,7 +174,9 @@ export default function CharacterEquipment() {
         <option key="weapons" value="Weapons">Weapons</option>
         <option key="vehicles" value="Vehicles">Vehicles</option>
       </select>
-      <button onClick={() => console.log('hi')}>Buy item</button>
+      <button onClick={() => buyItems(1)}>Buy item</button>
+      <button onClick={() => buyItems(5)}>Buy 5 items</button>
+      <button onClick={() => buyItems(10)}>Buy 10 items</button>
       <SwitchEquipment />
     </>
   );

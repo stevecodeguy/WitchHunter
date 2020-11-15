@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-import EquipmentShots from './Shots';
+import Shots from './Shots';
 
 import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
@@ -41,7 +41,7 @@ export const WeaponsCategory = React.memo(({ weaponList, shots, setSelected, row
                   }}
                   className={rowClass[weapon.id - 1]}
                 >
-                  <td>{weapon.weapon}</td>
+                  <td>{weapon.item}</td>
                   <td>
                     {weapon.cost_pounds > 0 ? '£' + weapon.cost_pounds + ' ' : null}
                     {weapon.cost_crowns > 0 ? weapon.cost_crowns + 'c ' : null}
@@ -74,7 +74,7 @@ export const WeaponsCategory = React.memo(({ weaponList, shots, setSelected, row
               ) : null}
             </tbody>
           </table>
-          {weaponList[0].category === 'Firearms' ? <EquipmentShots shots={shots} /> : null}
+          {weaponList[0].category === 'Firearms' ? <Shots shots={shots} /> : null}
         </>
       )
         : null}

@@ -2,7 +2,7 @@ import React from 'react';
 
 import '../../css/tables.css';
 
-export default function EquipmentMoney({ money }) {
+export default function Money({ money }) {
   return (
     <table className="info">
       <thead>

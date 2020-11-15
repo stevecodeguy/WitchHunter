@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
-export default function EquipmentKits({ kitList, setSelected, rowClass, setRowClass }) {
+export default function Kits({ kitList, setSelected, rowClass, setRowClass }) {
   return (
     <table>
       <thead>
@@ -18,7 +18,18 @@ export default function EquipmentKits({ kitList, setSelected, rowClass, setRowCl
         {kitList.map(kit => (
           <tr
             key={kit.id}
-            onClick={(event) => setSelected(kitList[selectTableRow(event)])}
+            onClick={(event) => {
+              setSelected(() => {
+                const select = [...kitList];
+                return select[selectTableRow(event)];
+              });
+              setRowClass(() => {
+                let setClass = new Array(kitList.length).join('.').split('.');
+                setClass[kit.id - 1] = 'selected';
+                return setClass;
+              });
+            }}
+            className={rowClass[kit.id - 1]}
           >
             <td>{kit.kit}</td>
             <td>

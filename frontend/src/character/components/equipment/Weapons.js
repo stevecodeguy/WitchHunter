@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useEffect } from 'react';
 
 import { WeaponsCategory } from './WeaponsCategory';
 
 import '../../css/tables.css';
 
-export default function EquipmentWeapons({ weaponList, shots, setSelected, rowClass, setRowClass, categorySelected, setCategorySelected }) {
+export default function Weapons({ weaponList, shots, setSelected, rowClass, setRowClass, categorySelected, setCategorySelected }) {
 
   const updateCategory = weaponList.filter(weapon => weapon.category === categorySelected.sub);
 

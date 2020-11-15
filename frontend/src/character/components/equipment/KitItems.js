@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import '../../css/tables.css';
 
-export default function EquipmentKitItems({ kitItems }) {
+export default function KitItems({ kitItems }) {
   const [category, setCategory] = useState([]);
 
   useEffect(() => {

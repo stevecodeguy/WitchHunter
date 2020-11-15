@@ -4,7 +4,7 @@ import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
-export default function EquipmentVehicles({ vehicleList, setSelected, rowClass, setRowClass }) {
+export default function Vehicles({ vehicleList, setSelected, rowClass, setRowClass }) {
   return (
     <table>
       <thead>
@@ -22,9 +22,20 @@ export default function EquipmentVehicles({ vehicleList, setSelected, rowClass, 
         {vehicleList.map(vehicle => (
           <tr
             key={vehicle.id}
-            onClick={(event) => setSelected(vehicleList[selectTableRow(event)])}
+            onClick={(event) => {
+              setSelected(() => {
+                const select = [...vehicleList];
+                return select[selectTableRow(event)];
+              });
+              setRowClass(() => {
+                let setClass = new Array(vehicleList.length).join('.').split('.');
+                setClass[vehicle.id - 1] = 'selected';
+                return setClass;
+              });
+            }}
+            className={rowClass[vehicle.id - 1]}
           >
-            <td>{vehicle.vehicle}</td>
+            <td>{vehicle.item}</td>
             <td>{vehicle.t_frame}</td>
             <td>{vehicle.t_wheel}</td>
             <td>{vehicle.t_hull}</td>

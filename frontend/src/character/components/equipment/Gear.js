@@ -4,7 +4,7 @@ import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
-export default function EquipmentGear({ gearList, setSelected, rowClass, setRowClass, categorySelected, setCategorySelected }) {
+export default function Gear({ gearList, setSelected, rowClass, setRowClass, categorySelected, setCategorySelected }) {
   const [categoryCounts, setCategoryCounts] = useState({});
 
   useEffect(() => {

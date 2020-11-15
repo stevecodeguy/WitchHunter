@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
-export default function EquipmentArmor({ armorList, setSelected, rowClass, setRowClass }) {
+export default function Armor({ armorList, setSelected, rowClass, setRowClass }) {
   return (
     <table>
       <thead>
@@ -22,7 +22,6 @@ export default function EquipmentArmor({ armorList, setSelected, rowClass, setRo
           <tr
             key={armor.id}
             onClick={(event) => {
-              // setSelected(armorList[selectTableRow(event)])
               setSelected(() => {
                 const select = [...armorList];
                 return select[selectTableRow(event)];
@@ -35,7 +34,7 @@ export default function EquipmentArmor({ armorList, setSelected, rowClass, setRo
             }}
             className={rowClass[armor.id - 1]}
           >
-            <td>{armor.armor}</td>
+            <td>{armor.item}</td>
             <td>
               {armor.cost_pounds > 0 ? '£' + armor.cost_pounds + ' ' : null}
               {armor.cost_crowns > 0 ? armor.cost_crowns + 'c ' : null}
