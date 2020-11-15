@@ -10,6 +10,7 @@ export default function CharacterList() {
   const history = useHistory();
   const [characters, setCharacters] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [rowClass, setRowClass] = useState([]);
 
   useEffect(() => {
     const getCharacters = async () => {
@@ -25,16 +26,27 @@ export default function CharacterList() {
 
   const renderCharacters = () => {
     if (!!characters) {
+      let rowCount = 0;
       return (
-        characters.map(item => (
+        characters.map(character => {
+          rowCount++;
+          return (
           <tr
-            key={item.id}
-            onClick={(event) => setSelected(characters[selectTableRow(event)])}
+            key={character.id}
+            onClick={(event) => {
+              setSelected(characters[selectTableRow(event)]);
+              setRowClass(() => {
+                let setClass = new Array(characters.length).join('.').split('.');
+                setClass[selectTableRow(event)] = 'selected';
+                return setClass;
+              });
+            }}
+            className={rowClass[rowCount -1]}
           >
-            <td>{item.name}</td>
-            <td>{item.description}</td>
+            <td>{character.name}</td>
+            <td>{character.description}</td>
           </tr>
-        )
+        )}
         ));
     }
   };
