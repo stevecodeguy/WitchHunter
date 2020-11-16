@@ -1,12 +1,10 @@
 import React from 'react';
 
-import { selectTableRow } from '../../../utils/helpers/TableHelpers';
-
 import '../../css/tables.css';
 
-export default function Vehicles({ vehicleList, setSelected, rowClass, setRowClass }) {
+export default function Vehicles({ vehicleList }) {
   return (
-    <table>
+    <table className="info">
       <thead>
         <tr>
           <th>Vehicle</th>
@@ -22,18 +20,6 @@ export default function Vehicles({ vehicleList, setSelected, rowClass, setRowCla
         {vehicleList.map(vehicle => (
           <tr
             key={vehicle.id}
-            onClick={(event) => {
-              setSelected(() => {
-                const select = [...vehicleList];
-                return select[selectTableRow(event)];
-              });
-              setRowClass(() => {
-                let setClass = new Array(vehicleList.length).join('.').split('.');
-                setClass[vehicle.id - 1] = 'selected';
-                return setClass;
-              });
-            }}
-            className={rowClass[vehicle.id - 1]}
           >
             <td>{vehicle.item}</td>
             <td>{vehicle.t_frame}</td>

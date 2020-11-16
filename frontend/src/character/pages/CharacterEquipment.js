@@ -86,6 +86,7 @@ export default function CharacterEquipment() {
       case 'Gear':
         return <Gear
           gearList={gearList}
+          vehicleList={vehicleList}
           setSelected={setSelected}
           categorySelected={categorySelected}
           setCategorySelected={setCategorySelected}
@@ -104,13 +105,6 @@ export default function CharacterEquipment() {
             <KitItems kitItems={kitItems} />
           </>
         )
-      case 'Vehicles':
-        return <Vehicles
-          vehicleList={vehicleList}
-          setSelected={setSelected}
-          rowClass={rowClass}
-          setRowClass={setRowClass}
-        />
       case 'Weapons':
         return (
           <>

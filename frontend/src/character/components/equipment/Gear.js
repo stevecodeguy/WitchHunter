@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
+import Vehicles from './Vehicles';
 
-export default function Gear({ gearList, setSelected, rowClass, setRowClass, categorySelected, setCategorySelected }) {
+export default function Gear({ gearList, vehicleList, setSelected, rowClass, setRowClass, categorySelected, setCategorySelected }) {
   const [categoryCounts, setCategoryCounts] = useState({});
 
   useEffect(() => {
@@ -101,6 +102,7 @@ export default function Gear({ gearList, setSelected, rowClass, setRowClass, cat
           )}
         </tbody>
       </table>
+      {categorySelected.sub === 'Animals, Tack, and Vehicles' ? <Vehicles vehicleList={vehicleList} /> : null}
     </div >
   );
 }
