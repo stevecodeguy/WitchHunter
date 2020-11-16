@@ -48,8 +48,13 @@ tr.selected {
   color: white;
 }
 
-table.info .caption {
+table.info {
+  min-width: 100px;
+}
+
+table.info caption {
   background-color:   rgba(97, 94, 90, 0.452);
+  font-size: 1em;
 }
 
 table.info thead {

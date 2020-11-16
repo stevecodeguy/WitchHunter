@@ -14,7 +14,7 @@ import Inventory from '../components/equipment/Inventory';
 import '../css/characterEquipment.css';
 
 export default function CharacterEquipment() {
-  const [money, setMoney] = useState([]);
+  const [moneyList, setMoneyList] = useState([]);
   const [armorList, setArmorList] = useState([]);
   const [gearList, setGearList] = useState([]);
   const [kitList, setKitList] = useState([]);
@@ -26,13 +26,20 @@ export default function CharacterEquipment() {
   const [inventory, setInventory] = useState({});
   const [selected, setSelected] = useState([]);
   const [rowClass, setRowClass] = useState([]);
+  const [characterMoney, setCharacterMoney] = useState({
+    pounds: {amount: 0, abbreviation: '£'},
+    crowns: {amount: 0, abbreviation: 'c'},
+    shilling: {amount: 0, abbreviation: 's'},
+    penny: {amount: 0, abbreviation: 'd'},
+    farthing: {amount: 0, abbreviation: 'f'}
+  });
 
   useEffect(() => {
     const getEquipment = async () => {
       try {
         // Get Money from database
         const moneyData = await AuthAPI.get(`/items/money`);
-        setMoney(moneyData.data);
+        setMoneyList(moneyData.data);
 
         // Get Armor from database
         const armorData = await AuthAPI.get(`/items/armor`);
@@ -146,11 +153,15 @@ export default function CharacterEquipment() {
   return (
     <>
       <h1>Equipment</h1>
-      <Money money={money} />
+      <Money
+        moneyList={moneyList}
+        characterMoney={characterMoney}
+        setCharacterMoney={setCharacterMoney}
+      />
       <Inventory
-        inventory={inventory} 
+        inventory={inventory}
         rowClass={rowClass}
-        />
+      />
       <select
         name="equipment"
         id="equipment_dropdown"
