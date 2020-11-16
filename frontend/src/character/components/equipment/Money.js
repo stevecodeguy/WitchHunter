@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import '../../css/tables.css';
 
-export default function Money({ moneyList, characterMoney, setCharacterMoney }) {
+export default function Money({ moneyList, characterMoney, setCharacterMoney, initiateBuying }) {
   let currentMoney = Object.entries(characterMoney);
 
   useEffect(() => {
@@ -39,6 +39,7 @@ export default function Money({ moneyList, characterMoney, setCharacterMoney }) 
           ))}
         </tbody>
       </table>
+      {!initiateBuying ? (
       <button onClick={() => {
         setCharacterMoney(prev => {
           let generatedMoney = Math.floor(Math.random() * Math.floor(10)) + 1;
@@ -51,7 +52,7 @@ export default function Money({ moneyList, characterMoney, setCharacterMoney }) 
             singleTotal: generatedMoney * 960
           };
         });
-      }}>Reroll Starting Money</button>
+      }}>Reroll Starting Money</button> ) : null}
       <table className="info">
         <caption>Starting Money:</caption>
         <thead>

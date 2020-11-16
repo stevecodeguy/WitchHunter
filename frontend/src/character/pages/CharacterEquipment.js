@@ -34,6 +34,7 @@ export default function CharacterEquipment() {
     farthing: { amount: 0, abbreviation: 'f (Farthings)' },
     singleTotal: 0
   });
+  const [initiateBuying, setInitiateBuying] = useState(false);
 
   useEffect(() => {
     const getEquipment = async () => {
@@ -142,6 +143,8 @@ export default function CharacterEquipment() {
         (!!selected.cost_farthing ? selected.cost_farthing : 0);
 
       if (characterMoney.singleTotal >= totalSpent) {
+        setInitiateBuying(true);
+
         setCharacterMoney(prev => {
           const newSingleTotal = characterMoney.singleTotal - totalSpent;
 
@@ -201,6 +204,7 @@ export default function CharacterEquipment() {
         moneyList={moneyList}
         characterMoney={characterMoney}
         setCharacterMoney={setCharacterMoney}
+        initiateBuying={initiateBuying}
       />
       <Inventory
         inventory={inventory}
