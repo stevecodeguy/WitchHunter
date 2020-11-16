@@ -27,11 +27,12 @@ export default function CharacterEquipment() {
   const [selected, setSelected] = useState([]);
   const [rowClass, setRowClass] = useState([]);
   const [characterMoney, setCharacterMoney] = useState({
-    pounds: {amount: 0, abbreviation: '£'},
-    crowns: {amount: 0, abbreviation: 'c'},
-    shilling: {amount: 0, abbreviation: 's'},
-    penny: {amount: 0, abbreviation: 'd'},
-    farthing: {amount: 0, abbreviation: 'f'}
+    pounds: { amount: 0, abbreviation: '£ (Pounds)' },
+    crowns: { amount: 0, abbreviation: 'c (Crowns)' },
+    shilling: { amount: 0, abbreviation: 's (Shillings)' },
+    penny: { amount: 0, abbreviation: 'd (Pennies)' },
+    farthing: { amount: 0, abbreviation: 'f (Farthings)' },
+    singleTotal: 0
   });
 
   useEffect(() => {
@@ -133,19 +134,62 @@ export default function CharacterEquipment() {
 
   const buyItems = (amount) => {
     if (!!selected && !!selected.item) {
-      setInventory(prev => {
-        let newInventory = {
-          ...prev,
-          [selected.item]: {
-            weightEach: !!selected.weight_lb ? selected.weight_lb : null,
-            weight: !!selected.weight_lb ?
-              (selected.weight_lb * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
-              : null,
-            quantity: !!prev[selected.item] ? (prev[selected.item].quantity + amount) : null || amount
+      let totalSpent =
+        (!!selected.cost_pounds ? selected.cost_pounds * 960 : 0) +
+        (!!selected.cost_crowns ? selected.cost_crowns * 240 : 0) +
+        (!!selected.cost_shilling ? selected.cost_shilling * 48 : 0) +
+        (!!selected.cost_penny ? selected.cost_penny * 4 : 0) +
+        (!!selected.cost_farthing ? selected.cost_farthing : 0);
+
+      if (characterMoney.singleTotal >= totalSpent) {
+        setCharacterMoney(prev => {
+          const newSingleTotal = characterMoney.singleTotal - totalSpent;
+
+          const pounds = Math.floor(newSingleTotal / 960);
+          const crowns = Math.floor((newSingleTotal  - (pounds * 960))/ 240);
+          const shillings = Math.floor((newSingleTotal - (pounds * 960) - (crowns * 240)) / 48);
+          const pennies = Math.floor((newSingleTotal - (pounds * 960) - (crowns * 240) - (shillings * 48)) / 4);
+          const farthings = (newSingleTotal - (pounds * 960) - (crowns * 240) - (shillings * 48) - (pennies * 4));
+
+          return {
+            pounds: {...prev.pounds, amount: pounds},
+            crowns: {...prev.crowns, amount: crowns},
+            shilling: {...prev.shilling, amount: shillings},
+            penny: {...prev.penny, amount: pennies},
+            farthing: {...prev.farthing, amount: farthings},
+            singleTotal: newSingleTotal
           }
-        }
-        return newInventory;
-      });
+        });
+
+        setInventory(prev => {
+          let newInventory = {
+            ...prev,
+            [selected.item]: {
+              weightEach: !!selected.weight_lb ? selected.weight_lb : null,
+              weight: !!selected.weight_lb ?
+                (selected.weight_lb * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+                : null,
+              quantity: !!prev[selected.item] ? (prev[selected.item].quantity + amount) : null || amount,
+              cost_pounds: !!selected.cost_pounds ?
+                (selected.cost_pounds * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+                : 0,
+              cost_crowns: !!selected.cost_crowns ?
+                (selected.cost_crowns * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+                : 0,
+              cost_shilling: !!selected.cost_shilling ?
+                (selected.cost_shilling * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+                : 0,
+              cost_penny: !!selected.cost_penny ?
+                (selected.cost_penny * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+                : 0,
+              cost_farthing: !!selected.cost_farthing ?
+                (selected.cost_farthing * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+                : 0,
+            }
+          }
+          return newInventory;
+        });
+      }
     }
   }
 

@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import '../../css/tables.css';
 
 export default function Money({ moneyList, characterMoney, setCharacterMoney }) {
   let currentMoney = Object.entries(characterMoney);
+
+  useEffect(() => {
+    setCharacterMoney(prev => {
+      let generatedMoney = Math.floor(Math.random() * Math.floor(10)) + 1;
+      return {
+        ...prev,
+        pounds: {
+          ...prev.pounds,
+          amount: generatedMoney
+        },
+        singleTotal: generatedMoney * 960
+      };
+    });
+  }, [setCharacterMoney])
 
   return (
     <>
@@ -27,17 +41,19 @@ export default function Money({ moneyList, characterMoney, setCharacterMoney }) 
       </table>
       <button onClick={() => {
         setCharacterMoney(prev => {
+          let generatedMoney = Math.floor(Math.random() * Math.floor(10)) + 1;
           return {
             ...prev,
             pounds: {
               ...prev.pounds,
-              amount: Math.floor(Math.random() * Math.floor(10)) + 1
-            }
+              amount: generatedMoney
+            },
+            singleTotal: generatedMoney * 960
           };
         });
-      }}>Roll for Starting Money</button>
+      }}>Reroll Starting Money</button>
       <table className="info">
-      <caption>Starting Money:</caption>
+        <caption>Starting Money:</caption>
         <thead>
           <tr>
             <td className="tableCenterText">Coin</td>
@@ -46,11 +62,11 @@ export default function Money({ moneyList, characterMoney, setCharacterMoney }) 
         </thead>
         <tbody>
           {currentMoney.map(coins => (
-            <tr>
+            <tr key={coins[0]}>
               <td className="tableCenterText">{coins[1].abbreviation}</td>
               <td>{coins[1].amount}</td>
             </tr>
-            )
+          )
           )}
         </tbody>
       </table>
