@@ -166,6 +166,20 @@ router.post('/save_talents', auth.checkAuth, (req, res) => {
   });
 });
 
+router.post('/save_inventory', auth.checkAuth, (req, res) => {
+  const id = req.session.characterId;
+  db.pool.query(saveQuery.sqlSaveCharacterInventory(id, req.body), (err, result) => {
+    if (err) {
+      console.log('Error' + err);
+      return res.send('Error Saving: ' + err);
+    }
+    if (result.insertId > 0) {
+      return res.send({ id, uuid: req.session.uuid, result });
+    }
+    res.send('Character Inventory not saved');
+  });
+});
+
 // Route Character Info
 router.get('/info/:characterId', (req, res) => {
   db.pool.query(query.sqlGetCharacterInfo(req.userId, req.params.characterId), (err, result) => {

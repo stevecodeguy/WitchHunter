@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
+import { AuthContext } from '../../utils/context/AuthContext';
 import AuthAPI from '../../utils/context/AuthApi';
 
 import Armor from '../components/equipment/Armor';
@@ -7,9 +9,10 @@ import Money from '../components/equipment/Money';
 import Gear from '../components/equipment/Gear';
 import Kits from '../components/equipment/Kits';
 import KitItems from '../components/equipment/KitItems';
-import Vehicles from '../components/equipment/Vehicles';
 import Weapons from '../components/equipment/Weapons';
 import Inventory from '../components/equipment/Inventory';
+
+import { CharacterContext } from '../../utils/context/CharacterContext';
 
 import '../css/characterEquipment.css';
 
@@ -23,18 +26,19 @@ export default function CharacterEquipment() {
   const [vehicleList, setVehicleList] = useState([]);
   const [weaponList, setWeaponList] = useState([]);
   const [categorySelected, setCategorySelected] = useState({});
-  const [inventory, setInventory] = useState({});
   const [selected, setSelected] = useState([]);
   const [rowClass, setRowClass] = useState([]);
-  const [characterMoney, setCharacterMoney] = useState({
-    pounds: { amount: 0, abbreviation: '£ (Pounds)' },
-    crowns: { amount: 0, abbreviation: 'c (Crowns)' },
-    shilling: { amount: 0, abbreviation: 's (Shillings)' },
-    penny: { amount: 0, abbreviation: 'd (Pennies)' },
-    farthing: { amount: 0, abbreviation: 'f (Farthings)' },
-    singleTotal: 0
-  });
   const [initiateBuying, setInitiateBuying] = useState(false);
+
+  const auth = useContext(AuthContext);
+  const {
+    characterMoney,
+    inventory,
+    setCharacterMoney,
+    setInventory
+  } = useContext(CharacterContext);
+
+  let history = useHistory();
 
   useEffect(() => {
     const getEquipment = async () => {
@@ -168,6 +172,8 @@ export default function CharacterEquipment() {
           let newInventory = {
             ...prev,
             [selected.item]: {
+              id: !!selected.id ? selected.id : null,
+              category: !!selected.category ? selected.category : null,
               weightEach: !!selected.weight_lb ? selected.weight_lb : null,
               weight: !!selected.weight_lb ?
                 (selected.weight_lb * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
@@ -196,9 +202,28 @@ export default function CharacterEquipment() {
     }
   }
 
+  const saveInventory = async () => {
+    if (!!auth.state.uuid) {
+      try {
+        localStorage.setItem('character_inventory', JSON.stringify(inventory));
+        localStorage.setItem('character_money', JSON.stringify(characterMoney));
+        await AuthAPI.post(`/characters/save_inventory`, inventory); 
+        await AuthAPI.post(`/characters/save_money`, characterMoney); 
+      } catch (error) {
+        console.log(`Error saving abilities: ${error}`);
+      }
+    }
+  }
 
   return (
     <>
+    <button
+        type="button"
+        onClick={() => {
+          saveInventory();
+          history.push('/character/new/review');
+        }}
+      >Next</button>
       <h1>Equipment</h1>
       <Money
         moneyList={moneyList}
@@ -225,7 +250,6 @@ export default function CharacterEquipment() {
         <option key="armor" value="Armor">Armor</option>
         <option key="gear" value="Gear">Gear</option>
         <option key="weapons" value="Weapons">Weapons</option>
-        <option key="vehicles" value="Vehicles">Vehicles</option>
       </select>
       <button onClick={() => buyItems(1)}>Buy item</button>
       <button onClick={() => buyItems(5)}>Buy 5 items</button>

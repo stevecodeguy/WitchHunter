@@ -62,16 +62,41 @@ export const CharacterProvider = (props) => {
     }
     return [];
   });
+  // Inventory Context
+  const [inventory, setInventory] = useState(() => {
+    if (localStorage.getItem('character_inventory')) {
+      return JSON.parse(localStorage.getItem('character_inventory'));
+    }
+    return [];
+  });
+  // Money Context
+  const [characterMoney, setCharacterMoney] = useState(() => {
+    if (localStorage.getItem('character_money')) {
+      return JSON.parse(localStorage.getItem('character_money'));
+    }
+    return {
+      pounds: { amount: 0, abbreviation: '£ (Pounds)' },
+      crowns: { amount: 0, abbreviation: 'c (Crowns)' },
+      shilling: { amount: 0, abbreviation: 's (Shillings)' },
+      penny: { amount: 0, abbreviation: 'd (Pennies)' },
+      farthing: { amount: 0, abbreviation: 'f (Farthings)' },
+      singleTotal: 0
+    };
+  });
 
   const value = useMemo(() => {
     return {
       abilityScore,
       backgroundElectives,
+      characterMoney,
+      inventory,
       skills,
       spentSkillPoints,
       talents,
       setAbilityScore,
       setBackgroundElectives,
+      setCharacterMoney,
+      setInventory,
       setSkills,
       setSpentSkillPoints,
       setTalents
@@ -79,11 +104,15 @@ export const CharacterProvider = (props) => {
   }, [
     abilityScore,
     backgroundElectives,
+    characterMoney,
+    inventory,
     skills,
     spentSkillPoints,
     talents,
     setAbilityScore,
     setBackgroundElectives,
+    setCharacterMoney,
+    setInventory,
     setSkills,
     setSpentSkillPoints,
     setTalents

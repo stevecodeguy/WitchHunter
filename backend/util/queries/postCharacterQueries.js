@@ -115,7 +115,24 @@ const sqlSaveCharacterTalents = (characterId, body) => {
   return sqlBuild;
 };
 
+const sqlSaveCharacterInventory = (characterId, body) => {
+  console.log(body)
+  let sqlBuild = `INSERT INTO character_gear (
+    fk_character_info_id, 
+    fk_gear_id,
+    category,
+    quantity
+  ) VALUES `;
+  Object.keys(body).forEach(key => {
+    sqlBuild += `(${characterId}, ${body[key].id}, '${body[key].category}', ${body[key].quantity} ),\n`;
+  });
+  sqlBuild = sqlBuild.substring(0, sqlBuild.length - 2) + ';';
+
+  return sqlBuild;
+};
+
 exports.sqlSaveCharacterInfo = sqlSaveCharacterInfo;
 exports.sqlSaveCharacterAbilities = sqlSaveCharacterAbilities;
 exports.sqlSaveCharacterSkills = sqlSaveCharacterSkills;
 exports.sqlSaveCharacterTalents = sqlSaveCharacterTalents;
+exports.sqlSaveCharacterInventory = sqlSaveCharacterInventory;
