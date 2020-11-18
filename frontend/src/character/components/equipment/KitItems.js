@@ -31,7 +31,7 @@ export default function KitItems({ kitItems }) {
             {kitItems.map(i => (
               i.kit === cat ?
                 <tr key={i.id}>
-                  <td>{i.item}</td>
+                  <td>{i.item}{i.quantity > 1 ? ` (${i.quantity})` : null}</td>
                 </tr> : null
             ))}
           </tbody>

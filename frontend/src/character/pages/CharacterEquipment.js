@@ -138,7 +138,7 @@ export default function CharacterEquipment() {
   }
 
   const buyItems = (amount) => {
-    if (!!selected && !!selected.item) {
+    if (!!selected && (!!selected.item || !!selected.kit)) {
       let totalSpent =
         (!!selected.cost_pounds ? selected.cost_pounds * 960 : 0) +
         (!!selected.cost_crowns ? selected.cost_crowns * 240 : 0) +
@@ -146,7 +146,7 @@ export default function CharacterEquipment() {
         (!!selected.cost_penny ? selected.cost_penny * 4 : 0) +
         (!!selected.cost_farthing ? selected.cost_farthing : 0);
 
-      if (characterMoney.singleTotal >= totalSpent) {
+        if (characterMoney.singleTotal >= totalSpent) {
         setInitiateBuying(true);
 
         setCharacterMoney(prev => {
@@ -168,36 +168,83 @@ export default function CharacterEquipment() {
           }
         });
 
-        setInventory(prev => {
-          let newInventory = {
-            ...prev,
-            [selected.item]: {
-              id: !!selected.id ? selected.id : null,
-              category: !!selected.category ? selected.category : null,
-              weightEach: !!selected.weight_lb ? selected.weight_lb : null,
-              weight: !!selected.weight_lb ?
-                (selected.weight_lb * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
-                : null,
-              quantity: !!prev[selected.item] ? (prev[selected.item].quantity + amount) : null || amount,
-              cost_pounds: !!selected.cost_pounds ?
-                (selected.cost_pounds * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
-                : 0,
-              cost_crowns: !!selected.cost_crowns ?
-                (selected.cost_crowns * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
-                : 0,
-              cost_shilling: !!selected.cost_shilling ?
-                (selected.cost_shilling * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
-                : 0,
-              cost_penny: !!selected.cost_penny ?
-                (selected.cost_penny * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
-                : 0,
-              cost_farthing: !!selected.cost_farthing ?
-                (selected.cost_farthing * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
-                : 0,
+        if (categorySelected.main === 'Kits') {
+          let kitInventory = {};
+
+          for (const index in kitItems){
+            if (kitItems[index].kit === selected.kit){
+              kitInventory = {
+                ...kitInventory,
+                [kitItems[index].item]: {
+                  id: !!kitItems[index].fk_item_id ? kitItems[index].fk_item_id : null,
+                  category: !!kitItems[index].category ? kitItems[index].category : null,
+                  weightEach: !!kitItems[index].weight_lb ? kitItems[index].weight_lb : 0,
+                  weight: (!!kitItems[index].weight_lb && !!kitItems[index].quantity) ?
+                    (kitItems[index].weight_lb * (!!kitItems[index].quantity ? kitItems[index].quantity : 0))
+                    : 0,
+                  quantity: !!kitItems[index].quantity ? kitItems[index].quantity : 0,
+                  cost_pounds: !!kitItems[index].cost_pounds ?
+                    (kitItems[index].cost_pounds * kitItems[index].cost_pounds)
+                    : 0,
+                  cost_crowns: !!kitItems[index].cost_crowns ?
+                    (kitItems[index].cost_crowns * kitItems[index].cost_crowns)
+                    : 0,
+                  cost_shilling: !!kitItems[index].cost_shilling ?
+                    (kitItems[index].cost_shilling * kitItems[index].cost_shilling)
+                    : 0,
+                  cost_penny: !!kitItems[index].cost_penny ?
+                    (kitItems[index].cost_penny * kitItems[index].cost_penny)
+                    : 0,
+                  cost_farthing: !!kitItems[index].cost_farthing ?
+                    (kitItems[index].cost_farthing * kitItems[index].cost_farthing)
+                    : 0,
+                }
+              }
             }
           }
-          return newInventory;
-        });
+console.log(kitInventory)
+          setInventory(prev => {
+            let newInventory = {
+              ...prev,
+              ...kitInventory
+            }
+            return newInventory;
+          });
+
+        } else {
+
+          setInventory(prev => {
+            let newInventory = {
+              ...prev,
+              [selected.item]: {
+                id: !!selected.id ? selected.id : null,
+                category: !!selected.category ? selected.category : null,
+                weightEach: !!selected.weight_lb ? selected.weight_lb : 0,
+                weight: !!selected.weight_lb ?
+                  (selected.weight_lb * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+                  : 0,
+                quantity: !!prev[selected.item] ? (prev[selected.item].quantity + amount) : null || amount,
+                cost_pounds: !!selected.cost_pounds ?
+                  (selected.cost_pounds * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+                  : 0,
+                cost_crowns: !!selected.cost_crowns ?
+                  (selected.cost_crowns * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+                  : 0,
+                cost_shilling: !!selected.cost_shilling ?
+                  (selected.cost_shilling * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+                  : 0,
+                cost_penny: !!selected.cost_penny ?
+                  (selected.cost_penny * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+                  : 0,
+                cost_farthing: !!selected.cost_farthing ?
+                  (selected.cost_farthing * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+                  : 0,
+              }
+            }
+            return newInventory;
+          });
+
+        }
       }
     }
   }
@@ -251,7 +298,6 @@ export default function CharacterEquipment() {
         <option key="gear" value="Gear">Gear</option>
         <option key="weapons" value="Weapons">Weapons</option>
       </select>
-      {console.log(selected)}
       <button onClick={() => buyItems(1)}>{`Buy ${categorySelected.main === 'Kits' ? 'kit' : 'item'}`}</button>
       {categorySelected.main === 'Kits' ? null :
         <>
