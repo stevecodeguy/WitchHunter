@@ -153,17 +153,17 @@ export default function CharacterEquipment() {
           const newSingleTotal = characterMoney.singleTotal - totalSpent;
 
           const pounds = Math.floor(newSingleTotal / 960);
-          const crowns = Math.floor((newSingleTotal  - (pounds * 960))/ 240);
+          const crowns = Math.floor((newSingleTotal - (pounds * 960)) / 240);
           const shillings = Math.floor((newSingleTotal - (pounds * 960) - (crowns * 240)) / 48);
           const pennies = Math.floor((newSingleTotal - (pounds * 960) - (crowns * 240) - (shillings * 48)) / 4);
           const farthings = (newSingleTotal - (pounds * 960) - (crowns * 240) - (shillings * 48) - (pennies * 4));
 
           return {
-            pounds: {...prev.pounds, amount: pounds},
-            crowns: {...prev.crowns, amount: crowns},
-            shilling: {...prev.shilling, amount: shillings},
-            penny: {...prev.penny, amount: pennies},
-            farthing: {...prev.farthing, amount: farthings},
+            pounds: { ...prev.pounds, amount: pounds },
+            crowns: { ...prev.crowns, amount: crowns },
+            shilling: { ...prev.shilling, amount: shillings },
+            penny: { ...prev.penny, amount: pennies },
+            farthing: { ...prev.farthing, amount: farthings },
             singleTotal: newSingleTotal
           }
         });
@@ -207,8 +207,8 @@ export default function CharacterEquipment() {
       try {
         localStorage.setItem('character_inventory', JSON.stringify(inventory));
         localStorage.setItem('character_money', JSON.stringify(characterMoney));
-        await AuthAPI.post(`/characters/save_inventory`, inventory); 
-        await AuthAPI.post(`/characters/save_money`, characterMoney); 
+        await AuthAPI.post(`/characters/save_inventory`, inventory);
+        await AuthAPI.post(`/characters/save_money`, characterMoney);
       } catch (error) {
         console.log(`Error saving abilities: ${error}`);
       }
@@ -217,7 +217,7 @@ export default function CharacterEquipment() {
 
   return (
     <>
-    <button
+      <button
         type="button"
         onClick={() => {
           saveInventory();
@@ -251,9 +251,14 @@ export default function CharacterEquipment() {
         <option key="gear" value="Gear">Gear</option>
         <option key="weapons" value="Weapons">Weapons</option>
       </select>
-      <button onClick={() => buyItems(1)}>Buy item</button>
-      <button onClick={() => buyItems(5)}>Buy 5 items</button>
-      <button onClick={() => buyItems(10)}>Buy 10 items</button>
+      {console.log(selected)}
+      <button onClick={() => buyItems(1)}>{`Buy ${categorySelected.main === 'Kits' ? 'kit' : 'item'}`}</button>
+      {categorySelected.main === 'Kits' ? null :
+        <>
+          <button onClick={() => buyItems(5)}>Buy 5 items</button>
+          <button onClick={() => buyItems(10)}>Buy 10 items</button>
+        </>
+      }
       <SwitchEquipment />
     </>
   );
