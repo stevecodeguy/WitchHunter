@@ -36,6 +36,8 @@ const sqlGetTalents = () => `SELECT id, talent, benefit, category FROM talents`;
 
 const sqlGetTalentRequirements = () => `SELECT talent_requirement.id, talent_requirement.fk_talent_id, talent_requirement.requirement, talent_requirement.sub_skill, talent_requirement.requirement_type, talent_requirement.score, talent_requirement.\`option\` FROM talent_requirement;`;
 
+const sqlGetCarryLiftShove = (characterStrengthPlusToughness) => `SELECT * FROM carry_lift_shove WHERE strength_plus_toughness = ${characterStrengthPlusToughness};`;
+
 exports.sqlGetCharacterAbilities = sqlGetCharacterAbilities;
 exports.sqlGetCharacterArmor = sqlGetCharacterArmor;
 exports.sqlGetCharacterGear = sqlGetCharacterGear;
@@ -55,3 +57,4 @@ exports.sqlGetBackgroundRequirements = sqlGetBackgroundRequirements;
 exports.sqlGetBackgroundCategories = sqlGetBackgroundCategories;
 exports.sqlGetTalents = sqlGetTalents; 
 exports.sqlGetTalentRequirements = sqlGetTalentRequirements; 
+exports.sqlGetCarryLiftShove = sqlGetCarryLiftShove; 

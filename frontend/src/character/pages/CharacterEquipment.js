@@ -19,6 +19,7 @@ import '../css/characterEquipment.css';
 export default function CharacterEquipment() {
   const [moneyList, setMoneyList] = useState([]);
   const [armorList, setArmorList] = useState([]);
+  const [carryLimit, setCarryLimit] = useState([]);
   const [gearList, setGearList] = useState([]);
   const [kitList, setKitList] = useState([]);
   const [kitItems, setKitItems] = useState([]);
@@ -32,6 +33,7 @@ export default function CharacterEquipment() {
 
   const auth = useContext(AuthContext);
   const {
+    abilityScore, 
     characterMoney,
     inventory,
     setCharacterMoney,
@@ -50,6 +52,10 @@ export default function CharacterEquipment() {
         // Get Armor from database
         const armorData = await AuthAPI.get(`/items/armor`);
         setArmorList(armorData.data);
+
+        // Get Carry Lift Shove table from database
+        const carryData = await AuthAPI.get(`/characters/carry_lift_shove/${abilityScore.strength.score + abilityScore.toughness.score}`);
+        setCarryLimit(carryData.data.carry_lbs);
 
         // Get Gear from database
         const gearData = await AuthAPI.get(`/items/gear`);
@@ -80,7 +86,7 @@ export default function CharacterEquipment() {
     }
 
     getEquipment();
-  }, []);
+  }, [abilityScore.strength.score, abilityScore.toughness.score]);
 
   useEffect(() => {
     //set default category
@@ -280,6 +286,7 @@ export default function CharacterEquipment() {
       <Inventory
         inventory={inventory}
         rowClass={rowClass}
+        carryLimit={carryLimit}
       />
       <select
         name="equipment"

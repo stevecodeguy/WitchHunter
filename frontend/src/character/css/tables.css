@@ -64,3 +64,8 @@ table.info thead {
 table.info tr:nth-child(odd) {
   background-color:   rgba(165, 158, 148, 0.302);
 }
+
+table .notes {
+  font-size: 0.7em;
+  font-style: italic;
+}

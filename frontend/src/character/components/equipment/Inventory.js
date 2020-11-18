@@ -4,7 +4,7 @@ import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
-export default function Inventory({ inventory, setSelected, rowClass, setRowClass }) {
+export default function Inventory({ inventory, carryLimit, setSelected, rowClass, setRowClass }) {
   let equipArr = Object.entries(inventory);
 
   return (
@@ -43,7 +43,10 @@ export default function Inventory({ inventory, setSelected, rowClass, setRowClas
         <tr>
           <td colSpan='2'></td>
           <td><b>Total</b></td>
-        <td><b>{equipArr.reduce((acc, cur) => acc + cur[1].weight, 0)}</b></td>
+          <td><b>{equipArr.reduce((acc, cur) => acc + cur[1].weight, 0)} / {carryLimit}</b></td>
+        </tr>
+        <tr>
+          <td colSpan='4' className='notes'>Carry Limit is <b>{carryLimit}</b>. Over limit: -1 Ag (min 1), Move -2 cautious, -7 walk , -12 run.  Double limit: -2 (min 1) Ag, Move = 1 cautious, 5 walk , running not possible.</td>
         </tr>
       </tbody>
     </table>

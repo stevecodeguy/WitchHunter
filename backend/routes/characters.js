@@ -41,6 +41,16 @@ router.get('/abilities', (req, res) => {
   });
 });
 
+router.get('/carry_lift_shove/:characterStrengthPlusToughness', (req, res) => {
+  db.pool.query(query.sqlGetCarryLiftShove(req.params.characterStrengthPlusToughness), (err, result) => {
+    if (err) console.log(err);
+    if (result.length > 0) {
+      return res.send(result[0]);
+    }
+    res.send('Unable to get Carry Lift Shove table');
+  });
+});
+
 router.get('/skill_categories', (req, res) => {
   db.pool.query(query.sqlGetSkillsCategory(), (err, result) => {
     if (err) console.log(err);
