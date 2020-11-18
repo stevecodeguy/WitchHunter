@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import '../../css/tables.css';
 
-export default function Money({ moneyList, characterMoney, setCharacterMoney, initiateBuying }) {
+export default function Money({ moneyList, characterMoney, setCharacterMoney, inventoryCount }) {
   let currentMoney = Object.entries(characterMoney);
 
   useEffect(() => {
@@ -39,20 +39,22 @@ export default function Money({ moneyList, characterMoney, setCharacterMoney, in
           ))}
         </tbody>
       </table>
-      {!initiateBuying ? (
-      <button onClick={() => {
-        setCharacterMoney(prev => {
-          let generatedMoney = Math.floor(Math.random() * Math.floor(10)) + 1;
-          return {
-            ...prev,
-            pounds: {
-              ...prev.pounds,
-              amount: generatedMoney
-            },
-            singleTotal: generatedMoney * 960
-          };
-        });
-      }}>Reroll Starting Money</button> ) : null}
+
+      { // Check if there is any Inventory purchased. If so, hide the money reroll button.
+        inventoryCount === 0 ? (
+          <button onClick={() => {
+            setCharacterMoney(prev => {
+              let generatedMoney = Math.floor(Math.random() * Math.floor(10)) + 1;
+              return {
+                ...prev,
+                pounds: {
+                  ...prev.pounds,
+                  amount: generatedMoney
+                },
+                singleTotal: generatedMoney * 960
+              };
+            });
+          }}>Reroll Starting Money</button>) : null}
       <table className="info">
         <caption>Starting Money:</caption>
         <thead>

@@ -28,7 +28,7 @@ export default function CharacterEquipment() {
   const [categorySelected, setCategorySelected] = useState({});
   const [selected, setSelected] = useState([]);
   const [rowClass, setRowClass] = useState([]);
-  const [initiateBuying, setInitiateBuying] = useState(false);
+  const [inventoryCount, setInventoryCount] = useState(0);
 
   const auth = useContext(AuthContext);
   const {
@@ -146,9 +146,7 @@ export default function CharacterEquipment() {
         (!!selected.cost_penny ? selected.cost_penny * 4 : 0) +
         (!!selected.cost_farthing ? selected.cost_farthing : 0);
 
-        if (characterMoney.singleTotal >= totalSpent) {
-        setInitiateBuying(true);
-
+      if (characterMoney.singleTotal >= totalSpent) {
         setCharacterMoney(prev => {
           const newSingleTotal = characterMoney.singleTotal - totalSpent;
 
@@ -171,8 +169,8 @@ export default function CharacterEquipment() {
         if (categorySelected.main === 'Kits') {
           let kitInventory = {};
 
-          for (const index in kitItems){
-            if (kitItems[index].kit === selected.kit){
+          for (const index in kitItems) {
+            if (kitItems[index].kit === selected.kit) {
               kitInventory = {
                 ...kitInventory,
                 [kitItems[index].item]: {
@@ -202,7 +200,7 @@ export default function CharacterEquipment() {
               }
             }
           }
-console.log(kitInventory)
+
           setInventory(prev => {
             let newInventory = {
               ...prev,
@@ -246,6 +244,7 @@ console.log(kitInventory)
 
         }
       }
+      setInventoryCount(Object.keys(inventory).length + 1);
     }
   }
 
@@ -276,7 +275,7 @@ console.log(kitInventory)
         moneyList={moneyList}
         characterMoney={characterMoney}
         setCharacterMoney={setCharacterMoney}
-        initiateBuying={initiateBuying}
+        inventoryCount={inventoryCount}
       />
       <Inventory
         inventory={inventory}
