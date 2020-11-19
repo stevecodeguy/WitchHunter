@@ -116,7 +116,6 @@ const sqlSaveCharacterTalents = (characterId, body) => {
 };
 
 const sqlSaveCharacterInventory = (characterId, body) => {
-  console.log(body)
   let sqlBuild = `INSERT INTO character_gear (
     fk_character_info_id, 
     fk_gear_id,
@@ -131,8 +130,29 @@ const sqlSaveCharacterInventory = (characterId, body) => {
   return sqlBuild;
 };
 
+const sqlSaveCharacterMoney = (characterId, body) => {
+  let sqlBuild = `INSERT INTO character_money (
+    fk_character_info_id, 
+    pounds,
+    crowns,
+    shillings,
+    pennies,
+    farthings,
+    single_total
+  ) VALUES (
+    ${characterId},`;
+  Object.keys(body).forEach(key => {
+    if (key !== 'singleTotal') sqlBuild += `${body[key].amount},`;
+    if (key === 'singleTotal') sqlBuild += `${body[key]}),\n`;
+  });
+  sqlBuild = sqlBuild.substring(0, sqlBuild.length - 2) + ';';
+
+  return sqlBuild;
+};
+
 exports.sqlSaveCharacterInfo = sqlSaveCharacterInfo;
 exports.sqlSaveCharacterAbilities = sqlSaveCharacterAbilities;
 exports.sqlSaveCharacterSkills = sqlSaveCharacterSkills;
 exports.sqlSaveCharacterTalents = sqlSaveCharacterTalents;
 exports.sqlSaveCharacterInventory = sqlSaveCharacterInventory;
+exports.sqlSaveCharacterMoney = sqlSaveCharacterMoney;
