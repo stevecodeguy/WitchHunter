@@ -4,7 +4,7 @@ import { WeaponsCategory } from './WeaponsCategory';
 
 import '../../css/tables.css';
 
-export default function Weapons({ weaponList, shots, setSelected, rowClass, setRowClass, categorySelected, setCategorySelected }) {
+export default function Weapons({ weaponList, shots, buyItems, setSelected, rowClass, setRowClass, categorySelected, setCategorySelected }) {
 
   const updateCategory = weaponList.filter(weapon => weapon.category === categorySelected.sub);
 
@@ -35,6 +35,7 @@ export default function Weapons({ weaponList, shots, setSelected, rowClass, setR
         setSelected={setSelected}
         rowClass={rowClass}
         setRowClass={setRowClass}
+        buyItems={buyItems}
       />
     </div>
   );

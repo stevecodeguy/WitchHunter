@@ -33,7 +33,7 @@ export default function CharacterEquipment() {
 
   const auth = useContext(AuthContext);
   const {
-    abilityScore, 
+    abilityScore,
     characterMoney,
     inventory,
     setCharacterMoney,
@@ -87,61 +87,6 @@ export default function CharacterEquipment() {
 
     getEquipment();
   }, [abilityScore.strength.score, abilityScore.toughness.score]);
-
-  useEffect(() => {
-    //set default category
-    !!categorySelected.main ? null : setCategorySelected(prev => { return { ...prev, main: 'Kits' } });
-  }, [categorySelected, setCategorySelected]);
-
-  const SwitchEquipment = () => {
-    switch (categorySelected.main) {
-      case 'Armor':
-        return <Armor
-          armorList={armorList}
-          setSelected={setSelected}
-          rowClass={rowClass}
-          setRowClass={setRowClass}
-        />
-      case 'Gear':
-        return <Gear
-          gearList={gearList}
-          vehicleList={vehicleList}
-          setSelected={setSelected}
-          categorySelected={categorySelected}
-          setCategorySelected={setCategorySelected}
-          rowClass={rowClass}
-          setRowClass={setRowClass}
-        />
-      case 'Kits':
-        return (
-          <>
-            <Kits
-              kitList={kitList}
-              setSelected={setSelected}
-              rowClass={rowClass}
-              setRowClass={setRowClass}
-            />
-            <KitItems kitItems={kitItems} />
-          </>
-        )
-      case 'Weapons':
-        return (
-          <>
-            <Weapons
-              weaponList={weaponList}
-              shots={shots}
-              setSelected={setSelected}
-              categorySelected={categorySelected}
-              setCategorySelected={setCategorySelected}
-              rowClass={rowClass}
-              setRowClass={setRowClass}
-            />
-          </>
-        )
-      default:
-        return null;
-    }
-  }
 
   const buyItems = (amount) => {
     if (!!selected && (!!selected.item || !!selected.kit)) {
@@ -251,6 +196,68 @@ export default function CharacterEquipment() {
         }
       }
       setInventoryCount(Object.keys(inventory).length + 1);
+    }
+  }
+
+  useEffect(() => {
+    //set default category
+    !!categorySelected.main ? null : setCategorySelected(prev => { return { ...prev, main: 'Kits' } });
+  }, [categorySelected, setCategorySelected]);
+
+  const SwitchEquipment = () => {
+    switch (categorySelected.main) {
+      case 'Armor':
+        return <Armor
+          armorList={armorList}
+          setSelected={setSelected}
+          rowClass={rowClass}
+          setRowClass={setRowClass}
+          buyItems={buyItems}
+        />
+      case 'Gear':
+        return <Gear
+          gearList={gearList}
+          vehicleList={vehicleList}
+          selected={selected}
+          setSelected={setSelected}
+          categorySelected={categorySelected}
+          setCategorySelected={setCategorySelected}
+          rowClass={rowClass}
+          setRowClass={setRowClass}
+          buyItems={buyItems}
+        />
+      case 'Kits':
+        return (
+          <>
+            <Kits
+              kitList={kitList}
+              selected={selected}
+              setSelected={setSelected}
+              rowClass={rowClass}
+              setRowClass={setRowClass}
+              buyItems={buyItems}
+            />
+            <KitItems kitItems={kitItems} />
+          </>
+        )
+      case 'Weapons':
+        return (
+          <>
+            <Weapons
+              weaponList={weaponList}
+              shots={shots}
+              selected={selected}
+              setSelected={setSelected}
+              categorySelected={categorySelected}
+              setCategorySelected={setCategorySelected}
+              rowClass={rowClass}
+              setRowClass={setRowClass}
+              buyItems={buyItems}
+            />
+          </>
+        )
+      default:
+        return null;
     }
   }
 

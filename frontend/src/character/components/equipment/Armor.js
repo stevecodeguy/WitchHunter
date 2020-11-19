@@ -4,7 +4,7 @@ import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
-export default function Armor({ armorList, setSelected, rowClass, setRowClass }) {
+export default function Armor({ armorList, buyItems, setSelected, rowClass, setRowClass }) {
   return (
     <table>
       <thead>
@@ -21,17 +21,20 @@ export default function Armor({ armorList, setSelected, rowClass, setRowClass })
         {armorList.map(armor => (
           <tr
             key={armor.id}
-            onClick={(event) => {
+            onMouseDown={(event) => {
               setSelected(() => {
                 const select = [...armorList];
                 return select[selectTableRow(event)];
-              });
+              })
+            }}
+            onMouseUp={() => {
               setRowClass(() => {
                 let setClass = new Array(armorList.length).join('.').split('.');
                 setClass[armor.id - 1] = 'selected';
                 return setClass;
               });
             }}
+            onDoubleClick={() => buyItems(1)}
             className={rowClass[armor.id - 1]}
           >
             <td>{armor.item}</td>

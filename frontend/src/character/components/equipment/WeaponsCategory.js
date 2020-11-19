@@ -4,7 +4,7 @@ import Shots from './Shots';
 
 import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
-export const WeaponsCategory = React.memo(({ weaponList, shots, setSelected, rowClass, setRowClass }) => {
+export const WeaponsCategory = React.memo(({ weaponList, shots, buyItems, setSelected, rowClass, setRowClass }) => {
   return (
     <>
       {!!weaponList && weaponList.length > 0 ? (
@@ -28,17 +28,20 @@ export const WeaponsCategory = React.memo(({ weaponList, shots, setSelected, row
               {weaponList.map(weapon => (
                 <tr
                   key={weapon.id}
-                  onClick={(event) => {
+                  onMouseDown={(event) => {
                     setSelected(() => {
                       const select = [...weaponList];
                       return select[selectTableRow(event)];
-                    });
+                    })
+                  }}
+                  onMouseUp={() => {
                     setRowClass(() => {
                       let setClass = new Array(weaponList.length).join('.').split('.');
                       setClass[weapon.id - 1] = 'selected';
                       return setClass;
                     });
                   }}
+                  onDoubleClick={() => buyItems(1)}
                   className={rowClass[weapon.id - 1]}
                 >
                   <td>{weapon.item}</td>

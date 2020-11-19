@@ -5,7 +5,7 @@ import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 import '../../css/tables.css';
 import Vehicles from './Vehicles';
 
-export default function Gear({ gearList, vehicleList, setSelected, rowClass, setRowClass, categorySelected, setCategorySelected }) {
+export default function Gear({ gearList, vehicleList, setSelected, buyItems, rowClass, setRowClass, categorySelected, setCategorySelected }) {
   const [categoryCounts, setCategoryCounts] = useState({});
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function Gear({ gearList, vehicleList, setSelected, rowClass, set
     }
 
     setCategoryCounts(gearCounts);
-  }, [gearList])
+  }, [gearList]);
 
   return (
     <div>
@@ -70,16 +70,28 @@ export default function Gear({ gearList, vehicleList, setSelected, rowClass, set
             gear.category === categorySelected.sub ? (
               <tr
                 key={gear.id}
-                onClick={(event) => {
+                // onMouseUp={() => {
+                //   setRowClass(() => {
+                //     let setClass = new Array(gearList.length).join('.').split('.');
+                //     setClass[gear.id - 1] = 'selected';
+                //     return setClass;
+                //   });
+                // }}
+                // onDoubleClick={(event) => buySelected(event, gear)}
+                onMouseDown={(event) => {
                   setSelected(() => {
-                    return gearList[selectTableRow(event) + categoryCounts[gear.category]]
-                  });
+                    const select = [...gearList];
+                    return select[selectTableRow(event) + categoryCounts[gear.category]];
+                  })
+                }}
+                onMouseUp={() => {
                   setRowClass(() => {
                     let setClass = new Array(gearList.length).join('.').split('.');
                     setClass[gear.id - 1] = 'selected';
                     return setClass;
                   });
                 }}
+                onDoubleClick={() => buyItems(1)}
                 className={rowClass[gear.id - 1]}
               >
                 <td>{gear.category}</td>
