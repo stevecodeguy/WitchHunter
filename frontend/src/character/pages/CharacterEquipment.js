@@ -28,7 +28,7 @@ export default function CharacterEquipment() {
   const [weaponList, setWeaponList] = useState([]);
   const [categorySelected, setCategorySelected] = useState({});
   const [selected, setSelected] = useState([]);
-  const [rowClass, setRowClass] = useState([]);
+  const [rowClass, setRowClass] = useState({});
   const [inventoryCount, setInventoryCount] = useState(0);
 
   const auth = useContext(AuthContext);
@@ -283,6 +283,12 @@ export default function CharacterEquipment() {
           history.push('/character/new/review');
         }}
       >Next</button>
+      <button
+        type="button"
+        onClick={() => {
+          history.push('/character/new/talents');
+        }}
+      >Back to Character Talents</button>
       <h1>Equipment</h1>
       <Money
         moneyList={moneyList}
@@ -293,7 +299,9 @@ export default function CharacterEquipment() {
       <Inventory
         inventory={inventory}
         rowClass={rowClass}
+        setRowClass={setRowClass}
         carryLimit={carryLimit}
+        selected={selected}
       />
       <select
         name="equipment"

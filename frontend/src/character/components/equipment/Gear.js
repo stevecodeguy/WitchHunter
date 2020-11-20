@@ -59,6 +59,7 @@ export default function Gear({ gearList, vehicleList, setSelected, buyItems, row
       <table>
         <thead>
           <tr>
+            <th style={{ display: "none" }}>Id</th>
             <th>Category</th>
             <th>Item</th>
             <th>Cost</th>
@@ -70,30 +71,14 @@ export default function Gear({ gearList, vehicleList, setSelected, buyItems, row
             gear.category === categorySelected.sub ? (
               <tr
                 key={gear.id}
-                // onMouseUp={() => {
-                //   setRowClass(() => {
-                //     let setClass = new Array(gearList.length).join('.').split('.');
-                //     setClass[gear.id - 1] = 'selected';
-                //     return setClass;
-                //   });
-                // }}
-                // onDoubleClick={(event) => buySelected(event, gear)}
                 onMouseDown={(event) => {
-                  setSelected(() => {
-                    const select = [...gearList];
-                    return select[selectTableRow(event) + categoryCounts[gear.category]];
-                  })
-                }}
-                onMouseUp={() => {
-                  setRowClass(() => {
-                    let setClass = new Array(gearList.length).join('.').split('.');
-                    setClass[gear.id - 1] = 'selected';
-                    return setClass;
-                  });
+                  setSelected(gearList.find(gear => gear.id === (event.target.parentNode.cells[0].innerText * 1)));
+                  setRowClass({ [gear.id - 1]: 'selected' });
                 }}
                 onDoubleClick={() => buyItems(1)}
                 className={rowClass[gear.id - 1]}
               >
+                <td style={{ display: "none" }}>{gear.id}</td>
                 <td>{gear.category}</td>
                 <td>{gear.item}</td>
                 <td>

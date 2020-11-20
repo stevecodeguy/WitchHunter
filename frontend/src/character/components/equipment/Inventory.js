@@ -4,13 +4,14 @@ import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
-export default function Inventory({ inventory, carryLimit, setSelected, rowClass, setRowClass }) {
+export default function Inventory({ inventory, carryLimit, selected, setSelected, rowClass, setRowClass }) {
   let equipArr = Object.entries(inventory);
 
   return (
     <table>
       <thead>
         <tr>
+          <th style={{display: "none"}}>Id</th>
           <th>Item</th>
           <th>Quantity</th>
           <th>Weight (lbs) ea.</th>
@@ -21,19 +22,25 @@ export default function Inventory({ inventory, carryLimit, setSelected, rowClass
         {equipArr.map((equip, index) => (
           <tr
             key={index}
-          // onClick={(event) => {
-          //   setSelected(() => {
-          //     const select = [...armorList];
-          //     return select[selectTableRow(event)];
-          //   });
-          //   setRowClass(() => {
-          //     let setClass = new Array(armorList.length).join('.').split('.');
-          //     setClass[armor.id - 1] = 'selected';
-          //     return setClass;
-          //   });
-          // }}
-          // className={rowClass[equip.id - 1]}
+            onMouseDown={(event) => {
+              console.log(event.target.parentNode.cells[0].innerText)
+              console.log(equipArr[selectTableRow(event)])
+              // setSelected(() => {
+              //   const select = [...equipArr];
+              //   return select[selectTableRow(event)];
+              // });
+            }}
+            // onMouseUp={() => {
+            //   setRowClass(() => {
+            //     let setClass = new Array(equipArr.length).join('.').split('.');
+            //     setClass[equip.id - 1] = 'selected';
+            //     console.log(setClass)
+            //     return setClass;
+            //   });
+            // }}
+            // onDoubleClick={() => buyItems(1)}
           >
+            <td style={{display: "none"}}>{equip[1].id}</td>
             <td>{equip[0]}</td>
             <td>{equip[1].quantity}</td>
             <td>{equip[1].weightEach}</td>

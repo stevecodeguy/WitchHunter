@@ -9,6 +9,7 @@ export default function Kits({ kitList, setSelected, rowClass, setRowClass }) {
     <table>
       <thead>
         <tr>
+          <th style={{ display: "none" }}>Id</th>
           <th>Kit</th>
           <th>Cost</th>
           <th>Total Weight</th>
@@ -18,19 +19,14 @@ export default function Kits({ kitList, setSelected, rowClass, setRowClass }) {
         {kitList.map(kit => (
           <tr
             key={kit.id}
-            onClick={(event) => {
-              setSelected(() => {
-                const select = [...kitList];
-                return select[selectTableRow(event)];
-              });
-              setRowClass(() => {
-                let setClass = new Array(kitList.length).join('.').split('.');
-                setClass[kit.id - 1] = 'selected';
-                return setClass;
-              });
+            onMouseDown={(event) => {
+              setSelected(kitList.find(kit => kit.id === (event.target.parentNode.cells[0].innerText * 1)))
+              setRowClass({ [kit.id - 1]: 'selected' });
             }}
+            onDoubleClick={() => buyItems(1)}
             className={rowClass[kit.id - 1]}
           >
+            <td style={{ display: "none" }}>{kit.id}</td>
             <td>{kit.kit}</td>
             <td>
               {kit.cost_pounds > 0 ? '£' + kit.cost_pounds + ' ' : null}

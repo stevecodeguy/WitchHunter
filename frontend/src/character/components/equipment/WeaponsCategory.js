@@ -13,6 +13,7 @@ export const WeaponsCategory = React.memo(({ weaponList, shots, buyItems, setSel
             <caption>{weaponList[0].category}</caption>
             <thead>
               <tr>
+                <th style={{display: "none"}}>Id</th>
                 <th>Weapon</th>
                 <th>Cost</th>
                 <th>{weaponList[0].category === 'Melee and Thrown' ? 'Complexity (Thrown)' : 'Complexity'}</th>
@@ -29,21 +30,13 @@ export const WeaponsCategory = React.memo(({ weaponList, shots, buyItems, setSel
                 <tr
                   key={weapon.id}
                   onMouseDown={(event) => {
-                    setSelected(() => {
-                      const select = [...weaponList];
-                      return select[selectTableRow(event)];
-                    })
-                  }}
-                  onMouseUp={() => {
-                    setRowClass(() => {
-                      let setClass = new Array(weaponList.length).join('.').split('.');
-                      setClass[weapon.id - 1] = 'selected';
-                      return setClass;
-                    });
+                    setSelected(weaponList.find(weapon => weapon.id === (event.target.parentNode.cells[0].innerText * 1)));
+                    setRowClass({ [weapon.id - 1]: 'selected' });
                   }}
                   onDoubleClick={() => buyItems(1)}
                   className={rowClass[weapon.id - 1]}
                 >
+                  <td style={{display: "none"}}>{weapon.id}</td>
                   <td>{weapon.item}</td>
                   <td>
                     {weapon.cost_pounds > 0 ? '£' + weapon.cost_pounds + ' ' : null}
