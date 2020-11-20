@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
 import '../../css/tables.css';
 
-export default function Inventory({ inventory, carryLimit, selected, setSelected, rowClass, setRowClass }) {
+export default function Inventory({ inventory, carryLimit }) {
+  const [selectInventory, setSelectInventory] = useState([]);
+  const [rowClassInventory, setRowClassInventory] = useState({});
   let equipArr = Object.entries(inventory);
 
   return (
     <table>
       <thead>
         <tr>
-          <th style={{display: "none"}}>Id</th>
+          <th style={{ display: "none" }}>Id</th>
           <th>Item</th>
           <th>Quantity</th>
           <th>Weight (lbs) ea.</th>
@@ -23,24 +25,14 @@ export default function Inventory({ inventory, carryLimit, selected, setSelected
           <tr
             key={index}
             onMouseDown={(event) => {
-              console.log(event.target.parentNode.cells[0].innerText)
-              console.log(equipArr[selectTableRow(event)])
-              // setSelected(() => {
-              //   const select = [...equipArr];
-              //   return select[selectTableRow(event)];
-              // });
+              console.log(equip[1].id)
+              setSelectInventory(equipArr.find(equip => equip[1].id === (event.target.parentNode.cells[0].innerText * 1)));
+              setRowClassInventory({ [equip[1].id - 1]: 'selected' });
             }}
-            // onMouseUp={() => {
-            //   setRowClass(() => {
-            //     let setClass = new Array(equipArr.length).join('.').split('.');
-            //     setClass[equip.id - 1] = 'selected';
-            //     console.log(setClass)
-            //     return setClass;
-            //   });
-            // }}
-            // onDoubleClick={() => buyItems(1)}
+            onDoubleClick={() => buyItems(1)}
+            className={rowClassInventory[equip[1].id - 1]}
           >
-            <td style={{display: "none"}}>{equip[1].id}</td>
+            <td style={{ display: "none" }}>{equip[1].id}</td>
             <td>{equip[0]}</td>
             <td>{equip[1].quantity}</td>
             <td>{equip[1].weightEach}</td>
