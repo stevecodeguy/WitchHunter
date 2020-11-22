@@ -67,7 +67,7 @@ export const CharacterProvider = (props) => {
     if (localStorage.getItem('character_inventory')) {
       return JSON.parse(localStorage.getItem('character_inventory'));
     }
-    return [];
+    return {};
   });
   // Money Context
   const [characterMoney, setCharacterMoney] = useState(() => {

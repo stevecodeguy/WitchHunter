@@ -298,6 +298,7 @@ export default function CharacterEquipment() {
       />
       <Inventory
         inventory={inventory}
+        setInventory={setInventory}
         rowClass={rowClass}
         setRowClass={setRowClass}
         carryLimit={carryLimit}
