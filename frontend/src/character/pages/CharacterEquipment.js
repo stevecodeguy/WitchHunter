@@ -90,6 +90,7 @@ export default function CharacterEquipment() {
     getEquipment();
   }, [abilityScore.strength.score, abilityScore.toughness.score]);
 
+  // Function to purchase items or kits.
   const buyItems = (amount) => {
     if (!!selected && (!!selected.item || !!selected.kit)) {
       const cost = {
@@ -186,11 +187,12 @@ export default function CharacterEquipment() {
     }
   }
 
+  // Set default category
   useEffect(() => {
-    //set default category
     !!categorySelected.main ? null : setCategorySelected(prev => { return { ...prev, main: 'Kits' } });
   }, [categorySelected, setCategorySelected]);
 
+  // Set inventory count when inventory changes, delete localStorage for inventory if 0 items.
   useEffect(() => {
     setInventoryCount(Object.keys(inventory).length);
     if (Object.keys(inventory).length === 0) {
@@ -198,6 +200,7 @@ export default function CharacterEquipment() {
     }
   }, [setInventoryCount, inventory])
 
+  // Switch to render equipment.
   const SwitchEquipment = () => {
     switch (categorySelected.main) {
       case 'Armor':
@@ -255,6 +258,7 @@ export default function CharacterEquipment() {
     }
   }
 
+  // Save inventory to database and localStorage
   const saveInventory = async () => {
     if (!!auth.state.uuid) {
       try {

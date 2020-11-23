@@ -1,13 +1,13 @@
 import React from 'react';
 
-export default function TextEntry(props) {
+export default function TextEntry({ info, name, labelName, value, set }) {
   const handleCharacterTextAreaChange = (event) => {
-    props.set(event.target.value);
+    set({ ...info, [name]: event.target.value });
   }
 
   const label = (input) => {
     let labelName;
-    input === undefined ? labelName = props.name : labelName = props.labelName;
+    input === undefined ? labelName = name : labelName = labelName;
 
     let firstLetter = labelName[0] || labelName.charAt(0);
     return firstLetter ? firstLetter.toUpperCase() + labelName.slice(1) : '';
@@ -15,12 +15,12 @@ export default function TextEntry(props) {
 
   return (
     <li>
-      <label htmlFor={props.name}><b>{label(props.labelName)}</b></label>
+      <label htmlFor={name}><b>{label(labelName)}</b></label>
       <textarea
-        name={props.name}
+        name={name}
         rows="6"
         cols="100"
-        value={props.value}
+        value={value}
         onChange={handleCharacterTextAreaChange}
       />
     </li>

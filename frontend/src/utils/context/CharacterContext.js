@@ -6,6 +6,60 @@ import React, {
 export const CharacterContext = React.createContext();
 
 export const CharacterProvider = (props) => {
+  // Character Info
+  const [info, setInfo] = useState(() => {
+    if (localStorage.getItem('character_info')) {
+      const characterInfo = JSON.parse(localStorage.getItem('character_info'));
+      const heightFeet = Math.floor(characterInfo.height / 12);
+      const heightInches = characterInfo.height % 12;
+
+      return {
+        characterName: characterInfo.characterName,
+        description: characterInfo.description,
+        sex: characterInfo.sex,
+        heightFeet: heightFeet,
+        heightInches: heightInches,
+        weight: characterInfo.weight,
+        eyes: characterInfo.eyes,
+        hair: characterInfo.hair,
+        culture: characterInfo.culture,
+        ethnicity: characterInfo.ethnicity,
+        nationality: characterInfo.nationality,
+        religion: characterInfo.religion,
+        background: characterInfo.background,
+        catalyst: characterInfo.catalyst,
+        order: characterInfo.order,
+        sinVice: characterInfo.sinVice,
+        virtue: characterInfo.virtue,
+        heroPoints: characterInfo.heroPoints,
+        trueFaith: characterInfo.trueFaith,
+        damnation: characterInfo.damnation
+      }
+    }
+    return {
+      characterName: '',
+      description: '',
+      sex: {id: 1, sex: 'Male'},
+      heightFeet: '',
+      heightInches: '',
+      weight: '',
+      eyes: '',
+      hair: '',
+      culture: '',
+      ethnicity: '',
+      nationality: '',
+      religion: '',
+      background: '',
+      catalyst: '',
+      order: '',
+      sinVice: '',
+      virtue: '',
+      heroPoints: '',
+      trueFaith: '',
+      damnation: ''
+    }
+  });
+
   // Ability Score Context
   const [abilityScore, setAbilityScore] = useState(() => {
     if (localStorage.getItem('character_abilities')) {
@@ -90,12 +144,14 @@ export const CharacterProvider = (props) => {
       backgroundElectives,
       characterMoney,
       inventory,
+      info,
       skills,
       spentSkillPoints,
       talents,
       setAbilityScore,
       setBackgroundElectives,
       setCharacterMoney,
+      setInfo,
       setInventory,
       setSkills,
       setSpentSkillPoints,
@@ -106,12 +162,14 @@ export const CharacterProvider = (props) => {
     backgroundElectives,
     characterMoney,
     inventory,
+    info,
     skills,
     spentSkillPoints,
     talents,
     setAbilityScore,
     setBackgroundElectives,
     setCharacterMoney,
+    setInfo,
     setInventory,
     setSkills,
     setSpentSkillPoints,

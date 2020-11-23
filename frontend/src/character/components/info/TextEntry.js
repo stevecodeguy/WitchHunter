@@ -2,19 +2,19 @@ import React from 'react';
 
 import LabelName from '../../../utils/helpers/LabelName';
 
-export default function TextEntry(props) {
+export default function TextEntry({info, name, labelName, value, set}) {
   const handleCharacterTextChange = (event) => {
     event.preventDefault();
-    props.set(event.target.value);
+    set({...info, [name]: event.target.value});
   }
 
   return (
     <li>
-      <label htmlFor={props.name}><b>{LabelName(props)}</b></label>
+      <label htmlFor={name}><b>{LabelName(name, labelName)}</b></label>
       <input 
         type="text" 
-        name={props.name} 
-        value={props.value}
+        name={name} 
+        value={value}
         onChange={handleCharacterTextChange}
         required />
     </li>
