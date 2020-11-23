@@ -12,7 +12,17 @@ const sqlGetItemsMoney = () => 'SELECT * FROM money;';
 const sqlGetItemsArmor = () => 'SELECT * FROM armor;';
 const sqlGetItemsGear = () => 'SELECT * FROM gear;';
 const sqlGetItemsKits = () => 'SELECT * FROM kit_totals;';
-const sqlGetItemsKitItems = () => 'SELECT * FROM kits;';
+const sqlGetItemsKitItems = () => `SELECT kits.id, kits.fk_item_id, kits.kit, kits.item, kits.quantity, kits.category, 
+COALESCE(armor.cost_pounds, gear.cost_pounds, weapons.cost_pounds) AS cost_pounds, 
+COALESCE(armor.cost_crowns, gear.cost_crowns, weapons.cost_crowns) AS cost_crowns, 
+COALESCE(armor.cost_shilling, gear.cost_shilling, weapons.cost_shilling) AS cost_shilling, 
+COALESCE(armor.cost_farthing, gear.cost_farthing, weapons.cost_farthing) AS cost_farthing, 
+COALESCE(armor.cost_penny, gear.cost_penny, weapons.cost_penny) AS cost_penny,
+COALESCE(armor.weight_lb, gear.weight_lb, weapons.weight_lb) AS weight_lb
+FROM kits 
+LEFT JOIN armor ON fk_item_id = armor.id
+LEFT JOIN weapons ON fk_item_id = weapons.id
+LEFT JOIN gear ON fk_item_id = gear.id;`;
 const sqlGetItemsShots = () => 'SELECT * FROM powder_shots;';
 const sqlGetItemsVehicles = () => 'SELECT * FROM vehicles;';
 const sqlGetItemsWeapons = () => 'SELECT * FROM weapons;';

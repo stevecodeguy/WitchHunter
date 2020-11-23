@@ -121,20 +121,21 @@ export default function CharacterEquipment() {
                     : 0,
                   quantity: !!kitItems[index].quantity ? kitItems[index].quantity : 0,
                   cost_pounds: !!kitItems[index].cost_pounds ?
-                    (kitItems[index].cost_pounds * kitItems[index].cost_pounds)
+                    (kitItems[index].cost_pounds * kitItems[index].quantity)
                     : 0,
                   cost_crowns: !!kitItems[index].cost_crowns ?
-                    (kitItems[index].cost_crowns * kitItems[index].cost_crowns)
+                    (kitItems[index].cost_crowns * kitItems[index].quantity)
                     : 0,
                   cost_shilling: !!kitItems[index].cost_shilling ?
-                    (kitItems[index].cost_shilling * kitItems[index].cost_shilling)
+                    (kitItems[index].cost_shilling * kitItems[index].quantity)
                     : 0,
                   cost_penny: !!kitItems[index].cost_penny ?
-                    (kitItems[index].cost_penny * kitItems[index].cost_penny)
+                    (kitItems[index].cost_penny * kitItems[index].quantity)
                     : 0,
                   cost_farthing: !!kitItems[index].cost_farthing ?
-                    (kitItems[index].cost_farthing * kitItems[index].cost_farthing)
+                    (kitItems[index].cost_farthing * kitItems[index].quantity)
                     : 0,
+                  fromKit: !!kitItems[index].kit ? kitItems[index].kit : false
                 }
               }
             }

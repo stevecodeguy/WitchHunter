@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { selectTableRow } from '../../../utils/helpers/TableHelpers';
-
 import '../../css/tables.css';
 
 export default function Kits({ kitList, setSelected, rowClass, setRowClass }) {

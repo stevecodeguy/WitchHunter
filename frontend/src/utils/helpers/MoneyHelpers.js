@@ -26,6 +26,18 @@ export function getTotalMoneyFromItem(item) {
 }
 
 
+export function getTotalMoneyFromKit(kit) {
+  console.log(kit)
+  // return {
+  //     pounds: item.cost_pounds,
+  //     crowns: item.cost_crowns,
+  //     shillings: item.cost_shilling,
+  //     pennies: item.cost_penny,
+  //     farthings: item.cost_farthing
+  // };
+}
+
+
 export function checkMoney(characterMoney, cost, modifier) {
   const {
     pounds,
