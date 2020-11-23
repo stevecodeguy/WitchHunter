@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { CharacterContext } from '../../../utils/context/CharacterContext';
 
-import { selectTableRow } from '../../../utils/helpers/TableHelpers';
+import { moneyTransfer, getTotalMoneyFromItem } from '../../../utils/helpers/MoneyHelpers';
 
 import '../../css/tables.css';
 
@@ -9,6 +9,7 @@ export default function Inventory({ inventory, setInventory, carryLimit }) {
   const [selectInventory, setSelectInventory] = useState([]);
   const [rowClassInventory, setRowClassInventory] = useState({});
   const {
+    characterMoney,
     setCharacterMoney
   } = useContext(CharacterContext)
 
@@ -47,14 +48,9 @@ export default function Inventory({ inventory, setInventory, carryLimit }) {
         newObj = Object.fromEntries(equipRemaining);
       }
 
-      setCharacterMoney(prev => {
-        const newMoney = {
-          ...prev,
-          
-        };
-
-        return prev;
-      });
+      // Adjust Money
+      const moneyResult = moneyTransfer(characterMoney, getTotalMoneyFromItem(inventory[item]), 'refund');
+      setCharacterMoney(moneyResult);
 
       return newObj;
     });

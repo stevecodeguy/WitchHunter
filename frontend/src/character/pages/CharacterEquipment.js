@@ -14,7 +14,7 @@ import Inventory from '../components/equipment/Inventory';
 
 import { CharacterContext } from '../../utils/context/CharacterContext';
 
-import { checkMoney, moneyTransfer } from '../../utils/helpers/MoneyHelpers';
+import { moneyTransfer } from '../../utils/helpers/MoneyHelpers';
 
 import '../css/characterEquipment.css';
 
