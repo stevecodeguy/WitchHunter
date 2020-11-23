@@ -14,6 +14,8 @@ import Inventory from '../components/equipment/Inventory';
 
 import { CharacterContext } from '../../utils/context/CharacterContext';
 
+import { checkMoney, moneyTransfer } from '../../utils/helpers/MoneyHelpers';
+
 import '../css/characterEquipment.css';
 
 export default function CharacterEquipment() {
@@ -90,32 +92,18 @@ export default function CharacterEquipment() {
 
   const buyItems = (amount) => {
     if (!!selected && (!!selected.item || !!selected.kit)) {
-      let totalSpent =
-        (!!selected.cost_pounds ? selected.cost_pounds * 960 : 0) +
-        (!!selected.cost_crowns ? selected.cost_crowns * 240 : 0) +
-        (!!selected.cost_shilling ? selected.cost_shilling * 48 : 0) +
-        (!!selected.cost_penny ? selected.cost_penny * 4 : 0) +
-        (!!selected.cost_farthing ? selected.cost_farthing : 0);
+      const cost = {
+        pounds: !!selected.cost_pounds ? selected.cost_pounds : 0,
+        crowns: !!selected.cost_crowns ? selected.cost_crowns : 0,
+        shillings: !!selected.cost_shilling ? selected.cost_shilling : 0,
+        pennies: !!selected.cost_penny ? selected.cost_penny : 0,
+        farthings: !!selected.cost_farthing ? selected.cost_farthing : 0
+      };
 
-      if (characterMoney.singleTotal >= totalSpent) {
-        setCharacterMoney(prev => {
-          const newSingleTotal = characterMoney.singleTotal - totalSpent;
+      const moneyResult = moneyTransfer(characterMoney, cost, 'buy');
 
-          const pounds = Math.floor(newSingleTotal / 960);
-          const crowns = Math.floor((newSingleTotal - (pounds * 960)) / 240);
-          const shillings = Math.floor((newSingleTotal - (pounds * 960) - (crowns * 240)) / 48);
-          const pennies = Math.floor((newSingleTotal - (pounds * 960) - (crowns * 240) - (shillings * 48)) / 4);
-          const farthings = (newSingleTotal - (pounds * 960) - (crowns * 240) - (shillings * 48) - (pennies * 4));
-
-          return {
-            pounds: { ...prev.pounds, amount: pounds },
-            crowns: { ...prev.crowns, amount: crowns },
-            shilling: { ...prev.shilling, amount: shillings },
-            penny: { ...prev.penny, amount: pennies },
-            farthing: { ...prev.farthing, amount: farthings },
-            singleTotal: newSingleTotal
-          }
-        });
+      if (moneyResult) {
+        setCharacterMoney(moneyResult);
 
         if (categorySelected.main === 'Kits') {
           let kitInventory = {};

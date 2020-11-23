@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { CharacterContext } from '../../../utils/context/CharacterContext';
 
 import { selectTableRow } from '../../../utils/helpers/TableHelpers';
 
@@ -7,6 +8,10 @@ import '../../css/tables.css';
 export default function Inventory({ inventory, setInventory, carryLimit }) {
   const [selectInventory, setSelectInventory] = useState([]);
   const [rowClassInventory, setRowClassInventory] = useState({});
+  const {
+    setCharacterMoney
+  } = useContext(CharacterContext)
+
   let equipArr = Object.entries(inventory);
 
   const removeItems = (id, item, quantity) => {
@@ -32,7 +37,6 @@ export default function Inventory({ inventory, setInventory, carryLimit }) {
       // If quantity is greater than 1, quantity -1
       if ((quantity * 1) > 1) {
         const eIndex = equipArr.findIndex(e => e[1].id === id);
-        
         equipRemaining = [...equipArr];
         
         equipRemaining[eIndex][1] = {
@@ -42,6 +46,15 @@ export default function Inventory({ inventory, setInventory, carryLimit }) {
 
         newObj = Object.fromEntries(equipRemaining);
       }
+
+      setCharacterMoney(prev => {
+        const newMoney = {
+          ...prev,
+          
+        };
+
+        return prev;
+      });
 
       return newObj;
     });
