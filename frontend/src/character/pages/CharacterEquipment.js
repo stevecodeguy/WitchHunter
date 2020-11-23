@@ -99,9 +99,9 @@ export default function CharacterEquipment() {
         pennies: !!selected.cost_penny ? selected.cost_penny : 0,
         farthings: !!selected.cost_farthing ? selected.cost_farthing : 0
       };
-      
+
       const moneyResult = moneyTransfer(characterMoney, cost, 'buy');
-      
+
       if (moneyResult) {
         setCharacterMoney(moneyResult);
 
@@ -193,6 +193,9 @@ export default function CharacterEquipment() {
 
   useEffect(() => {
     setInventoryCount(Object.keys(inventory).length);
+    if (Object.keys(inventory).length === 0) {
+      localStorage.removeItem('character_money');
+    }
   }, [setInventoryCount, inventory])
 
   const SwitchEquipment = () => {
