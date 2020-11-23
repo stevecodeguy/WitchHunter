@@ -1,11 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { CharacterContext } from '../../../utils/context/CharacterContext';
 
-import { moneyTransfer, getTotalMoneyFromItem } from '../../../utils/helpers/MoneyHelpers';
+import { moneyTransfer, 
+  getTotalMoneyFromItem,
+  getTotalMoneyFromKit } from '../../../utils/helpers/MoneyHelpers';
 
 import '../../css/tables.css';
 
-export default function Inventory({ inventory, setInventory, carryLimit }) {
+export default function Inventory({ inventory, setInventory, carryLimit, kitList }) {
   const [selectInventory, setSelectInventory] = useState([]);
   const [rowClassInventory, setRowClassInventory] = useState({});
   const {
@@ -23,7 +25,7 @@ export default function Inventory({ inventory, setInventory, carryLimit }) {
       const fromKit = equipArr.find(equip => equip[1].id === id)[1].fromKit;
 
       if (!!fromKit) {
-        const continueRemoval = confirm(`Removing an item from the ${fromKit} kit will remove all items from that kit. \nAre you sure you wish to continue?`)
+        const continueRemoval = confirm(`Kits purchase items at a discount.\n Due to this, removing an item from the ${fromKit} kit will remove all items from that kit. \nAre you sure you wish to continue?`)
 
         if (continueRemoval) {
           equipRemaining = equipArr.filter(equip => equip[1].fromKit !== fromKit);
@@ -38,7 +40,7 @@ export default function Inventory({ inventory, setInventory, carryLimit }) {
           }
 
           // Adjust Money
-          const moneyResult = moneyTransfer(characterMoney, getTotalMoneyFromItem(fromKit), 'refund');
+          const moneyResult = moneyTransfer(characterMoney, getTotalMoneyFromKit(fromKit, kitList), 'refund');
           setCharacterMoney(moneyResult);
 
           return newObj;

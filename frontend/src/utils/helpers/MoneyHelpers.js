@@ -26,15 +26,16 @@ export function getTotalMoneyFromItem(item) {
 }
 
 
-export function getTotalMoneyFromKit(kit) {
-  console.log(kit)
-  // return {
-  //     pounds: item.cost_pounds,
-  //     crowns: item.cost_crowns,
-  //     shillings: item.cost_shilling,
-  //     pennies: item.cost_penny,
-  //     farthings: item.cost_farthing
-  // };
+export function getTotalMoneyFromKit(kit, kitList) {
+  const kitCosts = kitList.filter(k => k.kit === kit);
+  
+  return {
+      pounds: kitCosts[0].cost_pounds,
+      crowns: kitCosts[0].cost_crowns,
+      shillings: kitCosts[0].cost_shilling,
+      pennies: kitCosts[0].cost_penny,
+      farthings: kitCosts[0].cost_farthing
+  };
 }
 
 
