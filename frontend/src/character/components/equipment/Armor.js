@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { selectTableRow } from '../../../utils/helpers/TableHelpers';
-
 import '../../css/tables.css';
+
+let count = 0;
 
 export default function Armor({ armorList, buyItems, setSelected, rowClass, setRowClass }) {
   return (
     <table>
       <thead>
         <tr>
-          <th style={{display: "none"}}>Id</th>
+          <th style={{ display: "none" }}>Id</th>
           <th>Armor</th>
           <th>Cost</th>
           <th>Armor value</th>
@@ -22,14 +22,21 @@ export default function Armor({ armorList, buyItems, setSelected, rowClass, setR
         {armorList.map(armor => (
           <tr
             key={armor.id}
-            onMouseDown={(event) => {
-              setSelected(armorList.find(armor => armor.id === (event.target.parentNode.cells[0].innerText * 1)));
-              setRowClass({ [armor.id - 1]: 'selected' });
+            onClick={(event) => {
+              count++;
+              if (count === 1) {
+                setSelected(armorList.find(armor => armor.id === (event.target.parentNode.cells[0].innerText * 1)));
+                setRowClass({ [armor.id - 1]: 'selected' });
+              } else if (count > 1) {
+                buyItems(1);
+              }
+              setTimeout(() => {
+                count = 0;
+              }, 250);
             }}
-            onDoubleClick={() => buyItems(1)}
             className={rowClass[armor.id - 1]}
           >
-            <td style={{display: "none"}}>{armor.id}</td>
+            <td style={{ display: "none" }}>{armor.id}</td>
             <td>{armor.item}</td>
             <td>
               {armor.cost_pounds > 0 ? '£' + armor.cost_pounds + ' ' : null}

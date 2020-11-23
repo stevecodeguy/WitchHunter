@@ -109,8 +109,7 @@ export default function Inventory({ inventory, setInventory, carryLimit, kitList
               equip[1].id,
               event.target.parentNode.cells[1].innerText,
               event.target.parentNode.cells[2].innerText,
-            )
-            }
+            )}
             className={rowClassInventory[[equip[1].id - 1] + equip[0]]}
           >
             <td style={{ display: "none" }}>{equip[1].id}</td>

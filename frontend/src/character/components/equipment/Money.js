@@ -6,17 +6,19 @@ export default function Money({ moneyList, characterMoney, setCharacterMoney, in
   let currentMoney = Object.entries(characterMoney);
 
   useEffect(() => {
-    setCharacterMoney(prev => {
-      let generatedMoney = Math.floor(Math.random() * Math.floor(10)) + 1;
-      return {
-        ...prev,
-        pounds: {
-          ...prev.pounds,
-          amount: generatedMoney
-        },
-        singleTotal: generatedMoney * 960
-      };
-    });
+    if (!localStorage.getItem('character_money')) {
+      setCharacterMoney(prev => {
+        let generatedMoney = Math.floor(Math.random() * Math.floor(10)) + 1;
+        return {
+          ...prev,
+          pounds: {
+            ...prev.pounds,
+            amount: generatedMoney
+          },
+          singleTotal: generatedMoney * 960
+        };
+      });
+    };
   }, [setCharacterMoney])
 
   return (
@@ -24,9 +26,16 @@ export default function Money({ moneyList, characterMoney, setCharacterMoney, in
       <table className="info">
         <thead>
           <tr>
-            <th>Type</th>
-            <th>Abbr.</th>
-            <th>Exchange</th>
+            <th rowSpan="2">Type</th>
+            <th rowSpan="2">Abbr.</th>
+            <th colSpan="5">Exchange</th>
+          </tr>
+          <tr>
+            <th>£</th>
+            <th>c</th>
+            <th>s</th>
+            <th>d</th>
+            <th>f</th>
           </tr>
         </thead>
         <tbody>
@@ -34,14 +43,18 @@ export default function Money({ moneyList, characterMoney, setCharacterMoney, in
             <tr key={m.id + 'money'}>
               <td>{m.coin}</td>
               <td>{m.abbreviation}</td>
-              <td>{m.exchange_farthing}f / {(m.exchange_farthing / 960).toFixed(3)}£</td>
+              <td>{m.exchange_pound}</td>
+              <td>{m.exchange_crown}</td>
+              <td>{m.exchange_shilling}</td>
+              <td>{m.exchange_penny}</td>
+              <td>{m.exchange_farthing}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      { // Check if there is any Inventory purchased. If so, hide the money reroll button.
-        inventoryCount === 0 ? (
+      { // Check if there is any Inventory purchased or if money has been saved to localStorage. If so, hide the money reroll button.
+        (inventoryCount === 0 && !localStorage.getItem('character_money') ) ? (
           <button onClick={() => {
             setCharacterMoney(prev => {
               let generatedMoney = Math.floor(Math.random() * Math.floor(10)) + 1;
@@ -55,7 +68,7 @@ export default function Money({ moneyList, characterMoney, setCharacterMoney, in
               };
             });
           }}>Reroll Starting Money</button>) : null}
-      <table className="info">
+      <table className="calculated">
         <caption>Starting Money:</caption>
         <thead>
           <tr>
@@ -67,7 +80,7 @@ export default function Money({ moneyList, characterMoney, setCharacterMoney, in
           {currentMoney.map(coins => (
             <tr key={coins[0]}>
               <td className="tableCenterText">{coins[1].abbreviation}</td>
-              <td>{coins[1].amount}</td>
+              <td><b>{coins[1].amount}</b></td>
             </tr>
           )
           )}

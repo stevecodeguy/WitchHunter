@@ -99,9 +99,9 @@ export default function CharacterEquipment() {
         pennies: !!selected.cost_penny ? selected.cost_penny : 0,
         farthings: !!selected.cost_farthing ? selected.cost_farthing : 0
       };
-
+      
       const moneyResult = moneyTransfer(characterMoney, cost, 'buy');
-
+      
       if (moneyResult) {
         setCharacterMoney(moneyResult);
 
@@ -181,10 +181,8 @@ export default function CharacterEquipment() {
             }
             return newInventory;
           });
-
         }
       }
-      setInventoryCount(Object.keys(inventory).length + 1);
     }
   }
 
@@ -192,6 +190,10 @@ export default function CharacterEquipment() {
     //set default category
     !!categorySelected.main ? null : setCategorySelected(prev => { return { ...prev, main: 'Kits' } });
   }, [categorySelected, setCategorySelected]);
+
+  useEffect(() => {
+    setInventoryCount(Object.keys(inventory).length);
+  }, [setInventoryCount, inventory])
 
   const SwitchEquipment = () => {
     switch (categorySelected.main) {

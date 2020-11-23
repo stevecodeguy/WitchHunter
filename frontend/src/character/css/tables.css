@@ -31,11 +31,11 @@ td:first-child {
   text-align: left;
 }
 
-tr:nth-child(odd) {
+tbody tr:nth-child(odd) {
   background-color:   rgba(165, 131, 79, 0.302);
 }
 
-tr:nth-child(even) {
+tbody tr:nth-child(even) {
   background-color:   rgba(230, 230, 230, 0.919);
 }
 
@@ -43,13 +43,14 @@ td:first-child.tableCenterText {
   text-align: center;
 }
 
-tr.selected {
+table tr.selected {
   background-color: rgb(209, 136, 20);
   color: white;
 }
 
 table.info {
   min-width: 100px;
+  font-size: 0.8em;
 }
 
 table.info caption {
@@ -68,4 +69,13 @@ table.info tr:nth-child(odd) {
 table .notes {
   font-size: 0.7em;
   font-style: italic;
+}
+
+table.calculated {
+  background-color:   rgb(220, 218, 216);
+}
+
+table.calculated caption {
+  background-color:   rgba(97, 94, 90, 0.452);
+  font-size: 1em;
 }
