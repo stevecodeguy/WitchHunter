@@ -5,15 +5,10 @@
 
 #review div {
   margin: 0 8px;
-  width: 100%;
-}
-
-#review div.side-by-side  {
-  margin: 0;
 }
 
 #review div.side-by-side {
-  width: 100%;
+  margin: 0;
   display: flex;
   justify-content: space-between;
 
@@ -92,12 +87,37 @@
   width: 33%;
 }
 
+#review .skill-totals {
+  /* border: 1px solid red; */
+  width: 50%;
+  
+}
+
+#review .skill-totals > div {
+margin: 0 auto;
+}
+
 #review .skill-totals p {
   font-size: 0.8em;
   margin: 0;
 }
 
+#review .skill-totals h5.tiny {
+  font-size: 0.45em;
+  margin: auto 0;
+}
+
+#review .skill-totals h5 {
+  font-size: 0.7em;
+}
+
 #review .skill-totals h6 {
   margin: 8px 0;
-  font-size: 0.9em;
+  font-size: 0.8em;
+  width: 50%;
+}
+
+#review .skill-totals .side-by-side {
+  width: 290px;
+  border-bottom: 1px rgb(211, 211, 211) solid;
 }

@@ -15,14 +15,16 @@ export default function Abilities() {
       </div>
       <div className="side-by-side">
         <div className="side-by-side skill-totals">
-          <h5>SKILL (ABILITY)</h5>
           <div>
-            <h5>TOTAL = RANK + ABILITY + BONUS</h5>
+            <div className="side-by-side">
+              <h5>SKILL (ABILITY)</h5>
+              <h5 className="tiny">TOTAL = RANK + ABILITY + BONUS</h5>
+            </div>
             {skillCategories.map(cat => (
               cat.category !== 'Professional' ?
                 (
                   <>
-                    <h6>{cat.category.toUpperCase()} SKILLS</h6>
+                    <h6 key={cat.category}>{cat.category.toUpperCase()} SKILLS</h6>
                     {
                       skills.map(skill => (
                         skill.category === cat.category && cat.category !== 'Professional' ?
@@ -39,27 +41,24 @@ export default function Abilities() {
           </div>
         </div>
         <div className="side-by-side skill-totals">
-          <h5>SKILL (ABILITY)</h5>
           <div>
-            <h5>TOTAL = RANK + ABILITY + BONUS</h5>
+            <div className="side-by-side">
+              <h5>SKILL (ABILITY)</h5>
+              <h5 className="tiny">TOTAL = RANK + ABILITY + BONUS</h5>
+            </div>
             {skillCategories.map(cat => (
               cat.category === 'Professional' ?
                 (
                   <>
-                    <h6>{cat.category.toUpperCase()} SKILLS</h6>
-                    {
-                      skills.map(skill => {
-                        console.log(abilityScore, skill)
-                        return (
-                          skill.category === cat.category && cat.category === 'Professional' ?
-                            <div key={skill.id} className="side-by-side">
-                              <p>{skill.skill}</p>
-                              <p><b>{skill.score + (skill.ability === '-' ? 0 : abilityScore[skill.ability.toLowerCase()].score)}</b>= {skill.score} + {(skill.ability === '-' ? 0 : abilityScore[skill.ability.toLowerCase()].score)} + __</p>
-                            </div>
-                            : null
-                        )
-                      })
-                    }
+                    <h6 key={cat.category}>{cat.category.toUpperCase()} SKILLS</h6>
+                    {skills.map(skill => (
+                      skill.category === cat.category && cat.category === 'Professional' ?
+                        <div key={skill.id} className="side-by-side">
+                          <p>{skill.skill}</p>
+                          <p><b>{skill.score + (skill.ability === '-' ? 0 : abilityScore[skill.ability.toLowerCase()].score)}</b>= {skill.score} + {(skill.ability === '-' ? 0 : abilityScore[skill.ability.toLowerCase()].score)} + __</p>
+                        </div>
+                        : null
+                    ))}
                   </>
                 ) : null
             ))}

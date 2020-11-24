@@ -20,7 +20,7 @@ export default function Info() {
       </div>
 
       <div>
-        <p><b>PLAYER NAME:</b> {`${name}`}</p>
+        <p><b>PLAYER NAME:</b> {`${name[0].toUpperCase() + name.slice(1)}`}</p>
         <p><b>NATIONALITY:</b> {`${info.nationality}`}</p>
         <div className="side-by-side">
           <p><b>HEIGHT:</b> {`${info.heightFeet}'${info.heightInches}"`}</p>
