@@ -9,15 +9,15 @@ import AuthAPI from '../../utils/context/AuthApi';
 import { CharacterContext } from '../../utils/context/CharacterContext';
 
 export default function CharacterSkills() {
-  const [skillCategories, setSkillCategories] = useState([]);
-
   const auth = useContext(AuthContext);
   const {
     abilityScore,
     backgroundElectives,
     skills,
+    skillCategories,
     setBackgroundElectives,
-    setSkills
+    setSkills,
+    setSkillCategories
   } = useContext(CharacterContext);
 
   let history = useHistory();

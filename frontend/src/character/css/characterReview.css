@@ -91,3 +91,13 @@
 #review .col3 > div {
   width: 33%;
 }
+
+#review .skill-totals p {
+  font-size: 0.8em;
+  margin: 0;
+}
+
+#review .skill-totals h6 {
+  margin: 8px 0;
+  font-size: 0.9em;
+}

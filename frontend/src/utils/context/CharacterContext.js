@@ -102,6 +102,8 @@ export const CharacterProvider = (props) => {
     }
     return [];
   });
+  // Skill categories Context
+  const [skillCategories, setSkillCategories] = useState([]);
   // Background Electives Context
   const [backgroundElectives, setBackgroundElectives] = useState(() => {
     if (localStorage.getItem('character_electives')) {
@@ -146,6 +148,7 @@ export const CharacterProvider = (props) => {
       inventory,
       info,
       skills,
+      skillCategories,
       spentSkillPoints,
       talents,
       setAbilityScore,
@@ -154,6 +157,7 @@ export const CharacterProvider = (props) => {
       setInfo,
       setInventory,
       setSkills,
+      setSkillCategories,
       setSpentSkillPoints,
       setTalents
     }
@@ -164,6 +168,7 @@ export const CharacterProvider = (props) => {
     inventory,
     info,
     skills,
+    skillCategories,
     spentSkillPoints,
     talents,
     setAbilityScore,
@@ -172,6 +177,7 @@ export const CharacterProvider = (props) => {
     setInfo,
     setInventory,
     setSkills,
+    setSkillCategories,
     setSpentSkillPoints,
     setTalents
   ]);
