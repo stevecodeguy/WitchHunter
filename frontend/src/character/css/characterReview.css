@@ -1,6 +1,17 @@
 #review {
+  margin: 0 8%;
+  background-color: white;
+}
+
+#review div {
+  margin: 0 8px;
   width: 100%;
 }
+
+#review div.side-by-side  {
+  margin: 0;
+}
+
 #review div.side-by-side {
   width: 100%;
   display: flex;
@@ -11,4 +22,72 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+}
+
+#review b {
+  margin: 0 8px;
+}
+
+#review p {
+  margin: 0;
+}
+
+#review img {
+  margin: 0;
+  width: 99%;
+}
+
+#review .sheet-title {
+  position: relative;
+  margin: 0;
+}
+
+#review .sheet-title h3 {
+  color: white;
+  font-style: italic;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -55%);
+  margin: 0;
+}
+
+#review .side-by-side h4 {
+  margin: 0 8px 0 0;
+}
+
+#review .in-ellipse {
+  width: 45px;
+  position: relative;
+}
+
+#review .in-ellipse p {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, 0);
+}
+
+#review ellipse {
+  stroke: black;
+  stroke-width: 1;
+  fill: none;
+}
+
+#review .col3 {
+  display: flex;
+  justify-content: space-between;
+}
+
+#review .col3 div > h4 {
+  margin: 0 0 8px 0;
+}
+
+#review .col3 .side-by-side {
+  width: 175px;
+  justify-content: right;
+}
+
+#review .col3 > div {
+  width: 33%;
 }
