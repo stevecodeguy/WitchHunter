@@ -39,7 +39,7 @@ export const CharacterProvider = (props) => {
     return {
       characterName: '',
       description: '',
-      sex: {id: 1, sex: 'Male'},
+      sex: { id: 1, sex: 'Male' },
       heightFeet: '',
       heightInches: '',
       weight: '',

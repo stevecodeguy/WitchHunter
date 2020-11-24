@@ -1,0 +1,14 @@
+#review {
+  width: 100%;
+}
+#review div.side-by-side {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+}
+#review .item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}

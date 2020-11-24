@@ -20,7 +20,7 @@ export default function Skill(props) {
 
   return (
     <li>
-      <label htmlFor={props.name}><b>{LabelName(props)}</b>  {props.ability !== "-" ? `(${props.ability}: ${props.max} Max)` : null}</label>
+      <label htmlFor={props.name}><b>{LabelName(props.name)}</b>  {props.ability !== "-" ? `(${props.ability}: ${props.max} Max)` : null}</label>
       <input
         type="number"
         name={props.name}

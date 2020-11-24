@@ -1,6 +1,7 @@
 import React, {
   useReducer,
   useEffect,
+  useState,
   useMemo,
   useCallback
 } from 'react';
@@ -30,6 +31,8 @@ const stateReducer = (state, action) => {
 // Create Provider
 export const AuthProvider = (props) => {
   const [state, dispatch] = useReducer(stateReducer, initalState);
+   // Player Name
+   const [name, setName] = useState('');
 
   // Initialize provider
   useEffect(() => {
@@ -44,6 +47,7 @@ export const AuthProvider = (props) => {
         type: 'login',
         payload: result,
       });
+      setName(body.username)
     } catch (error) {
       console.error(`Login error: ${error}`);
     }
@@ -71,12 +75,13 @@ export const AuthProvider = (props) => {
   // Memoized State
   const value = useMemo(() => {
     return {
+      name,
       state,
       login,
       logout,
       setUuid,
     }
-  }, [state, setUuid]);
+  }, [name, state, setUuid]);
 
   return (
     <AuthContext.Provider value={value}>
