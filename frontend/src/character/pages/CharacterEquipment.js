@@ -136,6 +136,12 @@ export default function CharacterEquipment() {
                   cost_farthing: !!kitItems[index].cost_farthing ?
                     (kitItems[index].cost_farthing * kitItems[index].quantity)
                     : 0,
+                  complexity: !!selected.complexity ? selected.complexity : null,
+                  complexity_thrown: !!selected.complexity_thrown ? selected.complexity_thrown : null,
+                  damage_modifier: !!selected.damage_modifier ? selected.damage_modifier : null,
+                  range: !!selected.range ? selected.range : null,
+                  size: !!selected.size ? selected.size : null,
+                  reload: !!selected.reload ? selected.reload : null,
                   fromKit: !!kitItems[index].kit ? kitItems[index].kit : false
                 }
               }
@@ -178,6 +184,12 @@ export default function CharacterEquipment() {
                 cost_farthing: !!selected.cost_farthing ?
                   (selected.cost_farthing * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
                   : 0,
+                complexity: !!selected.complexity ? selected.complexity : null,
+                complexity_thrown: !!selected.complexity_thrown ? selected.complexity_thrown : null,
+                damage_modifier: !!selected.damage_modifier ? selected.damage_modifier : null,
+                range: !!selected.range ? selected.range : null,
+                size: !!selected.size ? selected.size : null,
+                reload: !!selected.reload ? selected.reload : null,
               }
             }
             return newInventory;

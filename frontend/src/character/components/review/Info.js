@@ -11,7 +11,7 @@ export default function Info() {
     <div className="side-by-side">
       <div>
         <p><b>CHARACTER NAME:</b> {`${info.characterName}`}</p>
-        <p><b>RELIGION:</b> {`${info.characterName}`}</p>
+        <p><b>RELIGION:</b> {`${info.religion.religion}`}</p>
         <p><b>DESCRIPTION:</b> {`${info.description}`}</p>
         <p><b>CATALYST:</b> {`${info.catalyst}`}</p>
         <p><b>BACKGROUND:</b> {`${info.background.background}`}</p>

@@ -2,8 +2,6 @@ import React from 'react';
 
 import Shots from './Shots';
 
-import { selectTableRow } from '../../../utils/helpers/TableHelpers';
-
 export const WeaponsCategory = React.memo(({ weaponList, shots, buyItems, setSelected, rowClass, setRowClass }) => {
   return (
     <>
@@ -16,7 +14,8 @@ export const WeaponsCategory = React.memo(({ weaponList, shots, buyItems, setSel
                 <th style={{display: "none"}}>Id</th>
                 <th>Weapon</th>
                 <th>Cost</th>
-                <th>{weaponList[0].category === 'Melee and Thrown' ? 'Complexity (Thrown)' : 'Complexity'}</th>
+                <th>Complexity</th>
+                {weaponList[0].category === 'Melee and Thrown' ? <th>Complexity (Thrown)</th> : null}
                 <th>Damage Modifier</th>
                 <th>Range</th>
                 <th>Size</th>
@@ -51,6 +50,7 @@ export const WeaponsCategory = React.memo(({ weaponList, shots, buyItems, setSel
                       (weapon.cost_farthing === 0 || !weapon.cost_farthing) ? '-' : null}
                   </td>
                   <td>{weapon.complexity}</td>
+                  {weaponList[0].category === 'Melee and Thrown' ? <td>{weapon.complexity_thrown}</td> : null}
                   <td>{
                     !!weapon.damage_modifier ?
                       weapon.damage_modifier

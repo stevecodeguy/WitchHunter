@@ -1,6 +1,8 @@
 #review {
   margin: 0 8%;
   background-color: white;
+  min-width: 660px;
+  max-width: 950px;
 }
 
 #review div {
@@ -11,8 +13,12 @@
   margin: 0;
   display: flex;
   justify-content: space-between;
-
 }
+
+#review div.side-by-side .combat-abilities{
+  width: 100%;
+}
+
 #review .item {
   width: 100%;
   display: flex;
@@ -25,6 +31,7 @@
 
 #review p {
   margin: 0;
+  font-size: 0.9em;
 }
 
 #review img {
@@ -35,6 +42,7 @@
 #review .sheet-title {
   position: relative;
   margin: 0;
+  width: 100%;
 }
 
 #review .sheet-title h3 {
@@ -120,4 +128,57 @@ margin: 0 auto;
 #review .skill-totals .side-by-side {
   width: 290px;
   border-bottom: 1px rgb(211, 211, 211) solid;
+}
+
+.combat-abilities h5 {
+  margin: 0 8px 0 0;
+}
+
+.combat-abilities .side-by-side {
+  padding: 0 8px;
+}
+
+.combat-abilities .together {
+  margin: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#review .square {
+  margin: 3px 1px;
+  padding: 0;
+  border: 1px solid black;
+  width: 6px;
+  height: 6px;
+}
+
+#review .square:nth-child(5n) {
+  margin-right: 8px;
+}
+
+#review .filled {
+  background-color: rgb(204, 204, 204);
+}
+
+.squares {
+  margin: 0 50%;
+  padding: 0 14px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 300px;
+}
+
+#review div.shots {
+  justify-content: center;
+  align-items: center;
+}
+
+.shots h5{
+  margin: 0;
+}
+
+#review hr {
+  color: rgb(247, 243, 243);
+  width: 350px;
 }
