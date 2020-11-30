@@ -4,7 +4,7 @@ import { CharacterContext } from '../../../utils/context/CharacterContext';
 
 import tornPaper from '../../img/characterSheet/torn_paper.svg';
 
-export default function WeaponShots() {
+export default function Health() {
   const { inventory } = useContext(CharacterContext);
   const [arrows, setArrows] = useState([]);
   const [bolts, setBolts] = useState([]);
@@ -31,7 +31,7 @@ export default function WeaponShots() {
 
     setPowder(() => {
       const powderCount = !!inventory['Powder and Shot'].quantity ? inventory['Powder and Shot'].quantity : 0;
-      const powderSlots = new Array(15).fill(1);
+      const powderSlots = new Array(12).fill(1);
 
       return [powderCount, powderSlots];
     });
@@ -42,7 +42,7 @@ export default function WeaponShots() {
     <>
       <div className="sheet-title">
         <img src={tornPaper} />
-        <h3>SHOTS</h3>
+        <h3>HEALTH TRACK</h3>
       </div>
       <div className="side-by-side shots">
         <h5>Arrows: </h5>
@@ -66,25 +66,23 @@ export default function WeaponShots() {
         </div>
       </div>
       <hr />
-      <div className="side-by-side shots powder">
+      {/* <div className="side-by-side shots">
         <h5>Powder & Shot: </h5>
-        <p>/ {powder[0]}<b>lb(s)</b></p>
-        <div className="side-by-side" >
-          <div>
-            <div className="squares">
-              {
-                powder[1].map(shot => (
-                  shot === 1 ? <div className='square filled'></div> : <div className='square'></div>
-                ))
-              }
-            </div>
-            <p className="tiny">Blunderbus - 3 shots per lb</p>
-            <p className="tiny">Blunderbus Pistols - 6 shots per lb</p>
-            <p className="tiny">Pistols - 12 shots per lb</p>
-            <p className="tiny">Muskets - 6 shots per lb</p>
+        <p>&nbsp;{powder[0]} lb(s)</p>
+        <div>
+          <p className="tiny">Blunderbus - 3 shots per lb</p>
+          <p className="tiny">Blunderbus Pistols - 6 shots per lb</p>
+          <p className="tiny">Pistols - 12 shots per lb</p>
+          <p className="tiny">Muskets - 6 shots per lb</p>
+          <div className='squares'>
+            {
+              powder[1].map(shot => (
+                shot === 1 ? <div className='square filled'></div> : <div className='square'></div>
+              ))
+            }
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

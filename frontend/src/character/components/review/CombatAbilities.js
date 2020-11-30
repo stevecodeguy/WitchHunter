@@ -3,6 +3,7 @@ import React from 'react';
 import Weapons from './Weapons';
 import WeaponShots from './WeaponShots';
 import Armor from './Armor';
+import Health from './Health';
 
 import tornPaper from '../../img/characterSheet/torn_paper.svg';
 
@@ -14,6 +15,7 @@ export default function CombatAbilities() {
         <Weapons />
         <WeaponShots />
         <Armor />
+        <Health />
       </div>
 
       <div className="combat-abilities">

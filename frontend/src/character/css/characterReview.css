@@ -170,6 +170,15 @@ margin: 0 auto;
   width: 290px;
 }
 
+.powder .squares {
+  width: 180px;
+}
+
+#review .powder > p {
+  margin-left: 24px;
+  text-align: right;
+}
+
 #review div.shots {
   justify-content: center;
   align-items: center;
@@ -177,6 +186,11 @@ margin: 0 auto;
 
 .shots h5{
   margin: 0;
+}
+
+#review .shots .tiny{
+  font-size: 0.6em;
+  text-align: center;
 }
 
 #review hr {
