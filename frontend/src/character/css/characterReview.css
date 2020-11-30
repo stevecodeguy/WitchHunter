@@ -197,3 +197,33 @@ margin: 0 auto;
   color: rgb(247, 243, 243);
   width: 350px;
 }
+
+#review table {
+  width: 100%;
+}
+
+#review table td:first-child,
+#review table th:first-child {
+  text-align: left;
+  width: 50px;
+  padding: 0 8px;
+}
+
+#review table td {
+  text-align: center;
+  padding: 0;
+}
+
+#review table td:nth-child(2){
+  font-size: 0.6em;
+  text-align: center;
+}
+
+#review table td .squares {
+  width: 180px;
+}
+
+#review table thead,
+#review table tbody tr {
+  background-color: white;
+}
