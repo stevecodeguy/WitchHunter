@@ -21,7 +21,6 @@ import '../css/characterEquipment.css';
 export default function CharacterEquipment() {
   const [moneyList, setMoneyList] = useState([]);
   const [armorList, setArmorList] = useState([]);
-  const [carryLimit, setCarryLimit] = useState([]);
   const [gearList, setGearList] = useState([]);
   const [kitList, setKitList] = useState([]);
   const [kitItems, setKitItems] = useState([]);
@@ -36,8 +35,10 @@ export default function CharacterEquipment() {
   const auth = useContext(AuthContext);
   const {
     abilityScore,
+    carryLimit,
     characterMoney,
     inventory,
+    setCarryLimit,
     setCharacterMoney,
     setInventory
   } = useContext(CharacterContext);
@@ -118,7 +119,7 @@ export default function CharacterEquipment() {
                   category: !!kitItems[index].category ? kitItems[index].category : null,
                   weightEach: !!kitItems[index].weight_lb ? kitItems[index].weight_lb : 0,
                   weight: (!!kitItems[index].weight_lb && !!kitItems[index].quantity) ?
-                    (kitItems[index].weight_lb * (!!kitItems[index].quantity ? kitItems[index].quantity : 0))
+                    Math.round(kitItems[index].weight_lb * (!!kitItems[index].quantity ? kitItems[index].quantity : 0))
                     : 0,
                   quantity: !!kitItems[index].quantity ? kitItems[index].quantity : 0,
                   cost_pounds: !!kitItems[index].cost_pounds ?
@@ -169,7 +170,7 @@ export default function CharacterEquipment() {
                 category: !!selected.category ? selected.category : null,
                 weightEach: !!selected.weight_lb ? selected.weight_lb : 0,
                 weight: !!selected.weight_lb ?
-                  (selected.weight_lb * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
+                  Math.round(selected.weight_lb * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
                   : 0,
                 quantity: !!prev[selected.item] ? (prev[selected.item].quantity + amount) : null || amount,
                 cost_pounds: !!selected.cost_pounds ?

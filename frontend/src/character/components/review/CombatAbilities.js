@@ -4,6 +4,7 @@ import Weapons from './Weapons';
 import WeaponShots from './WeaponShots';
 import Armor from './Armor';
 import Health from './Health';
+import Equipment from './Equipment';
 
 import tornPaper from '../../img/characterSheet/torn_paper.svg';
 
@@ -16,6 +17,7 @@ export default function CombatAbilities() {
         <WeaponShots />
         <Armor />
         <Health />
+        <Equipment />
       </div>
 
       <div className="combat-abilities">

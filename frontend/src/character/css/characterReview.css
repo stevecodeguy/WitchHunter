@@ -202,28 +202,38 @@ margin: 0 auto;
   width: 100%;
 }
 
-#review table td:first-child,
-#review table th:first-child {
+#health-table td:first-child,
+#health-table th:first-child {
   text-align: left;
   width: 50px;
   padding: 0 8px;
 }
 
-#review table td {
+#health-table td {
   text-align: center;
   padding: 0;
 }
 
-#review table td:nth-child(2){
+#health-table td:nth-child(2){
   font-size: 0.6em;
   text-align: center;
 }
 
-#review table td .squares {
+#health-table td .squares {
   width: 180px;
 }
 
 #review table thead,
 #review table tbody tr {
   background-color: white;
+}
+
+#equipment-table {
+  font-size: 0.7em;
+}
+
+#equipment-table tr td:first-child
+{
+  font-size: 1em;
+  width: 150px;
 }

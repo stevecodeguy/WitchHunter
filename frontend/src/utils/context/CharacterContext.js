@@ -125,6 +125,9 @@ export const CharacterProvider = (props) => {
     }
     return {};
   });
+  // Carry Limit Context
+  const [carryLimit, setCarryLimit] = useState([]);
+
   // Money Context
   const [characterMoney, setCharacterMoney] = useState(() => {
     if (localStorage.getItem('character_money')) {
@@ -144,6 +147,7 @@ export const CharacterProvider = (props) => {
     return {
       abilityScore,
       backgroundElectives,
+      carryLimit,
       characterMoney,
       inventory,
       info,
@@ -153,6 +157,7 @@ export const CharacterProvider = (props) => {
       talents,
       setAbilityScore,
       setBackgroundElectives,
+      setCarryLimit,
       setCharacterMoney,
       setInfo,
       setInventory,
@@ -164,6 +169,7 @@ export const CharacterProvider = (props) => {
   }, [
     abilityScore,
     backgroundElectives,
+    carryLimit,
     characterMoney,
     inventory,
     info,
@@ -173,6 +179,7 @@ export const CharacterProvider = (props) => {
     talents,
     setAbilityScore,
     setBackgroundElectives,
+    setCarryLimit,
     setCharacterMoney,
     setInfo,
     setInventory,

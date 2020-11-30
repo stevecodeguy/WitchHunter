@@ -52,7 +52,7 @@ export default function Health() {
         <img src={tornPaper} />
         <h3>HEALTH TRACK</h3>
       </div>
-      <table>
+      <table id="health-table">
         <thead>
           <th colSpan="2" >INJURY LEVEL</th>
           <th>EFFECT</th>
@@ -131,18 +131,6 @@ export default function Health() {
           </tr>
         </tbody>
       </table>
-      {/* <div className="side-by-side shots">
-        <h5>HEALTHY </h5>
-        <p>{`Toughness x 2 ${abilityScore["toughness"].score * 2}`}</p>
-        <h6></h6>
-        <div className='squares'>
-           {
-            arrows.map(arrow => (
-              arrow === 1 ? <div className='square filled'></div> : <div className='square'></div>
-            ))
-          } 
-        </div>
-      </div> */}
     </>
   );
 }
