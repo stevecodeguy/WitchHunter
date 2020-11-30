@@ -150,6 +150,7 @@ margin: 0 auto;
   border: 1px solid black;
   width: 6px;
   height: 6px;
+  box-shadow: 1.2px 1.2px 0 black;
 }
 
 #review .square:nth-child(5n) {
@@ -166,7 +167,7 @@ margin: 0 auto;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  width: 300px;
+  width: 290px;
 }
 
 #review div.shots {

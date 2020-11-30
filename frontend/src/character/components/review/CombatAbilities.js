@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
-
-import { CharacterContext } from '../../../utils/context/CharacterContext';
+import React from 'react';
 
 import Weapons from './Weapons';
 import WeaponShots from './WeaponShots';
+import Armor from './Armor';
 
 import tornPaper from '../../img/characterSheet/torn_paper.svg';
 
@@ -14,6 +13,7 @@ export default function CombatAbilities() {
       <div className="combat-abilities">
         <Weapons />
         <WeaponShots />
+        <Armor />
       </div>
 
       <div className="combat-abilities">

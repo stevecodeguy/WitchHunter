@@ -6,9 +6,9 @@ import tornPaper from '../../img/characterSheet/torn_paper.svg';
 
 export default function WeaponShots() {
   const { inventory } = useContext(CharacterContext);
-  const [arrows, setArrows] = useState(0);
-  const [bolts, setBolts] = useState(0);
-  const [powder, setPowder] = useState(0);
+  const [arrows, setArrows] = useState([]);
+  const [bolts, setBolts] = useState([]);
+  const [powder, setPowder] = useState([]);
 
   useEffect(() => {
     setArrows(() => {
@@ -31,11 +31,9 @@ export default function WeaponShots() {
 
     setPowder(() => {
       const powderCount = !!inventory['Powder and Shot'].quantity ? inventory['Powder and Shot'].quantity : 0;
-      const powderSlots = new Array(50).fill(1);
-      for (let i = 0; i <= powderCount; i++) {
-        powderSlots[i] = 0;
-      }
-      return powderSlots;
+      const powderSlots = new Array(12).fill(1);
+
+      return [powderCount, powderSlots];
     });
 
   }, [inventory]);
@@ -68,16 +66,23 @@ export default function WeaponShots() {
         </div>
       </div>
       <hr />
-      <div className="side-by-side shots">
+      {/* <div className="side-by-side shots">
         <h5>Powder & Shot: </h5>
-        <div className='squares'>
-          {
-            powder.map(shot => (
-              shot === 1 ? <div className='square filled'></div> : <div className='square'></div>
-            ))
-          }
+        <p>&nbsp;{powder[0]} lb(s)</p>
+        <div>
+          <p className="tiny">Blunderbus - 3 shots per lb</p>
+          <p className="tiny">Blunderbus Pistols - 6 shots per lb</p>
+          <p className="tiny">Pistols - 12 shots per lb</p>
+          <p className="tiny">Muskets - 6 shots per lb</p>
+          <div className='squares'>
+            {
+              powder[1].map(shot => (
+                shot === 1 ? <div className='square filled'></div> : <div className='square'></div>
+              ))
+            }
+          </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

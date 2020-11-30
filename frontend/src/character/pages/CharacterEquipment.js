@@ -136,12 +136,15 @@ export default function CharacterEquipment() {
                   cost_farthing: !!kitItems[index].cost_farthing ?
                     (kitItems[index].cost_farthing * kitItems[index].quantity)
                     : 0,
-                  complexity: !!selected.complexity ? selected.complexity : null,
-                  complexity_thrown: !!selected.complexity_thrown ? selected.complexity_thrown : null,
-                  damage_modifier: !!selected.damage_modifier ? selected.damage_modifier : null,
+                  complexity: !!selected.complexity ? selected.complexity : 0,
+                  complexity_thrown: !!selected.complexity_thrown ? selected.complexity_thrown : 0,
+                  damage_modifier: !!selected.damage_modifier ? selected.damage_modifier : 0,
                   range: !!selected.range ? selected.range : null,
                   size: !!selected.size ? selected.size : null,
                   reload: !!selected.reload ? selected.reload : null,
+                  armor_value: !!selected.armor_value ? selected.armor_value : null,
+                  agility_penalty: !!selected.agility_penalty ? +selected.agility_penalty : 0,
+                  movement_penalty: !!selected.movement_penalty ? +selected.movement_penalty : 0,
                   fromKit: !!kitItems[index].kit ? kitItems[index].kit : false
                 }
               }
@@ -184,12 +187,15 @@ export default function CharacterEquipment() {
                 cost_farthing: !!selected.cost_farthing ?
                   (selected.cost_farthing * (!!prev[selected.item] ? (prev[selected.item].quantity + amount) : amount))
                   : 0,
-                complexity: !!selected.complexity ? selected.complexity : null,
-                complexity_thrown: !!selected.complexity_thrown ? selected.complexity_thrown : null,
-                damage_modifier: !!selected.damage_modifier ? selected.damage_modifier : null,
+                complexity: !!selected.complexity ? selected.complexity : 0,
+                complexity_thrown: !!selected.complexity_thrown ? selected.complexity_thrown : 0,
+                damage_modifier: !!selected.damage_modifier ? selected.damage_modifier : 0,
                 range: !!selected.range ? selected.range : null,
                 size: !!selected.size ? selected.size : null,
                 reload: !!selected.reload ? selected.reload : null,
+                armor_value: !!selected.armor_value ? selected.armor_value : null,
+                agility_penalty: !!selected.agility_penalty ? +selected.agility_penalty : 0,
+                movement_penalty: !!selected.movement_penalty ? +selected.movement_penalty : 0,
               }
             }
             return newInventory;
