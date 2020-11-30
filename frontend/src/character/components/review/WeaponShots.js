@@ -48,9 +48,9 @@ export default function WeaponShots() {
         <h5>Arrows: </h5>
         <div className='squares'>
           {
-            arrows.map(arrow => (
+            !!arrows ? arrows.map(arrow => (
               arrow === 1 ? <div className='square filled'></div> : <div className='square'></div>
-            ))
+            )) : null
           }
         </div>
       </div>
@@ -59,9 +59,9 @@ export default function WeaponShots() {
         <h5>Bolts: </h5>
         <div className='squares'>
           {
-            bolts.map(bolt => (
+            !!bolts ? bolts.map(bolt => (
               bolt === 1 ? <div className='square filled'></div> : <div className='square'></div>
-            ))
+            )) : null
           }
         </div>
       </div>
@@ -73,9 +73,9 @@ export default function WeaponShots() {
           <div>
             <div className="squares">
               {
-                powder[1].map(shot => (
+                !!powder[1] ? powder[1].map(shot => (
                   shot === 1 ? <div className='square filled'></div> : <div className='square'></div>
-                ))
+                )) : null
               }
             </div>
             <p className="tiny">Blunderbus - 3 shots per lb</p>
