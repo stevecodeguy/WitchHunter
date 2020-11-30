@@ -237,3 +237,17 @@ margin: 0 auto;
   font-size: 1em;
   width: 150px;
 }
+
+#pools p {
+  font-size: 0.65em;
+  text-align: center;
+  margin: 0;
+}
+
+#pools .in-ellipse p {
+  font-size: 1em;
+}
+
+#pools > div > div {
+  margin-bottom: 16px;
+}
