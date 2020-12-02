@@ -239,9 +239,13 @@ margin: 0 auto;
 }
 
 #pools p {
-  font-size: 0.65em;
+  font-size: 0.75em;
   text-align: center;
   margin: 0;
+}
+
+#pools h5 {
+  text-align: center;
 }
 
 #pools .in-ellipse p {
@@ -250,4 +254,20 @@ margin: 0 auto;
 
 #pools > div > div {
   margin-bottom: 16px;
+}
+
+#pools .dice-pools > div {
+  width: 150px;
+  margin: 0;
+}
+
+#pools .dice-pools > div:nth-child(2) {
+  width: 70px;
+  margin: 0;
+}
+
+#pools .dice-pools div p {
+  border-bottom: 1px solid rgb(226, 226, 226);
+  margin: 0;
+  font-size: 0.75em;
 }

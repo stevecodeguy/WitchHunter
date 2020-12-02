@@ -4,7 +4,7 @@ import { CharacterContext } from '../../../utils/context/CharacterContext';
 
 import tornPaper from '../../img/characterSheet/torn_paper.svg';
 
-export default function Abilities() {
+export default function Skills() {
   const { abilityScore, skills, skillCategories } = useContext(CharacterContext);
 
   return (

@@ -1,11 +1,44 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 import { CharacterContext } from '../../../utils/context/CharacterContext';
 
 import tornPaper from '../../img/characterSheet/torn_paper.svg';
 
 export default function DicePools() {
-  const { abilityScore } = useContext(CharacterContext);
+  const { abilityScore, skills } = useContext(CharacterContext);
+  const [skillSnapShot, setSkillSnapShot] = useState({});
+
+  useEffect(() => {
+    setSkillSnapShot(() => {
+      let snapShot = {};
+      skills.forEach(skill => {
+        switch (skill.skill) {
+          case 'Archery':
+            snapShot = { ...snapShot, 'Archery': { score: skill.score + abilityScore.agility.score } };
+            break;
+          case 'Firearms':
+            snapShot = { ...snapShot, 'Firearms': { score: skill.score + abilityScore.agility.score } };
+            break;
+          case 'Grapple':
+            snapShot = { ...snapShot, 'Grapple': { score: skill.score + abilityScore.strength.score } };
+            break;
+          case 'Hand-to-Hand':
+            snapShot = { ...snapShot, 'Hand-to-Hand': { score: skill.score + abilityScore.strength.score } };
+            break;
+          case 'Hand-to-Hand (Small Weapons)':
+            snapShot = { ...snapShot, 'Hand-to-Hand (Small Weapons)': { score: skill.score + abilityScore.agility.score } };
+            break;
+          case 'Throw':
+            snapShot = { ...snapShot, 'Throw': { score: skill.score + abilityScore.agility.score } };
+            break;
+          default:
+            break;
+        }
+      });
+
+      return snapShot;
+    });
+  }, [skills, abilityScore])
 
   return (
     <>
@@ -43,24 +76,30 @@ export default function DicePools() {
 
         <div>
           <h5>COMBAT SKILL REFERENCE</h5>
-          <div className="side-by-side">
+          <div className="side-by-side dice-pools">
             <div>
               <p><b>Skill</b></p>
-              <h6>ARCHERY (AGI)</h6>
-              <h6>FIREARMS (AGI)</h6>
-              <h6>GRAPPLE (STR)</h6>
-              <h6>HAND-TO-HAND (STR)</h6>
-              <h6>HAND-TO-HAND (AGI)</h6>
-              <h6>THROW (AGI)</h6>
+              <p><b>ARCHERY (AGI)</b></p>
+              <p><b>FIREARMS (AGI)</b></p>
+              <p><b>GRAPPLE (STR)</b></p>
+              <p><b>HAND-TO-HAND (STR)</b></p>
+              <p><b>HAND-TO-HAND (AGI)</b></p>
+              <p><b>THROW (AGI)</b></p>
             </div>
             <div>
               <p><b>Total Dice</b></p>
-              <h6>9</h6>
-              <h6>9</h6>
-              <h6>9</h6>
-              <h6>9</h6>
-              <h6>9</h6>
-              <h6>9</h6>
+              {
+                !!skillSnapShot ?
+                  <>
+                    <p key="archery"><b>{skillSnapShot.Archery.score}</b></p>
+                    <p key="firearms"><b>{skillSnapShot.Firearms.score}</b></p>
+                    <p key="grapple"><b>{skillSnapShot.Grapple.score}</b></p>
+                    <p key="handtohand"><b>{skillSnapShot["Hand-to-Hand"].score}</b></p>
+                    <p key="handtohandagi"><b>{skillSnapShot["Hand-to-Hand (Small Weapons)"].score}</b></p>
+                    <p key="throw"><b>{skillSnapShot.Throw.score}</b></p>
+                  </>
+                  : null
+              }
             </div>
           </div>
         </div>
