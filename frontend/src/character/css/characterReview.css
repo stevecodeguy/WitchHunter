@@ -271,3 +271,30 @@ margin: 0 auto;
   margin: 0;
   font-size: 0.75em;
 }
+
+#talents {
+  width: 90%;
+}
+
+#talents .side-by-side {
+  border-bottom: 1px solid rgb(226, 226, 226);
+  width: 100%;
+}
+
+#talents .title h5:nth-child(2) {
+  text-align: center;
+  width: 260px;
+  margin-bottom: 16px;
+}
+
+#talents h6 {
+  margin: 0;
+  font-size: 0.8em;
+  width: 180px;
+}
+
+#talents p {
+  font-size: 0.7em;
+  text-align: left;
+  width: 260px;
+}

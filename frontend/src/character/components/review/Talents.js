@@ -13,33 +13,19 @@ export default function Talents() {
         <img src={tornPaper} />
         <h3>TALENTS</h3>
       </div>
-      <div className="side-by-side">
-        <div className="side-by-side skill-totals">
-          <div>
-            <div className="side-by-side">
-              <h5>SKILL (ABILITY)</h5>
-              <h5 className="tiny">TOTAL = RANK + ABILITY + BONUS</h5>
-            </div>
-            {/* {skillCategories.map(cat => (
-              cat.category !== 'Professional' ?
-                (
-                  <>
-                    <h6 key={cat.category}>{cat.category.toUpperCase()} SKILLS</h6>
-                    {
-                      skills.map(skill => (
-                        skill.category === cat.category && cat.category !== 'Professional' ?
-                          <div key={skill.id} className="side-by-side">
-                            <p>{skill.skill}</p>
-                            <p><b>{skill.score + abilityScore[skill.ability.toLowerCase()].score}</b>= {skill.score} + {abilityScore[skill.ability.toLowerCase()].score} + __</p>
-                          </div>
-                          : null
-                      ))
-                    }
-                  </>
-                ) : null
-            ))} */}
-          </div>
+      <div id="talents">
+        <div className="side-by-side title">
+          <h5>TALENT</h5>
+          <h5>DESCRIPTION</h5>
         </div>
+        {
+          talents.map(talent => (
+            <div key="talent.id" className='side-by-side'>
+              <h6>{talent.talent}</h6>
+              <p>{talent.benefit}</p>
+            </div>
+          ))
+        }
       </div>
     </>
   );
