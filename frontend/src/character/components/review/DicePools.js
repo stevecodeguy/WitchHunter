@@ -89,7 +89,7 @@ export default function DicePools() {
             <div>
               <p><b>Total Dice</b></p>
               {
-                !!skillSnapShot ?
+                Object.keys(skillSnapShot).length > 0 ?
                   <>
                     <p key="archery"><b>{skillSnapShot.Archery.score}</b></p>
                     <p key="firearms"><b>{skillSnapShot.Firearms.score}</b></p>
