@@ -7,6 +7,7 @@ import Health from './Health';
 import Equipment from './Equipment';
 import DicePools from './DicePools';
 import Talents from './Talents';
+import Order from './Order';
 
 export default function CombatAbilities() {
 
@@ -23,6 +24,7 @@ export default function CombatAbilities() {
       <div className="combat-abilities">
         <DicePools />
         <Talents />
+        <Order />
       </div>
     </>
   );
