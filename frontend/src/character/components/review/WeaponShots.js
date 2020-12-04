@@ -42,7 +42,7 @@ export default function WeaponShots() {
     <>
       <div className="sheet-title">
         <img src={tornPaper} />
-        <h3>SHOTS</h3>
+        <h3>AMMUNITION</h3>
       </div>
       <div className="side-by-side shots">
         <h5>Arrows: </h5>

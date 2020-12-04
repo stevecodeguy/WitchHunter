@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import { selectTableRow } from '../../../utils/helpers/TableHelpers';
-
 import '../../css/tables.css';
 import Vehicles from './Vehicles';
 

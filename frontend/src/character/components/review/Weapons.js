@@ -61,6 +61,51 @@ export default function Weapons() {
         <img src={tornPaper} />
         <h3>WEAPONS</h3>
       </div>
+      <div>
+        <div className="side-by-side">
+          <div className="together">
+            <h5>Weapon:</h5>
+            <p>Unarmed</p>
+          </div>
+          <div className="together">
+            <h5>C:</h5>
+            <p>0</p>
+          </div>
+          <div className="together">
+            <h5>DM:</h5>
+            <p>0</p>
+          </div>
+        </div>
+        <div className="side-by-side">
+          <div className="together">
+            <h5>Range: </h5>
+            <p>-</p>
+          </div>
+          <div className="together">
+            <h5>Reload:</h5>
+            <p>-</p>
+          </div>
+          <div className="together">
+            <h5>Size:</h5>
+            <p>Small</p>
+          </div>
+          <div className="together">
+            <h5>Wgt:</h5>
+            <p>-</p>
+          </div>
+        </div>
+        <div className="side-by-side">
+          <div className="together">
+            <h5>Melee Dice: </h5>
+            <p>{`AGI ${handtoHandSmall} -or- STR ${handtoHand} `}</p>
+          </div>
+          <div className="together">
+            <h5>Ranged Dice:</h5>
+            <p>0</p>
+          </div>
+        </div>
+        <hr />
+      </div>
       {
         [...Object.entries(inventory)].map(inv => {
           const invValues = Object.values(inv[1])

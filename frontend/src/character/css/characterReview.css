@@ -232,6 +232,10 @@ margin: 0 auto;
   font-size: 0.7em;
 }
 
+#equipment-table td {
+  border-bottom: 1px solid rgb(220, 219, 219);
+}
+
 #equipment-table tr td:first-child
 {
   font-size: 1em;

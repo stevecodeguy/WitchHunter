@@ -20,7 +20,7 @@ export default function Talents() {
         </div>
         {
           talents.map(talent => (
-            <div key="talent.id" className='side-by-side'>
+            <div key={talent.id + talent.talent} className='side-by-side'>
               <h6>{talent.talent}</h6>
               <p>{talent.benefit}</p>
             </div>
