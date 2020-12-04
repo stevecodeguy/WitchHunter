@@ -50,9 +50,9 @@ export default function Dropdown({info, name, labelName, value, set}) {
             )) : null
         }
       </select>
-      {!!value && !!value.description ? <p>{value.description}</p> : null}
-      {!!value && !!value.benefit ? <p>{value.benefit}</p> : null}
-      {!!value && !!value.social_standing && !!value.ability && !!value.ability_description ? (
+      {value?.description ? <p>{value.description}</p> : null}
+      {value?.benefit ? <p>{value.benefit}</p> : null}
+      {value?.social_standing && value?.ability && value?.ability_description ? (
         <>
           <h5>Social Standing: </h5>
           <p>{value.social_standing}</p>

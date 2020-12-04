@@ -1,13 +1,14 @@
 // Character Info Queries
 const sqlGetInfoReligions = () => 'SELECT * FROM religions;';
 const sqlGetInfoOrders = () => 'SELECT * FROM orders;';
+const sqlGetInfoOrderBenefits = () => 'SELECT * FROM order_benefits;';
 const sqlGetInfoSinsVices = () => 'SELECT * FROM sins_vices;';
 const sqlGetInfoVirtues = () => 'SELECT * FROM virtues;';
 const sqlGetInfoBackgrounds = () => 'SELECT * FROM backgrounds;';
 const sqlGetInfoAbilityCosts = () => 'SELECT * FROM generating_abilities;';
 const sqlGetInfoSex = () => 'SELECT * FROM sex;';
 
-// Character Iitem Queries
+// Character Item Queries
 const sqlGetItemsMoney = () => 'SELECT * FROM money;';
 const sqlGetItemsArmor = () => 'SELECT * FROM armor;';
 const sqlGetItemsGear = () => 'SELECT * FROM gear;';
@@ -29,6 +30,7 @@ const sqlGetItemsWeapons = () => 'SELECT * FROM weapons;';
 
 exports.sqlGetInfoReligions = sqlGetInfoReligions;
 exports.sqlGetInfoOrders = sqlGetInfoOrders;
+exports.sqlGetInfoOrderBenefits = sqlGetInfoOrderBenefits;
 exports.sqlGetInfoSinsVices = sqlGetInfoSinsVices;
 exports.sqlGetInfoVirtues = sqlGetInfoVirtues;
 exports.sqlGetInfoBackgrounds = sqlGetInfoBackgrounds;

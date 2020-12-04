@@ -23,6 +23,13 @@ router.get('/order', (req, res) => {
   });
 });
 
+router.get('/order_benefits', (req, res) => {
+  db.pool.query(query.sqlGetInfoOrderBenefits(), (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
 router.get('/sin_vice', (req, res) => {
   db.pool.query(query.sqlGetInfoSinsVices(), (err, result) => {
     if (err) throw err;

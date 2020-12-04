@@ -12,7 +12,7 @@ export default function WeaponShots() {
 
   useEffect(() => {
     setArrows(() => {
-      const arrowCount = !!inventory['Arrow'].quantity ? inventory['Arrow'].quantity : 0;
+      const arrowCount = inventory['Arrow']?.quantity ? inventory['Arrow'].quantity : 0;
       const arrowSlots = new Array(50).fill(1);
       for (let i = 0; i <= arrowCount; i++) {
         arrowSlots[i] = 0;
@@ -21,7 +21,7 @@ export default function WeaponShots() {
     });
 
     setBolts(() => {
-      const boltCount = !!inventory['Bolt'].quantity ? inventory['Bolt'].quantity : 0;
+      const boltCount = inventory['Bolt']?.quantity ? inventory['Bolt'].quantity : 0;
       const boltSlots = new Array(50).fill(1);
       for (let i = 0; i <= boltCount; i++) {
         boltSlots[i] = 0;
@@ -30,7 +30,7 @@ export default function WeaponShots() {
     });
 
     setPowder(() => {
-      const powderCount = !!inventory['Powder and Shot'].quantity ? inventory['Powder and Shot'].quantity : 0;
+      const powderCount = inventory['Powder and Shot']?.quantity ? inventory['Powder and Shot'].quantity : 0;
       const powderSlots = new Array(15).fill(1);
 
       return [powderCount, powderSlots];

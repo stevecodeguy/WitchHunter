@@ -5,7 +5,7 @@ import Shots from './Shots';
 export const WeaponsCategory = React.memo(({ weaponList, shots, buyItems, setSelected, rowClass, setRowClass }) => {
   return (
     <>
-      {!!weaponList && weaponList.length > 0 ? (
+      {weaponList?.length > 0 ? (
         <>
           <table>
             <caption>{weaponList[0].category}</caption>
