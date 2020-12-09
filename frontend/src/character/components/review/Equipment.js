@@ -6,7 +6,6 @@ import tornPaper from '../../img/characterSheet/torn_paper.svg';
 
 export default function Equipment() {
   const { inventory, carryLimit } = useContext(CharacterContext);
-  const [emptyEquipmentTable, setEmptyEquipmentTable] = useState([]);
   const [equipArr, setEquipArr] = useState([]);
 
   useEffect(() => {
