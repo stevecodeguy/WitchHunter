@@ -14,6 +14,8 @@ const sqlGetItemsArmor = () => 'SELECT * FROM armor;';
 const sqlGetItemsGear = () => 'SELECT * FROM gear;';
 const sqlGetItemsKits = () => 'SELECT * FROM kit_totals;';
 const sqlGetItemsKitItems = () => `SELECT kits.id, kits.fk_item_id, kits.kit, kits.item, kits.quantity, kits.category, 
+weapons.complexity, weapons.complexity_thrown, weapons.damage_modifier, weapons.\`range\`, weapons.size, weapons.\`reload\`,
+armor.armor_value, armor.agility_penalty, armor.movement_penalty,
 COALESCE(armor.cost_pounds, gear.cost_pounds, weapons.cost_pounds) AS cost_pounds, 
 COALESCE(armor.cost_crowns, gear.cost_crowns, weapons.cost_crowns) AS cost_crowns, 
 COALESCE(armor.cost_shilling, gear.cost_shilling, weapons.cost_shilling) AS cost_shilling, 

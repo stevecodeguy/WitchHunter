@@ -137,15 +137,15 @@ export default function CharacterEquipment() {
                   cost_farthing: !!kitItems[index].cost_farthing ?
                     (kitItems[index].cost_farthing * kitItems[index].quantity)
                     : 0,
-                  complexity: !!selected.complexity ? selected.complexity : 0,
-                  complexity_thrown: !!selected.complexity_thrown ? selected.complexity_thrown : 0,
-                  damage_modifier: !!selected.damage_modifier ? selected.damage_modifier : 0,
-                  range: !!selected.range ? selected.range : null,
-                  size: !!selected.size ? selected.size : null,
-                  reload: !!selected.reload ? selected.reload : null,
-                  armor_value: !!selected.armor_value ? selected.armor_value : null,
-                  agility_penalty: !!selected.agility_penalty ? +selected.agility_penalty : 0,
-                  movement_penalty: !!selected.movement_penalty ? +selected.movement_penalty : 0,
+                  complexity: !!kitItems[index].complexity ? kitItems[index].complexity : 0,
+                  complexity_thrown: !!kitItems[index].complexity_thrown ? kitItems[index].complexity_thrown : 0,
+                  damage_modifier: !!kitItems[index].damage_modifier ? kitItems[index].damage_modifier : 0,
+                  range: !!kitItems[index].range ? kitItems[index].range : '-',
+                  size: !!kitItems[index].size ? kitItems[index].size : null,
+                  reload: !!kitItems[index].reload ? kitItems[index].reload : '-',
+                  armor_value: !!kitItems[index].armor_value ? kitItems[index].armor_value : '-',
+                  agility_penalty: !!kitItems[index].agility_penalty ? +kitItems[index].agility_penalty : 0,
+                  movement_penalty: !!kitItems[index].movement_penalty ? +kitItems[index].movement_penalty : 0,
                   fromKit: !!kitItems[index].kit ? kitItems[index].kit : false
                 }
               }
@@ -191,10 +191,10 @@ export default function CharacterEquipment() {
                 complexity: !!selected.complexity ? selected.complexity : 0,
                 complexity_thrown: !!selected.complexity_thrown ? selected.complexity_thrown : 0,
                 damage_modifier: !!selected.damage_modifier ? selected.damage_modifier : 0,
-                range: !!selected.range ? selected.range : null,
+                range: !!selected.range ? selected.range : '-',
                 size: !!selected.size ? selected.size : null,
-                reload: !!selected.reload ? selected.reload : null,
-                armor_value: !!selected.armor_value ? selected.armor_value : null,
+                reload: !!selected.reload ? selected.reload : '-',
+                armor_value: !!selected.armor_value ? selected.armor_value : '-',
                 agility_penalty: !!selected.agility_penalty ? +selected.agility_penalty : 0,
                 movement_penalty: !!selected.movement_penalty ? +selected.movement_penalty : 0,
               }
