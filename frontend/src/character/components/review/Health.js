@@ -14,7 +14,7 @@ export default function Health() {
   useEffect(() => {
     setHealthy(() => {
       const healthySlots = new Array(15).fill(1);
-      for (let i = 0; i <= (+abilityScore["toughness"].score * 2); i++) {
+      for (let i = 0; i <= (+abilityScore["toughness"].score * 2) - 1; i++) {
         healthySlots[i] = 0;
       }
       return healthySlots;
@@ -22,7 +22,7 @@ export default function Health() {
 
     setLight(() => {
       const lightSlots = new Array(10).fill(1);
-      for (let i = 0; i <= (Math.round(+abilityScore["toughness"].score * 1.5)); i++) {
+      for (let i = 0; i <= (Math.round(+abilityScore["toughness"].score * 1.5)) - 1; i++) {
         lightSlots[i] = 0;
       }
       return lightSlots;
@@ -30,7 +30,7 @@ export default function Health() {
 
     setModHeavy(() => {
       const modHeavySlots = new Array(10).fill(1);
-      for (let i = 0; i <= +abilityScore["toughness"].score; i++) {
+      for (let i = 0; i <= +abilityScore["toughness"].score - 1; i++) {
         modHeavySlots[i] = 0;
       }
       return modHeavySlots;
@@ -38,7 +38,7 @@ export default function Health() {
 
     setDying(() => {
       const dyingSlots = new Array(10).fill(1);
-      for (let i = 0; i <= (Math.round(+abilityScore["toughness"].score * 0.5)); i++) {
+      for (let i = 0; i <= (Math.round(+abilityScore["toughness"].score * 0.5)) - 1; i++) {
         dyingSlots[i] = 0;
       }
       return dyingSlots;
