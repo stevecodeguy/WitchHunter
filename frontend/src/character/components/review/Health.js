@@ -54,9 +54,11 @@ export default function Health() {
       </div>
       <table id="health-table">
         <thead>
-          <th colSpan="2" >INJURY LEVEL</th>
-          <th>EFFECT</th>
-          <th>SCORE</th>
+          <tr>
+            <th colSpan="2" >INJURY LEVEL</th>
+            <th>EFFECT</th>
+            <th>SCORE</th>
+          </tr>
         </thead>
         <tbody>
           <tr>
@@ -66,8 +68,8 @@ export default function Health() {
             <td>
               <div className='squares'>
                 {
-                  !!healthy ? healthy.map(slot => (
-                    slot === 1 ? <div className='square filled'></div> : <div className='square'></div>
+                  !!healthy ? healthy.map((slot, index) => (
+                    slot === 1 ? <div key={index + 'healthy'} className='square filled'></div> : <div key={index + 'healthy'} className='square'></div>
                   )) : null
                 }
               </div>
@@ -80,8 +82,8 @@ export default function Health() {
             <td>
               <div className='squares'>
                 {
-                  !!light ? light.map(slot => (
-                    slot === 1 ? <div className='square filled'></div> : <div className='square'></div>
+                  !!light ? light.map((slot, index) => (
+                    slot === 1 ? <div key={index + 'light'} className='square filled'></div> : <div key={index + 'light'} className='square'></div>
                   )) : null
                 }
               </div>
@@ -94,8 +96,8 @@ export default function Health() {
             <td>
               <div className='squares'>
                 {
-                  !!modHeavy ? modHeavy.map(slot => (
-                    slot === 1 ? <div className='square filled'></div> : <div className='square'></div>
+                  !!modHeavy ? modHeavy.map((slot, index) => (
+                    slot === 1 ? <div key={index + 'moderate'} className='square filled'></div> : <div key={index + 'moderate'} className='square'></div>
                   )) : null
                 }
               </div>
@@ -108,8 +110,8 @@ export default function Health() {
             <td>
               <div className='squares'>
                 {
-                  !!modHeavy ? modHeavy.map(slot => (
-                    slot === 1 ? <div className='square filled'></div> : <div className='square'></div>
+                  !!modHeavy ? modHeavy.map((slot, index) => (
+                    slot === 1 ? <div key={index + 'heavy'} className='square filled'></div> : <div key={index + 'heavy'} className='square'></div>
                   )) : null
                 }
               </div>
@@ -122,8 +124,8 @@ export default function Health() {
             <td>
               <div className='squares'>
                 {
-                  !!dying ? dying.map(slot => (
-                    slot === 1 ? <div className='square filled'></div> : <div className='square'></div>
+                  !!dying ? dying.map((slot, index) => (
+                    slot === 1 ? <div key={index + 'dying'} className='square filled'></div> : <div key={index + 'dying'} className='square'></div>
                   )) : null
                 }
               </div>

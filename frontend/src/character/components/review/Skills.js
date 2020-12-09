@@ -20,24 +20,24 @@ export default function Skills() {
               <h5>SKILL (ABILITY)</h5>
               <h5 className="tiny">TOTAL = RANK + ABILITY + BONUS</h5>
             </div>
-            {skillCategories.map(cat => (
+            {!!skillCategories ? skillCategories.map(cat => (
               cat.category !== 'Professional' ?
                 (
-                  <>
-                    <h6 key={cat.category}>{cat.category.toUpperCase()} SKILLS</h6>
+                  <div key={cat.category}>
+                    <h6>{cat.category.toUpperCase()} SKILLS</h6>
                     {
-                      skills.map(skill => (
+                      !!skills ? skills.map(skill => (
                         skill.category === cat.category && cat.category !== 'Professional' ?
-                          <div key={skill.id} className="side-by-side">
+                          <div key={skill.id + cat.category} className="side-by-side">
                             <p>{skill.skill}</p>
                             <p><b>{skill.score + abilityScore[skill.ability.toLowerCase()].score}</b>= {skill.score} + {abilityScore[skill.ability.toLowerCase()].score} + __</p>
                           </div>
                           : null
-                      ))
+                      )) : null
                     }
-                  </>
+                  </div>
                 ) : null
-            ))}
+            )) : null}
           </div>
         </div>
         <div className="side-by-side skill-totals">
@@ -46,25 +46,24 @@ export default function Skills() {
               <h5>SKILL (ABILITY)</h5>
               <h5 className="tiny">TOTAL = RANK + ABILITY + BONUS</h5>
             </div>
-            {skillCategories.map(cat => (
+            {!!skillCategories ? skillCategories.map(cat => (
               cat.category === 'Professional' ?
                 (
-                  <>
-                    <h6 key={cat.category}>{cat.category.toUpperCase()} SKILLS</h6>
-                    {skills.map(skill => (
+                  <div key={cat.category}>
+                    <h6 >{cat.category.toUpperCase()} SKILLS</h6>
+                    {!!skills ? skills.map(skill => (
                       skill.category === cat.category && cat.category === 'Professional' ?
-                        <div key={skill.id} className="side-by-side">
+                        <div key={skill.id + cat.category} className="side-by-side">
                           <p>{skill.skill}</p>
                           <p><b>{skill.score + (skill.ability === '-' ? 0 : abilityScore[skill.ability.toLowerCase()].score)}</b>= {skill.score} + {(skill.ability === '-' ? 0 : abilityScore[skill.ability.toLowerCase()].score)} + __</p>
                         </div>
                         : null
-                    ))}
-                  </>
+                    )) : null}
+                  </div>
                 ) : null
-            ))}
+            )) : null}
           </div>
         </div>
-
       </div>
     </>
   );

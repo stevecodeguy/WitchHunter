@@ -13,15 +13,16 @@ export default function Equipment() {
     setEquipArr(Object.entries(inventory));
   }, [inventory]);
 
-  useEffect(() => {
-    setEmptyEquipmentTable(() => {
-      let newArray = [];
-      for (let i = 0; i < 10; i++) {
-        newArray = [...newArray, i];
-      }
-      return newArray;
-    });
-  }, [equipArr]);
+  // useEffect(() => {
+  //   setEmptyEquipmentTable(() => {
+  //     let newArray = new Array(10 - equipArr.length);
+  //     for (let i = 0; i < newArray.length; i++) {
+  //       newArray = [...newArray, i];
+  //     }
+  //     console.log(newArray)
+  //     return newArray;
+  //   });
+  // }, [equipArr]);
 
   return (
     <>
@@ -47,11 +48,11 @@ export default function Equipment() {
               <td>{equip[1].weight}</td>
             </tr>
           ))}
-          {emptyEquipmentTable.map((index) => (
-            <tr key={index + 'empty'}>
+          {/* {emptyEquipmentTable.map((equip, index) => (
+            <tr key={index + equip + 'blank'}>
               <td height="17" colspan="4"></td>
             </tr>
-          ))}
+          ))} */}
 
           <tr>
             <td colSpan='2'></td>

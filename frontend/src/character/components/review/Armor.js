@@ -20,11 +20,11 @@ export default function Armor() {
       </div>
       {
         foundArmor ?
-          [...Object.entries(inventory)].map(inv => {
+          [...Object.entries(inventory)].map((inv, index) => {
             const invValues = Object.values(inv[1])
 
             return (
-              <>
+              <div key={index + 'Armor'}>
                 {
                   invValues[1] === 'Armor' ?
                     <div key={inv[0]}>
@@ -54,7 +54,7 @@ export default function Armor() {
                     </div>
                     : null
                 }
-              </>
+              </div>
             )
           })
           :

@@ -111,7 +111,7 @@ export default function Weapons() {
           const invValues = Object.values(inv[1])
 
           return (
-            <>
+            <div key={inv[0]}>
               {
                 invValues[1] === 'Melee and Thrown' ||
                   invValues[1] === 'Archery' && inv[0] !== 'Arrow' && inv[0] !== 'Bolt' ||
@@ -185,7 +185,7 @@ export default function Weapons() {
                   </div>
                   : null
               }
-            </>
+            </div>
           )
         })
       }

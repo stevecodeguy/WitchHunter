@@ -48,8 +48,8 @@ export default function WeaponShots() {
         <h5>Arrows: </h5>
         <div className='squares'>
           {
-            !!arrows ? arrows.map(arrow => (
-              arrow === 1 ? <div className='square filled'></div> : <div className='square'></div>
+            !!arrows ? arrows.map((arrow, index) => (
+              arrow === 1 ? <div key={index + 'arrow'} className='square filled'></div> : <div key={index + 'arrow'} className='square'></div>
             )) : null
           }
         </div>
@@ -59,8 +59,8 @@ export default function WeaponShots() {
         <h5>Bolts: </h5>
         <div className='squares'>
           {
-            !!bolts ? bolts.map(bolt => (
-              bolt === 1 ? <div className='square filled'></div> : <div className='square'></div>
+            !!bolts ? bolts.map((bolt, index) => (
+              bolt === 1 ? <div key={index + 'bolt'} className='square filled'></div> : <div  key={index + 'bolt'} className='square'></div>
             )) : null
           }
         </div>
@@ -73,8 +73,8 @@ export default function WeaponShots() {
           <div>
             <div className="squares">
               {
-                !!powder[1] ? powder[1].map(shot => (
-                  shot === 1 ? <div className='square filled'></div> : <div className='square'></div>
+                !!powder[1] ? powder[1].map((shot, index) => (
+                  shot === 1 ? <div key={index + 'shot'} className='square filled'></div> : <div key={index + 'shot'} className='square'></div>
                 )) : null
               }
             </div>
