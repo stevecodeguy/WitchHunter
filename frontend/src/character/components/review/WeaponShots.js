@@ -14,7 +14,7 @@ export default function WeaponShots() {
     setArrows(() => {
       const arrowCount = inventory['Arrow']?.quantity ? inventory['Arrow'].quantity : 0;
       const arrowSlots = new Array(50).fill(1);
-      for (let i = 0; i <= arrowCount; i++) {
+      for (let i = 0; i <= arrowCount - 1; i++) {
         arrowSlots[i] = 0;
       }
       return arrowSlots;
@@ -23,7 +23,7 @@ export default function WeaponShots() {
     setBolts(() => {
       const boltCount = inventory['Bolt']?.quantity ? inventory['Bolt'].quantity : 0;
       const boltSlots = new Array(50).fill(1);
-      for (let i = 0; i <= boltCount; i++) {
+      for (let i = 0; i <= boltCount - 1; i++) {
         boltSlots[i] = 0;
       }
       return boltSlots;
@@ -60,7 +60,7 @@ export default function WeaponShots() {
         <div className='squares'>
           {
             !!bolts ? bolts.map((bolt, index) => (
-              bolt === 1 ? <div key={index + 'bolt'} className='square filled'></div> : <div  key={index + 'bolt'} className='square'></div>
+              bolt === 1 ? <div key={index + 'bolt'} className='square filled'></div> : <div key={index + 'bolt'} className='square'></div>
             )) : null
           }
         </div>
