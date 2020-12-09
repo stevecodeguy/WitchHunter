@@ -10,19 +10,17 @@ export default function Equipment() {
   const [equipArr, setEquipArr] = useState([]);
 
   useEffect(() => {
-    setEquipArr(Object.entries(inventory));
-  }, [inventory]);
+    setEquipArr(() => {
+      let emptyArray = [];
+      const inventoryArray = Object.entries(inventory);
+      if (inventoryArray.length < 11 ) {
+        emptyArray = new Array(10 - inventoryArray.length).fill(["", ""]);
+      }
+      let newArray = [...inventoryArray, ...emptyArray];
 
-  // useEffect(() => {
-  //   setEmptyEquipmentTable(() => {
-  //     let newArray = new Array(10 - equipArr.length);
-  //     for (let i = 0; i < newArray.length; i++) {
-  //       newArray = [...newArray, i];
-  //     }
-  //     console.log(newArray)
-  //     return newArray;
-  //   });
-  // }, [equipArr]);
+      return newArray;
+    });
+  }, [inventory]);
 
   return (
     <>
@@ -42,18 +40,12 @@ export default function Equipment() {
         <tbody>
           {equipArr.map((equip, index) => (
             <tr key={index}>
-              <td>{equip[0]}</td>
+              <td height="17">{equip[0]}</td>
               <td>{equip[1].quantity}</td>
               <td>{equip[1].weightEach}</td>
               <td>{equip[1].weight}</td>
             </tr>
           ))}
-          {/* {emptyEquipmentTable.map((equip, index) => (
-            <tr key={index + equip + 'blank'}>
-              <td height="17" colspan="4"></td>
-            </tr>
-          ))} */}
-
           <tr>
             <td colSpan='2'></td>
             <td><b>Total</b></td>
