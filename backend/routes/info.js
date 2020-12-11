@@ -17,16 +17,29 @@ router.get('/religion', (req, res) => {
 });
 
 router.get('/order', (req, res) => {
+  function setOrder(orders) {
+    let newOrders = [];
+    db.pool.query(query.sqlGetInfoOrderBenefits(), (err, result) => {
+      if (err) throw err;
+
+      for (let id in orders) {
+        console.log(orders[id])
+        newOrders = [
+          ...newOrders,
+          {
+            ...orders[id],
+            benefits: [...result.filter(benefit => benefit.fk_order_id === orders[id].id) ]
+          }
+        ]
+      }
+
+      res.send(newOrders);
+    });
+  }
+
   db.pool.query(query.sqlGetInfoOrders(), (err, result) => {
     if (err) throw err;
-    res.send(result);
-  });
-});
-
-router.get('/order_benefits', (req, res) => {
-  db.pool.query(query.sqlGetInfoOrderBenefits(), (err, result) => {
-    if (err) throw err;
-    res.send(result);
+    setOrder(result);
   });
 });
 
