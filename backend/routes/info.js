@@ -23,7 +23,6 @@ router.get('/order', (req, res) => {
       if (err) throw err;
 
       for (let id in orders) {
-        console.log(orders[id])
         newOrders = [
           ...newOrders,
           {

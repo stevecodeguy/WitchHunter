@@ -111,7 +111,19 @@ export default function CharacterInfo() {
         order: {
           id: 1,
           order: "Apostles of the New Dawn",
-          description: "Wherever expeditions travel, whenever new lands are discovered, the Apostles of the New Dawn are there. They are always on the edge of the known frontier, seeking out new places, new cultures, and of course facing new dangers. The Apostles face the evils of new lands so that those who follow them will not have to."
+          description: "Wherever expeditions travel, whenever new lands are discovered, the Apostles of the New Dawn are there. They are always on the edge of the known frontier, seeking out new places, new cultures, and of course facing new dangers. The Apostles face the evils of new lands so that those who follow them will not have to.",
+          benefits: [
+            {
+              "id": 1,
+              "fk_order_id": 1,
+              "benefit": "Double Education in skill points to buy languages"
+            },
+            {
+              "id": 2,
+              "fk_order_id": 1,
+              "benefit": "Recreate prayer or hermetic rite without talent or rite skill (must meet other requirements). Must have charms and materials. Difficulty +2. May not recreate the same effect twice in the same adventure."
+            }
+          ]
         },
         sinVice: {
           id: 1,
