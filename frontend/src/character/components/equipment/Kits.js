@@ -17,7 +17,7 @@ export default function Kits({ kitList, setSelected, rowClass, setRowClass }) {
         {kitList.map(kit => (
           <tr
             key={kit.id}
-            onMouseDown={(event) => {
+            onMouseUp={(event) => {
               setSelected(kitList.find(kit => kit.id === (event.target.parentNode.cells[0].innerText * 1)))
               setRowClass({ [kit.id - 1]: 'selected' });
             }}

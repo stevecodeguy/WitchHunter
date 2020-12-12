@@ -89,10 +89,11 @@ export default function CharacterEquipment() {
     }
 
     getEquipment();
-  }, [abilityScore.strength.score, abilityScore.toughness.score]);
+  }, [abilityScore.strength.score, abilityScore.toughness.score, setCarryLimit]);
 
   // Function to purchase items or kits.
-  const buyItems = (amount) => {
+  const buyItems = (event, amount) => {
+    event.preventDefault();
     if (!!selected && (!!selected.item || !!selected.kit)) {
       const cost = {
         pounds: !!selected.cost_pounds ? selected.cost_pounds : 0,
@@ -338,11 +339,11 @@ export default function CharacterEquipment() {
         <option key="gear" value="Gear">Gear</option>
         <option key="weapons" value="Weapons">Weapons</option>
       </select>
-      <button onClick={() => buyItems(1)}>{`Buy ${categorySelected.main === 'Kits' ? 'kit' : 'item'}`}</button>
+      <button onClick={(event) => buyItems(event, 1)}>{`Buy ${categorySelected.main === 'Kits' ? 'kit' : 'item'}`}</button>
       {categorySelected.main === 'Kits' ? null :
         <>
-          <button onClick={() => buyItems(5)}>Buy 5 items</button>
-          <button onClick={() => buyItems(10)}>Buy 10 items</button>
+          <button onClick={(event) => buyItems(event, 5)}>Buy 5 items</button>
+          <button onClick={(event) => buyItems(event, 10)}>Buy 10 items</button>
         </>
       }
       <SwitchEquipment />

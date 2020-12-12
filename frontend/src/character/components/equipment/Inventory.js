@@ -101,7 +101,7 @@ export default function Inventory({ inventory, setInventory, carryLimit, kitList
         {equipArr.map((equip, index) => (
           <tr
             key={index}
-            onMouseDown={(event) => {
+            onMouseUp={(event) => {
               setSelectInventory(equipArr.find(equip => equip[1].id === (event.target.parentNode.cells[0].innerText * 1)));
               setRowClassInventory({ [[equip[1].id - 1] + equip[0]]: 'selected' });
             }}
