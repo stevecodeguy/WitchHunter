@@ -1,8 +1,10 @@
-#review {
-  margin: 0 8%;
+#review .print-box {
   background-color: white;
-  min-width: 660px;
-  max-width: 950px;
+  margin: 0;
+  border: 2px solid rgb(0, 0, 0);
+  height: 12.75in;
+  width: 97%;
+  padding: 8px;
 }
 
 #review div {
@@ -10,7 +12,7 @@
 }
 
 #review div.side-by-side {
-  margin: 0;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
 }
@@ -80,6 +82,7 @@
 #review .col3 {
   display: flex;
   justify-content: space-between;
+  margin: 0 120px;
 }
 
 #review .col3 div > h4 {
@@ -95,14 +98,16 @@
   width: 33%;
 }
 
+#review-info > div.side-by-side{
+  margin: 0 124px;
+}
+
 #review .skill-totals {
-  /* border: 1px solid red; */
   width: 50%;
-  
 }
 
 #review .skill-totals > div {
-margin: 0 auto;
+  width: 100%;
 }
 
 #review .skill-totals p {
@@ -111,12 +116,12 @@ margin: 0 auto;
 }
 
 #review .skill-totals h5.tiny {
-  font-size: 0.45em;
+  font-size: 0.75em;
   margin: auto 0;
 }
 
 #review .skill-totals h5 {
-  font-size: 0.7em;
+  font-size: 1em;
 }
 
 #review .skill-totals h6 {
@@ -126,7 +131,7 @@ margin: 0 auto;
 }
 
 #review .skill-totals .side-by-side {
-  width: 290px;
+  width: 490px;
   border-bottom: 1px rgb(211, 211, 211) solid;
 }
 
@@ -349,4 +354,33 @@ margin: 0 auto;
 .blank-space {
   height: 100px;
   border: 1px solid rgb(216, 216, 216);
+}
+
+@page {
+  size: 10.5in 8in portrait;
+  margin: 0.5cm;
+  padding: 0;
+}
+
+@media print {
+  body {
+    margin: 0;
+  }
+
+  .no-print {
+    display: none;
+  }
+
+  #review .print-box {
+    margin: 0;
+    break-after:always
+  }
+
+  #review .skill-totals .side-by-side {
+    width: 390px;
+  }
+
+  #review-info > div.side-by-side {
+    margin: 0 48px;
+  }
 }
