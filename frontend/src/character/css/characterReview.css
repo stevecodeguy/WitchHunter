@@ -302,3 +302,51 @@ margin: 0 auto;
   text-align: left;
   width: 260px;
 }
+
+#order div.title {
+  justify-content: center;
+}
+
+#order div.side-by-side {
+  margin: 0;
+}
+
+#order h5 {
+  margin-top: 0;
+  text-align: center;
+}
+
+#order h5:nth-child(2) {
+  margin-top: 4px;
+  text-align: center;
+}
+
+#order ul,
+#background ul {
+  list-style: lower-roman;
+  margin-top: 0;
+}
+
+#order li {
+  font-size: 0.8em;
+  margin-top: 4px;
+}
+
+#background h5 {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+#background div.side-by-side {
+  justify-content: center;
+}
+
+#background p {
+  font-size: 0.8em;
+  padding: 0 8px;
+  text-align: center;
+}
+.blank-space {
+  height: 100px;
+  border: 1px solid rgb(216, 216, 216);
+}

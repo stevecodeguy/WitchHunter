@@ -8,6 +8,8 @@ import Equipment from './Equipment';
 import DicePools from './DicePools';
 import Talents from './Talents';
 import Order from './Order';
+import Background from './Background';
+import Survival from './Survival';
 
 export default function CombatAbilities() {
 
@@ -25,6 +27,8 @@ export default function CombatAbilities() {
         <DicePools />
         <Talents />
         <Order />
+        <Background />
+        <Survival />
       </div>
     </>
   );

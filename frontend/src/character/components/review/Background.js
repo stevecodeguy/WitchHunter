@@ -4,29 +4,21 @@ import { CharacterContext } from '../../../utils/context/CharacterContext';
 
 import tornPaper from '../../img/characterSheet/torn_paper.svg';
 
-export default function Order() {
+export default function Background() {
   const { info } = useContext(CharacterContext);
 
   return (
     <>
       <div className="sheet-title">
         <img src={tornPaper} />
-        <h3>ORDER</h3>
+        <h3>BACKGROUND ABILITY</h3>
       </div>
       {
         Object.keys(info).length > 0 ?
-          <div id="order">
-            <h5>{info.order.order}</h5>
-
-            <h5>BENEFITS</h5>
-            <div className='side-by-side'>
-              <ul>
-                {
-                  Object.entries(info?.order?.benefits).map(benefit => (
-                    <li key={benefit[1].id}>{benefit[1].benefit}</li>
-                  ))
-                }
-              </ul>
+          <div id="background">
+            <h5>{info.background.background} - {info.background.ability}</h5>
+            <div key={info.background.id + 'background'}>
+              <p>{info.background.ability_description}</p>
             </div>
           </div>
           : null
