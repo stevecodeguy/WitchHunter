@@ -1,24 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import '../../css/tables.css';
 
-export default function KitItems({ kitItems }) {
-  const [category, setCategory] = useState([]);
-
-  useEffect(() => {
-    let tempCategory = new Set();
-
-    kitItems.forEach((item) => {
-      tempCategory.add(item.kit);
-    });
-
-    setCategory(Array.from(tempCategory));
-  }, [kitItems]);
-
-
+export default function KitItems({ kitItems, kitCategories }) {
   return (
     <div className='kitItems'>
-      {category.length > 0 ? category.map(cat => (
+      {kitCategories.length > 0 ? kitCategories.map(cat => (
         <table className="info" key={cat}>
           <thead>
             <tr>

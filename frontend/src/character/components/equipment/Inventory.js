@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { CharacterContext } from '../../../utils/context/CharacterContext';
 
-import { moneyTransfer, 
+import {
+  moneyTransfer,
   getTotalMoneyFromItem,
-  getTotalMoneyFromKit } from '../../../utils/helpers/MoneyHelpers';
+  getTotalMoneyFromKit
+} from '../../../utils/helpers/MoneyHelpers';
 
 import '../../css/tables.css';
 
@@ -29,7 +31,7 @@ export default function Inventory({ inventory, setInventory, carryLimit, kitList
 
         if (continueRemoval) {
           equipRemaining = equipArr.filter(equip => equip[1].fromKit !== fromKit);
-          
+
           for (const i in equipRemaining) {
             newObj = {
               ...newObj,
@@ -105,11 +107,13 @@ export default function Inventory({ inventory, setInventory, carryLimit, kitList
               setSelectInventory(equipArr.find(equip => equip[1].id === (event.target.parentNode.cells[0].innerText * 1)));
               setRowClassInventory({ [[equip[1].id - 1] + equip[0]]: 'selected' });
             }}
-            onDoubleClick={(event) => removeItems(
-              equip[1].id,
-              event.target.parentNode.cells[1].innerText,
-              event.target.parentNode.cells[2].innerText,
-            )}
+            onDoubleClick={(event) => {
+              removeItems(
+                equip[1].id,
+                event.target.parentNode.cells[1].innerText,
+                event.target.parentNode.cells[2].innerText,
+              );
+            }}
             className={rowClassInventory[[equip[1].id - 1] + equip[0]]}
           >
             <td style={{ display: "none" }}>{equip[1].id}</td>
@@ -127,7 +131,7 @@ export default function Inventory({ inventory, setInventory, carryLimit, kitList
           <td></td>
         </tr>
         <tr>
-          <td colSpan='4' className='notes'>Carry Limit is <b>{carryLimit}</b>. Over limit: -1 Ag (min 1), Move -2 cautious, -7 walk , -12 run.  Double limit: -2 (min 1) Ag, Move = 1 cautious, 5 walk , running not possible.</td>
+          <td colSpan='5' className='notes'>Carry Limit is <b>{carryLimit}</b>. Over limit: -1 Ag (min 1), Move -2 cautious, -7 walk , -12 run.  Double limit: -2 (min 1) Ag, Move = 1 cautious, 5 walk , running not possible.</td>
         </tr>
       </tbody>
     </table>

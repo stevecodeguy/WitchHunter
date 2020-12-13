@@ -32,7 +32,7 @@ export const WeaponsCategory = React.memo(({ weaponList, shots, buyItems, setSel
                     setSelected(weaponList.find(weapon => weapon.id === (event.target.parentNode.cells[0].innerText * 1)));
                     setRowClass({ [weapon.id - 1]: 'selected' });
                   }}
-                  onDoubleClick={() => buyItems(1)}
+                  onDoubleClick={(event) => buyItems(event, 1)}
                   className={rowClass[weapon.id - 1]}
                 >
                   <td style={{display: "none"}}>{weapon.id}</td>

@@ -24,6 +24,7 @@ export default function CharacterEquipment() {
   const [gearList, setGearList] = useState([]);
   const [kitList, setKitList] = useState([]);
   const [kitItems, setKitItems] = useState([]);
+  const [kitCategories, setKitCategories] = useState([]);
   const [shots, setShots] = useState([]);
   const [vehicleList, setVehicleList] = useState([]);
   const [weaponList, setWeaponList] = useState([]);
@@ -71,6 +72,14 @@ export default function CharacterEquipment() {
         // Get Kit Items from database
         const kitItemsData = await AuthAPI.get(`/items/kit_items`);
         setKitItems(kitItemsData.data);
+        let skillCategorySet = new Set();
+
+        kitItemsData.data.forEach((item) => {
+          skillCategorySet.add(item.kit);
+        });
+
+        const skillCategoryArray = Array.from(skillCategorySet)
+        setKitCategories(skillCategoryArray);
 
         // Get Shots from database
         const shotsData = await AuthAPI.get(`/items/shots`);
@@ -254,7 +263,10 @@ export default function CharacterEquipment() {
               setRowClass={setRowClass}
               buyItems={buyItems}
             />
-            <KitItems kitItems={kitItems} />
+            <KitItems
+              kitItems={kitItems}
+              kitCategories={kitCategories}
+            />
           </>
         )
       case 'Weapons':

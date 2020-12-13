@@ -28,7 +28,7 @@ export default function Armor({ armorList, buyItems, setSelected, rowClass, setR
                 setSelected(armorList.find(armor => armor.id === (event.target.parentNode.cells[0].innerText * 1)));
                 setRowClass({ [armor.id - 1]: 'selected' });
               } else if (count > 1) {
-                buyItems(1);
+                buyItems(event, 1);
               }
               setTimeout(() => {
                 count = 0;
