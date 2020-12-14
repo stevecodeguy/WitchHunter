@@ -3,7 +3,7 @@ import React from 'react';
 import Info from '../components/review/Info';
 import Abilities from '../components/review/Abilities';
 import Skills from '../components/review/Skills';
-import CombatAbilities from '../components/review/CombatAbilities';
+import PageTwo from '../components/review/PageTwo';
 
 import '../css/characterReview.css';
 
@@ -20,7 +20,7 @@ export default function CharacterReview() {
           <hr />
         </div>
         <div className="side-by-side combat-abilities page-break print-box">
-          <CombatAbilities />
+          <PageTwo />
         </div>
       </div>
     </>

@@ -10,8 +10,9 @@ import Talents from './Talents';
 import Order from './Order';
 import Background from './Background';
 import Survival from './Survival';
+import Notes from './Notes';
 
-export default function CombatAbilities() {
+export default function PageTwo() {
 
   return (
     <>
@@ -29,6 +30,7 @@ export default function CombatAbilities() {
         <Order />
         <Background />
         <Survival />
+        <Notes />
       </div>
     </>
   );
