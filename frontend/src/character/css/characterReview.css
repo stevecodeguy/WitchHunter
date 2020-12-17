@@ -3,16 +3,15 @@
   margin: 0;
   border: 2px solid rgb(0, 0, 0);
   height: 12.75in;
-  width: 97%;
   padding: 8px;
 }
 
 #review div {
   margin: 0 8px;
+  max-width: 1200px;
 }
 
 #review div.side-by-side {
-  margin: 0 auto;
   display: flex;
   justify-content: space-between;
 }
