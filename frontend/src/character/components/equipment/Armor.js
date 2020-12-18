@@ -22,7 +22,7 @@ export default function Armor({ armorList, buyItems, setSelected, rowClass, setR
         {armorList.map(armor => (
           <tr
             key={armor.id}
-            onClick={(event) => {
+            onMouseUp={(event) => {
               count++;
               if (count === 1) {
                 setSelected(armorList.find(armor => armor.id === (event.target.parentNode.cells[0].innerText * 1)));

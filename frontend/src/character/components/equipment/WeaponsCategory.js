@@ -2,6 +2,8 @@ import React from 'react';
 
 import Shots from './Shots';
 
+let count = 0;
+
 export const WeaponsCategory = React.memo(({ weaponList, shots, buyItems, setSelected, rowClass, setRowClass }) => {
   return (
     <>
@@ -11,7 +13,7 @@ export const WeaponsCategory = React.memo(({ weaponList, shots, buyItems, setSel
             <caption>{weaponList[0].category}</caption>
             <thead>
               <tr>
-                <th style={{display: "none"}}>Id</th>
+                <th style={{ display: "none" }}>Id</th>
                 <th>Weapon</th>
                 <th>Cost</th>
                 <th>Complexity</th>
@@ -28,14 +30,21 @@ export const WeaponsCategory = React.memo(({ weaponList, shots, buyItems, setSel
               {weaponList.map(weapon => (
                 <tr
                   key={weapon.id}
-                  onMouseDown={(event) => {
-                    setSelected(weaponList.find(weapon => weapon.id === (event.target.parentNode.cells[0].innerText * 1)));
-                    setRowClass({ [weapon.id - 1]: 'selected' });
+                  onMouseUp={(event) => {
+                    count++;
+                    if (count === 1) {
+                      setSelected(weaponList.find(weapon => weapon.id === (event.target.parentNode.cells[0].innerText * 1)));
+                      setRowClass({ [weapon.id - 1]: 'selected' });
+                    } else if (count > 1) {
+                      buyItems(event, 1);
+                    }
+                    setTimeout(() => {
+                      count = 0;
+                    }, 250);
                   }}
-                  onDoubleClick={(event) => buyItems(event, 1)}
                   className={rowClass[weapon.id - 1]}
                 >
-                  <td style={{display: "none"}}>{weapon.id}</td>
+                  <td style={{ display: "none" }}>{weapon.id}</td>
                   <td>{weapon.item}</td>
                   <td>
                     {weapon.cost_pounds > 0 ? '£' + weapon.cost_pounds + ' ' : null}

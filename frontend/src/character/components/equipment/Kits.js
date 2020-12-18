@@ -2,7 +2,9 @@ import React from 'react';
 
 import '../../css/tables.css';
 
-export default function Kits({ kitList, setSelected, rowClass, setRowClass }) {
+let count = 0;
+
+export default function Kits({ kitList, buyItems, setSelected, rowClass, setRowClass }) {
   return (
     <table>
       <thead>
@@ -17,9 +19,17 @@ export default function Kits({ kitList, setSelected, rowClass, setRowClass }) {
         {kitList.map(kit => (
           <tr
             key={kit.id}
-            onClick={(event) => {
-              setSelected(kitList.find(kit => kit.id === (event.target.parentNode.cells[0].innerText * 1)));
-              setRowClass({ [kit.id - 1]: 'selected' });
+            onMouseUp={(event) => {
+              count++;
+              if (count === 1) {
+                setSelected(kitList.find(kit => kit.id === (event.target.parentNode.cells[0].innerText * 1)));
+                setRowClass({ [kit.id - 1]: 'selected' });
+              } else if (count > 1) {
+                buyItems(event, 1);
+              }
+              setTimeout(() => {
+                count = 0;
+              }, 250);
             }}
             className={rowClass[kit.id - 1]}
           >

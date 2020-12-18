@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import '../../css/tables.css';
 import Vehicles from './Vehicles';
 
+let count = 0;
+
 export default function Gear({ gearList, vehicleList, setSelected, buyItems, rowClass, setRowClass, categorySelected, setCategorySelected }) {
   const [categoryCounts, setCategoryCounts] = useState({});
 
@@ -69,11 +71,18 @@ export default function Gear({ gearList, vehicleList, setSelected, buyItems, row
             gear.category === categorySelected.sub ? (
               <tr
                 key={gear.id}
-                onMouseDown={(event) => {
-                  setSelected(gearList.find(gear => gear.id === (event.target.parentNode.cells[0].innerText * 1)));
-                  setRowClass({ [gear.id - 1]: 'selected' });
+                onMouseUp={(event) => {
+                  count++;
+                  if (count === 1) {
+                    setSelected(gearList.find(gear => gear.id === (event.target.parentNode.cells[0].innerText * 1)));
+                    setRowClass({ [gear.id - 1]: 'selected' });
+                  } else if (count > 1) {
+                    buyItems(event, 1);
+                  }
+                  setTimeout(() => {
+                    count = 0;
+                  }, 250);
                 }}
-                onDoubleClick={() => buyItems(1)}
                 className={rowClass[gear.id - 1]}
               >
                 <td style={{ display: "none" }}>{gear.id}</td>
