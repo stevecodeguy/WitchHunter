@@ -32,8 +32,10 @@ export default function WeaponShots() {
     setPowder(() => {
       const powderCount = inventory['Powder and Shot']?.quantity ? inventory['Powder and Shot'].quantity : 0;
       const powderSlots = new Array(15).fill(1);
-
-      return [powderCount, powderSlots];
+      for (let i = 0; i <= powderCount - 1; i++) {
+        powderSlots[i] = 0;
+      }
+      return powderSlots;
     });
 
   }, [inventory]);
@@ -73,7 +75,7 @@ export default function WeaponShots() {
           <div>
             <div className="squares">
               {
-                !!powder[1] ? powder[1].map((shot, index) => (
+                !!powder ? powder.map((shot, index) => (
                   shot === 1 ? <div key={index + 'shot'} className='square filled'></div> : <div key={index + 'shot'} className='square'></div>
                 )) : null
               }
