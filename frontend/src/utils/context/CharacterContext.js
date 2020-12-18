@@ -115,6 +115,13 @@ export const CharacterProvider = (props) => {
     }
     return [];
   });
+  // Talents Costs Context
+  const [talentsBought, setTalentsBought] = useState(() => {
+    if (localStorage.getItem('character_talent_costs')) {
+      return JSON.parse(localStorage.getItem('character_talent_costs'));
+    }
+    return [];
+  });
   // Inventory Context
   const [inventory, setInventory] = useState(() => {
     if (localStorage.getItem('character_inventory')) {
@@ -152,6 +159,7 @@ export const CharacterProvider = (props) => {
       skillCategories,
       spentSkillPoints,
       talents,
+      talentsBought,
       setAbilityScore,
       setBackgroundElectives,
       setCarryLimit,
@@ -161,7 +169,8 @@ export const CharacterProvider = (props) => {
       setSkills,
       setSkillCategories,
       setSpentSkillPoints,
-      setTalents
+      setTalents,
+      setTalentsBought
     }
   }, [
     abilityScore,
@@ -174,6 +183,7 @@ export const CharacterProvider = (props) => {
     skillCategories,
     spentSkillPoints,
     talents,
+    talentsBought,
     setAbilityScore,
     setBackgroundElectives,
     setCarryLimit,
@@ -183,7 +193,8 @@ export const CharacterProvider = (props) => {
     setSkills,
     setSkillCategories,
     setSpentSkillPoints,
-    setTalents
+    setTalents,
+    setTalentsBought
   ]);
 
   return (

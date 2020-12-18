@@ -15,19 +15,15 @@ import '../css/characterTalents.css';
 export default function CharacterTalents() {
   const [talentList, setTalentList] = useState([]);
   const [talentRequirements, setTalentRequirements] = useState([]);
-  const [selected, setSelected] = useState(() => {
-    if (localStorage.getItem('character_talent_costs')) {
-      return JSON.parse(localStorage.getItem('character_talent_costs'));
-    }
-    return { basic: 0, greater: 0, sum: 0 };
-  });
 
   const auth = useContext(AuthContext);
   const {
     abilityScore,
     skills,
     talents,
-    setTalents
+    talentsBought,
+    setTalents,
+    setTalentsBought
   } = useContext(CharacterContext);
 
   let history = useHistory();
@@ -35,18 +31,18 @@ export default function CharacterTalents() {
   const setFakeCharacter = () => {
     setTalents([{"id":1,"talent":"Adaptable","benefit":"Use medium weapons while Grappling","category":"basic","requirementsFail":false,"hide":false},{"id":4,"talent":"Basic Animist","benefit":"May learn Animist rites","category":"basic","requirementsFail":false,"hide":false},{"id":60,"talent":"Greater Animist","benefit":"May learn greater Animism Rites","category":"greater","requirementsFail":false,"hide":false,"requirements":[{"id":50,"fk_talent_id":60,"requirement":"Basic Animist","sub_skill":null,"requirement_type":"talent","score":0,"option":null}]}]);
 
-    setSelected({"basic":2,"greater":1,"sum":4});
+    setTalentsBought({"basic":2,"greater":1,"sum":4});
   };
 
   const addTalent = (id) => {
     const selectedTalent = talentList.find(talent => talent.id === id);
 
-    if (selectedTalent.category === 'basic' && selected.sum >= 4) return;
-    if (selectedTalent.category === 'greater' && selected.sum >= 3) return;
+    if (selectedTalent.category === 'basic' && talentsBought.sum >= 4) return;
+    if (selectedTalent.category === 'greater' && talentsBought.sum >= 3) return;
     if (talents.find(t => t.id === selectedTalent.id)) return;
 
     if (selectedTalent.category === 'basic') {
-      setSelected(currentSelected => {
+      setTalentsBought(currentSelected => {
         return {
           ...currentSelected,
           basic: currentSelected.basic + 1,
@@ -54,7 +50,7 @@ export default function CharacterTalents() {
         }
       });
     } else if (selectedTalent.category === 'greater') {
-      setSelected(currentSelected => {
+      setTalentsBought(currentSelected => {
         return {
           ...currentSelected,
           greater: currentSelected.greater + 1,
@@ -79,7 +75,7 @@ export default function CharacterTalents() {
     const removedTalent = talentList.find(talent => talent.id === id);
 
     const changeSelected = (category) => {
-      setSelected(currentSelected => {
+      setTalentsBought(currentSelected => {
         let basicAdjust = currentSelected.basic;
         let greaterAdjust = currentSelected.greater;
         let sumAdjust = currentSelected.sum;
@@ -101,7 +97,6 @@ export default function CharacterTalents() {
     };
 
     const changeTalentList = (talentId) => {
-      console.log('id', talentId)
       setTalentList(currentList => {
         const tempList = currentList;
         tempList[talentId].hide = false;
@@ -192,7 +187,7 @@ export default function CharacterTalents() {
   }, [talents]);
 
   const checkTalents = () => {
-    if (selected.sum === 4) {
+    if (talentsBought.sum === 4) {
       return true;
     }
     return false;
@@ -203,7 +198,7 @@ export default function CharacterTalents() {
       try {
         if (checkTalents()) {
           localStorage.setItem('character_talents', JSON.stringify(talents));
-          localStorage.setItem('character_talent_costs', JSON.stringify(selected));
+          localStorage.setItem('character_talent_costs', JSON.stringify(talentsBought));
           await AuthAPI.post(`/characters/save_talents`, talents);
         }
       } catch (error) {
@@ -304,8 +299,8 @@ export default function CharacterTalents() {
       <div>
         <h2>Selected Talents</h2>
         <div>
-          <h6>Basic: {selected.basic}</h6>
-          <h6>Greater: {selected.greater}</h6>
+          <h6>Basic: {talentsBought.basic}</h6>
+          <h6>Greater: {talentsBought.greater}</h6>
         </div>
         <ul className='talentCard'>
           {talents.length > 0 ? talents.map(talent => (
