@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import Talents from '../components/talents/Talents';
 import TalentsSelected from '../components/talents/TalentsSelected';
 import TalentsUnavailable from '../components/talents/TalentsUnavailable';
-import TalentSkillAdjust from '../components/talents/TalentSkillAdjust';
+import talentAdjustments from '../components/talents/talentAdjustments';
 
 import { AuthContext } from '../../utils/context/AuthContext';
 import AuthAPI from '../../utils/context/AuthApi';
@@ -30,8 +30,8 @@ export default function CharacterTalents() {
   let history = useHistory();
 
   useEffect(() => {
-    TalentSkillAdjust(talentsBought);
-  }, [talentsBought])
+    // talentAdjustments(talents);
+  }, [talents])
 
   const setFakeCharacter = () => {
     setTalents([{"id":1,"talent":"Adaptable","benefit":"Use medium weapons while Grappling","category":"basic","requirementsFail":false,"hide":false},{"id":4,"talent":"Basic Animist","benefit":"May learn Animist rites","category":"basic","requirementsFail":false,"hide":false},{"id":60,"talent":"Greater Animist","benefit":"May learn greater Animism Rites","category":"greater","requirementsFail":false,"hide":false,"requirements":[{"id":50,"fk_talent_id":60,"requirement":"Basic Animist","sub_skill":null,"requirement_type":"talent","score":0,"option":null}]}]);
@@ -160,7 +160,7 @@ export default function CharacterTalents() {
       setTalentRequirements(talentRequirementsData.data.result);
     }
     getTalents();
-  }, [setTalents]);
+  }, [setTalents, setTalentList]);
 
   // Check if the Skill score is high enough for Talent
   const checkSkill = useCallback((skill, score, requirementsFail) => {
@@ -272,7 +272,8 @@ export default function CharacterTalents() {
   }, [
     talentRequirements,
     checkAbility,
-    checkSkill
+    checkSkill, 
+    setTalentList
   ]);
 
   return (
