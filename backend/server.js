@@ -21,7 +21,7 @@ const MySQLStore = require('express-mysql-session')(session);
 
 const sessionStore = new MySQLStore(db.options);
 
-//Middleware
+//Middlewares
 app.use(cors({
   credentials:true,
   origin:'http://localhost:6060'
